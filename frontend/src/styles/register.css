@@ -1,0 +1,130 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap");
+html {
+  font-size: 62.5%; /* 16px x 62.5 = 10px = 1rem */
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  /* background-color: rgb(223, 206, 206); */
+  min-height: 100vh;
+  font-size: 1.6rem;
+  font-family: Poppins, Helvetica, Arial, sans-serif;
+}
+
+#root {
+  height: 100%;
+}
+
+.main-flex-container {
+  display: flex;
+  /* background-color: rgb(156, 205, 245); */
+  /* height: 80vh; */
+  background-color: #ccc;
+  justify-content: center;
+  /* align-items: center; */
+  margin: 0.1rem 0;
+  /* border: 1px solid black; */
+}
+
+.image-container {
+  height: 80rem;
+  width: 55rem;
+  box-shadow: 0 0.4rem 0.8rem 0 rgba(0, 0, 0, 0.2);
+
+  /* padding: 2rem; */
+  /* flex: 3; */
+}
+
+.image {
+  height: 80rem;
+  width: 55rem;
+}
+
+.form-container {
+  height: 80rem;
+  width: 70rem;
+  box-shadow: 0 0.4rem 0.8rem 0 rgba(0, 0, 0, 0.2);
+  /* border: 1px solid black; */
+  /* flex: 5; */
+}
+
+.form {
+  padding: 0 1rem;
+}
+
+.heading {
+  text-align: center;
+  /* margin: 0;
+  padding: 0; */
+}
+
+.flex-container {
+  display: flex;
+  gap: 7rem;
+  /* justify-content: space-around; */
+  /* width: 80%; */
+  margin: 4rem 3rem 1rem 3rem;
+}
+
+.first-name-container,
+.last-name-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.first-name-container input,
+.last-name-container input {
+  width: 25rem;
+  margin: 1.5rem 0;
+  height: 2.3rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border: 0.1rem #a4a4a4 solid;
+  font-size: 1.6rem;
+  font-family: Poppins, Helvetica, Arial, sans-serif;
+}
+
+label {
+  display: block;
+  font-size: 1.8rem;
+}
+
+.form-fields {
+  margin: 0 3rem;
+}
+
+.form-fields input {
+  width: 59rem;
+  margin: 1.5rem 0 2.5rem 0;
+  height: 2.3rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border: 0.1rem #a4a4a4 solid;
+  font-size: 1.6rem;
+  font-family: Poppins, Helvetica, Arial, sans-serif;
+}
+
+.button {
+  padding: 1.2rem 2rem;
+  background-color: #4e9c80;
+  border: none;
+  color: #fff;
+  font-size: 2rem;
+  border-radius: 0.5rem;
+  width: 61.2rem;
+  margin: 1.5rem 3rem 2.5rem 3rem;
+  cursor: pointer;
+}
+
+.redirect {
+  margin: 0.7rem 3rem 1rem 3rem;
+  font-size: 1.7rem;
+}
+
+.link {
+  text-decoration: none;
+  color: #185638;
+  font-weight: 700;
+}

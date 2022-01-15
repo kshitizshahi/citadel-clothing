@@ -1,0 +1,114 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap");
+html {
+  font-size: 62.5%; /* 16px x 62.5 = 10px = 1rem */
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.navigationBar {
+  background: rgb(43, 42, 42);
+  display: flex;
+  color: #fff;
+  height: 10vh;
+  /* padding: 20px; */
+  justify-content: space-evenly;
+}
+
+/* @media screen and (min-width: 768px) {
+  .navigationBar {
+    background: rgb(43, 42, 42);
+    max-width: 70%;
+    display: flex;
+    color: #fff;
+    padding: 20px;
+    justify-content: space-around;
+  }
+} */
+
+/* @media screen and (min-width: 1024px) {
+  .navigationBar {
+    background: rgb(43, 42, 42);
+    max-width: 100%;
+    display: flex;
+    color: #fff;
+    padding: 20px;
+    justify-content: space-around;
+  }
+} */
+
+.logo {
+  margin: auto 0;
+}
+.menus {
+  display: flex;
+}
+
+.menus a {
+  text-decoration: none;
+  color: #fff;
+}
+
+ul > li {
+  list-style-type: none;
+  font-family: "Poppins", sans-serif;
+  font-size: 1.9rem;
+  margin: auto 0;
+  padding: 0 2rem;
+}
+
+.searchBar {
+  position: relative;
+  /* margin: auto 0; */
+}
+
+.searchInput {
+  background-color: #e5e5e5;
+  outline: none;
+  height: 3.2rem;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.4rem 1rem;
+  font-size: 1.4rem;
+  width: 30rem;
+  font-family: "Poppins", sans-serif;
+}
+
+.searchIcon {
+  position: absolute;
+  top: 1.1rem;
+  right: 1.2rem;
+  color: #000;
+  width: 2rem;
+  height: 2rem;
+}
+
+.icons {
+  display: flex;
+  justify-content: space-between;
+  margin: auto 0;
+  gap: 5rem;
+  /* width: 200px; */
+}
+
+/* .icons a {
+  height: max-content;
+  margin: auto 0;
+} */
+
+.profileIcon {
+  color: #fff;
+  width: 3.2rem;
+  height: 3.2rem;
+  /* padding: 0 3rem; */
+}
+
+.cartIcon {
+  color: #fff;
+  width: 3rem;
+  height: 3rem;
+  /* padding: 0 3rem; */
+}
