@@ -4,29 +4,43 @@ import { Link } from "react-router-dom";
 
 const NavBar = () => {
   return (
-    <div className="navigationBar">
+    <div className="navigation-bar">
       <div className="logo">
-        <h2>LOGO</h2>
+        <Link to="/">
+          <h2 className="heading">CITADEL</h2>
+        </Link>
       </div>
-      <ul className="menus">
-        <li>
-          <Link to="/">Home</Link>
-        </li>
-        <li>Shop</li>
-        <li>Women</li>
-        <li>Men</li>
-        <li>Kid</li>
-        <li>Contact Us</li>
-        <li>
-          <SearchBar />
-        </li>
-      </ul>
+      <div className="navigation-items">
+        <ul className="menus">
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+          <li>
+            <Link to="/shop">Shop</Link>
+          </li>
+          <li>
+            <Link to="/women">Women</Link>
+          </li>
+          <li>
+            <Link to="/men">Men</Link>
+          </li>
+          <li>
+            <Link to="/kid">Kid</Link>
+          </li>
+          <li>
+            <Link to="/contact-us">Contact Us</Link>
+          </li>
+          <div className="search">
+            <SearchBar />
+          </div>
+        </ul>
+      </div>
       <div className="icons">
         <Link to="/profile">
-          <Icon icon="ant-design:user-outlined" className="profileIcon" />
+          <Icon icon="ant-design:user-outlined" className="profile-icon" />
         </Link>
         <Link to="/cart">
-          <Icon icon="feather:shopping-cart" className="cartIcon" />
+          <Icon icon="feather:shopping-cart" className="cart-icon" />
         </Link>
       </div>
     </div>

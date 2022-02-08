@@ -1,19 +1,34 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Icon } from "@iconify/react";
+import { useDispatch, useSelector } from "react-redux";
+import { darkTheme } from "../redux/actions/themeActions";
+import "../styles/footer.css";
+// import "./styles/footer.css";
+
 const Footer = () => {
-  const [darkMode, setDarkMode] = useState(true);
-  const darkTheme = (e) => {
+  const dispatch = useDispatch();
+
+  const theme = useSelector((state) => state.theme);
+  const { darkMode } = theme;
+
+  if (darkMode) {
+    document.body.classList.add("dark-mode");
+  }
+
+  const setDarkTheme = (e) => {
     e.preventDefault();
-    setDarkMode(true);
+    dispatch(darkTheme(true));
+    document.body.classList.add("dark-mode");
   };
 
-  const lightTheme = (e) => {
+  const setLightTheme = (e) => {
     e.preventDefault();
-    setDarkMode(false);
+    dispatch(darkTheme(false));
+    document.body.classList.remove("dark-mode");
   };
   return (
-    <div className={darkMode ? "container" : "light-container"}>
+    <div className="container">
       <div className="first-container">
         <div className="about">
           <div className="info">
@@ -26,12 +41,12 @@ const Footer = () => {
           </div>
           <div className="site-theme">
             <p className="theme-heading">Site Theme</p>
-            <button className="light-theme" onClick={lightTheme}></button>
-            <button className="dark-theme" onClick={darkTheme}></button>
+            <button className="light-theme" onClick={setLightTheme}></button>
+            <button className="dark-theme" onClick={setDarkTheme}></button>
           </div>
         </div>
         <div className="others">
-          <div className={darkMode ? "quick-links" : "quick-links-light"}>
+          <div className="quick-links">
             <p className="links-heading">Quick Links</p>
             <Link to="/sell">
               <p>Sell</p>
@@ -40,13 +55,13 @@ const Footer = () => {
               <p>Contact Us</p>
             </Link>
           </div>
-          <div className={darkMode ? "account" : "account-light"}>
+          <div className="account">
             <p className="account-heading">Account</p>
             <Link to="/account">
               <p>My account</p>
             </Link>
           </div>
-          <div className={darkMode ? "products" : "products-light"}>
+          <div className="products">
             <p className="product-heading">Products</p>
             <Link to="/women-fashion">
               <p>Women's Fashion</p>
@@ -64,26 +79,20 @@ const Footer = () => {
               <a href="https://www.facebook.com/">
                 <Icon
                   icon="akar-icons:facebook-fill"
-                  className={darkMode ? "facebookIcon" : "facebookIcon-light"}
+                  className="facebook-icon"
                 />
               </a>
               <a href="https://www.instagram.com/">
                 <Icon
                   icon="akar-icons:instagram-fill"
-                  className={darkMode ? "instagramIcon" : "instagramIcon-light"}
+                  className="instagram-icon"
                 />
               </a>
               <a href="https://twitter.com/">
-                <Icon
-                  icon="akar-icons:twitter-fill"
-                  className={darkMode ? "twitterIcon" : "twitterIcon-light"}
-                />
+                <Icon icon="akar-icons:twitter-fill" className="twitter-icon" />
               </a>
               <a href="https://www.youtube.com/">
-                <Icon
-                  icon="akar-icons:youtube-fill"
-                  className={darkMode ? "youtubeIcon" : "youtubeIcon-light"}
-                />
+                <Icon icon="akar-icons:youtube-fill" className="youtube-icon" />
               </a>
             </div>
           </div>

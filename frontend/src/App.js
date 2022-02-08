@@ -2,7 +2,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Footer from "./components/Footer";
 import NavBar from "./components/NavBar";
 import RegisterScreen from "./screens/RegisterScreen";
-import SignInScreen from "./screens/SignInScreen";
+import LogInScreen from "./screens/LogInScreen";
+import UserProfileScreen from "./screens/UserProfileScreen";
 
 function App() {
   return (
@@ -10,8 +11,9 @@ function App() {
       <div className="App">
         <NavBar />
         <Routes>
-          <Route path="/signin" element={<SignInScreen />} />
+          <Route path="/login" element={<LogInScreen />} />
           <Route path="/register" element={<RegisterScreen />} />
+          <Route path="/profile" element={<UserProfileScreen />} />
         </Routes>
         <Footer />
       </div>

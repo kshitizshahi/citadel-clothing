@@ -1,0 +1,19 @@
+.image-input {
+  font-size: 1.6rem;
+  /* padding: 1rem; */
+  /* border-radius: 1rem; */
+  cursor: pointer;
+  /* border: 0.1rem solid black; */
+  color: rgb(14, 31, 31);
+}
+
+input[type="file"]::file-selector-button {
+  background-color: var(--background-clr);
+  font-size: 1.5rem;
+  padding: 1rem 2rem;
+  border-radius: 0.2rem;
+  border: none;
+  cursor: pointer;
+  /* border: 0.1rem solid black; */
+  color: var(--text-color);
+}

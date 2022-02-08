@@ -1,14 +1,19 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./styles/main.css";
-import "./styles/footer.css";
-import "./styles/register.css";
+// import "./styles/footer.css";
+// import "./styles/register.css";
+import "./styles/userProfile.css";
 
 import App from "./App";
+import { Provider } from "react-redux";
+import store from "./redux/store";
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <Provider store={store}>
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  </Provider>,
   document.getElementById("root")
 );
