@@ -1,0 +1,141 @@
+@use "../styles/" as *;
+
+.user-profile-container {
+  @include flexBox(row, center);
+  // margin-block: 3rem;
+  padding-block: 3rem;
+  background-color: #262627;
+
+  // background-color: rgb(190, 235, 223);
+  gap: 3%;
+
+  .user-profile-nav {
+    flex: 16%;
+    max-width: 16%;
+  }
+
+  .form-container {
+    flex: 65%;
+    max-width: 65%;
+    // background-color: aqua;
+
+    .user-profile-form {
+      @include flexBox(row, space-evenly);
+      // background-color: rgb(231, 240, 240);
+      border: 0.1rem solid black;
+      border-radius: 0.2rem;
+      padding-top: 2rem;
+
+      .profile-image {
+        flex: 30%;
+        max-width: 30%;
+        @include flexBox(column, null);
+        align-items: center;
+        // background-color: rgb(152, 152, 201);
+
+        img {
+          height: 14rem;
+          width: 14rem;
+          object-fit: cover;
+          border-radius: 50%;
+        }
+
+        // padding: "10px",
+      }
+
+      .input-field-container {
+        flex: 60%;
+        max-width: 60%;
+        // background-color: aquamarine;
+        .flex-container {
+          @include flexBox(row, space-between);
+          /* gap: 7rem; */
+          /* width: 80%; */
+          /* background-color: darkgoldenrod; */
+
+          .first-name-container,
+          .last-name-container {
+            @include flexBox(column, null);
+            flex: 45%;
+            max-width: 45%;
+            /* background-color: grey; */
+
+            input {
+              width: 100%;
+              margin-block: 1.5rem 2.2rem;
+              /* height: 2.3rem; */
+              padding: 1rem;
+              border-radius: 0.5rem;
+              border: 0.1rem #a4a4a4 solid;
+              font-size: 1.6rem;
+              font-family: inherit;
+            }
+          }
+        }
+
+        .other-form-fields {
+          input {
+            width: 100%;
+            /* width: 59rem; */
+            margin-block: 1.5rem 2.2rem;
+            /* height: 2.3rem; */
+            padding: 1rem;
+            border-radius: 0.5rem;
+            border: 0.1rem #a4a4a4 solid;
+            font-size: clamp(1rem, 2vw, 1.6rem);
+            /* font-size: 1.6rem; */
+            font-family: inherit;
+          }
+        }
+      }
+    }
+  }
+}
+
+.update-button {
+  padding: 1.4rem 2rem;
+  background-color: #4e9c80;
+  border: none;
+  color: #fff;
+  font-size: 2rem;
+  border-radius: 0.5rem;
+  width: 100%;
+  /* width: 61.2rem; */
+  margin-block: 1rem 2.5rem;
+  cursor: pointer;
+}
+
+.change-password-button {
+  padding: 1.4rem 2rem;
+  background-color: #4e9c80;
+  border: none;
+  color: #fff;
+  font-size: 2rem;
+  border-radius: 0.5rem;
+  width: 100%;
+  /* width: 61.2rem; */
+  margin-block: 1rem 2.5rem;
+  cursor: pointer;
+}
+
+.profile-image-input {
+  font-size: 1.2rem;
+  /* padding: 1rem; */
+  /* border-radius: 1rem; */
+  cursor: pointer;
+  /* border: 0.1rem solid black; */
+  color: var(--background-clr);
+}
+
+input[type="file"] {
+  &::file-selector-button {
+    background-color: var(--background-clr);
+    font-size: 1.5rem;
+    padding: 1rem 2rem;
+    border-radius: 0.2rem;
+    border: none;
+    cursor: pointer;
+    /* border: 0.1rem solid black; */
+    color: var(--text-color);
+  }
+}

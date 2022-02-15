@@ -2,14 +2,15 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../redux/actions/userActions";
+import { Login_Page_Title } from "../utils/PageTitle";
 
-const SignInScreen = (props) => {
+const LogIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.userLogin);
-  const { userInfo } = userLogin;
+  const { userInfo, error } = userLogin;
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -17,7 +18,7 @@ const SignInScreen = (props) => {
   };
 
   useEffect(() => {
-    document.title = "Login Page";
+    document.title = Login_Page_Title;
     // if (userInfo) {
     //   props.history.push("/");
     // }
@@ -59,10 +60,13 @@ const SignInScreen = (props) => {
           <div>
             New Customer? <Link to={`/register`}>Create your account</Link>
           </div>
+          <div>
+            <label>{error}</label>
+          </div>
         </div>
       </form>
     </div>
   );
 };
 
-export default SignInScreen;
+export default LogIn;

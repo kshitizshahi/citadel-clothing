@@ -3,8 +3,7 @@ import { Link } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import { useDispatch, useSelector } from "react-redux";
 import { darkTheme } from "../redux/actions/themeActions";
-import "../styles/footer.css";
-// import "./styles/footer.css";
+import "../styles/footer.scss";
 
 const Footer = () => {
   const dispatch = useDispatch();
@@ -28,7 +27,7 @@ const Footer = () => {
     document.body.classList.remove("dark-mode");
   };
   return (
-    <div className="container">
+    <div className="footer-container">
       <div className="first-container">
         <div className="about">
           <div className="info">
@@ -41,41 +40,50 @@ const Footer = () => {
           </div>
           <div className="site-theme">
             <p className="theme-heading">Site Theme</p>
-            <button className="light-theme" onClick={setLightTheme}></button>
-            <button className="dark-theme" onClick={setDarkTheme}></button>
+            <button
+              className="light-theme-btn"
+              onClick={setLightTheme}
+            ></button>
+            <button className="dark-theme-btn" onClick={setDarkTheme}></button>
           </div>
         </div>
-        <div className="others">
+        <div className="footer-others">
           <div className="quick-links">
             <p className="links-heading">Quick Links</p>
-            <Link to="/sell">
-              <p>Sell</p>
-            </Link>
-            <Link to="/contact">
-              <p>Contact Us</p>
-            </Link>
+            <ul>
+              <Link to="/sell">
+                <li>Sell</li>
+              </Link>
+              <Link to="/contact">
+                <li>Contact Us</li>
+              </Link>
+            </ul>
           </div>
           <div className="account">
             <p className="account-heading">Account</p>
-            <Link to="/account">
-              <p>My account</p>
-            </Link>
+            <ul>
+              <Link to="/account">
+                <li>My account</li>
+              </Link>
+            </ul>
           </div>
           <div className="products">
             <p className="product-heading">Products</p>
-            <Link to="/women-fashion">
-              <p>Women's Fashion</p>
-            </Link>
-            <Link to="/men-fashion">
-              <p>Men's Fashion</p>
-            </Link>
-            <Link to="/kid-fashion">
-              <p>Kid's Fashion</p>
-            </Link>
+            <ul>
+              <Link to="/women-fashion">
+                <li>Women's Fashion</li>
+              </Link>
+              <Link to="/men-fashion">
+                <li>Men's Fashion</li>
+              </Link>
+              <Link to="/kid-fashion">
+                <li>Kid's Fashion</li>
+              </Link>
+            </ul>
           </div>
           <div className="follow">
             <p className="follow-heading">Follow Us On </p>
-            <div className="social-media">
+            <div className="footer-social-media">
               <a href="https://www.facebook.com/">
                 <Icon
                   icon="akar-icons:facebook-fill"
@@ -98,7 +106,7 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <div className="second-container">
+      <div className="copyright-container">
         <div className="copyright">
           <hr className="line" />
           <p>Copyright &#169; 2022 Citadel Clothing. All rights reserved.</p>

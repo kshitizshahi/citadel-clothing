@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { register } from "../redux/actions/userActions";
-import "../styles/register.css";
+import "../styles/register.scss";
+import { Register_Page_Title } from "../utils/PageTitle";
 
-const RegisterScreen = () => {
+const Register = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -13,6 +14,8 @@ const RegisterScreen = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const dispatch = useDispatch();
+  const userRegister = useSelector((state) => state.userRegister);
+  const { userInfo, error } = userRegister;
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -28,20 +31,23 @@ const RegisterScreen = () => {
       )
     );
   };
+  useEffect(() => {
+    document.title = Register_Page_Title;
+  }, []);
   return (
-    <div className="main-flex-container">
+    <div className="register-container">
       <div className="image-container">
         <img
           className="image"
           src="/images/daniel-roe-lpjb_UMOyx8-unsplash.jpg"
         />
       </div>
-      <div className="form-container">
+      <div className="register-form-container">
         <form className="form" onSubmit={submitHandler}>
           <div className="heading">
             <h1>Create Account</h1>
           </div>
-          <div className="form-spacing">
+          <div className="register-form-spacing">
             <div className="flex-container">
               <div className="first-name-container">
                 <label htmlFor="firstName">First Name</label>
@@ -78,9 +84,10 @@ const RegisterScreen = () => {
               <div>
                 <label htmlFor="phoneNumber">Phone Number</label>
                 <input
-                  type="tel"
+                  type="text"
                   id="phoneNumber"
                   placeholder="Phone Number"
+                  pattern="\d{10}$"
                   required
                   onChange={(e) => setPhoneNumber(e.target.value)}
                 ></input>
@@ -107,7 +114,7 @@ const RegisterScreen = () => {
               </div>
             </div>
             <div>
-              <button className="button" type="submit">
+              <button className="register-button" type="submit">
                 Create Account
               </button>
             </div>
@@ -119,6 +126,9 @@ const RegisterScreen = () => {
                 </Link>
               </p>
             </div>
+            <div>
+              <label>{error}</label>
+            </div>
           </div>
         </form>
       </div>
@@ -126,4 +136,4 @@ const RegisterScreen = () => {
   );
 };
 
-export default RegisterScreen;
+export default Register;

@@ -26,22 +26,27 @@ export const login = (email, password) => async (dispatch) => {
     //   headers: { "content-type": "multipart/form-data" },
     // };
 
-    const result = await axios.post(
+    const response = await axios.post(
       `${BASE_URL}/api/users/login`,
       {
         // formdata,
         email,
         password,
+      },
+      {
+        withCredentials: true,
       }
       // config
     );
+    console.log("Success", response);
     dispatch({
       type: USER_LOGIN_SUCCESS,
-      payload: result.data,
+      payload: response.data,
     });
 
-    localStorage.setItem("userInfo", JSON.stringify(result.data));
+    localStorage.setItem("userInfo", JSON.stringify(response.data));
   } catch (error) {
+    console.log(error.response);
     dispatch({
       type: USER_LOGIN_FAIL,
       payload:
@@ -97,7 +102,7 @@ export const register =
         type: USER_REGISTER_REQUEST,
       });
 
-      const result = await axios.post(`${BASE_URL}/api/users/register`, {
+      const response = await axios.post(`${BASE_URL}/api/users/register`, {
         firstName,
         lastName,
         email,
@@ -107,12 +112,12 @@ export const register =
       });
       dispatch({
         type: USER_REGISTER_SUCCESS,
-        payload: result.data,
+        payload: response.data,
       });
 
-      localStorage.setItem("userInfo", JSON.stringify(result.data));
+      localStorage.setItem("userInfo", JSON.stringify(response.data));
 
-      dispatch(login(result.data.email, password));
+      dispatch(login(response.data.email, password));
     } catch (error) {
       dispatch({
         type: USER_REGISTER_FAIL,
@@ -123,3 +128,15 @@ export const register =
       });
     }
   };
+
+export const logout = () => async (dispatch) => {
+  const response = await axios.delete(
+    `${BASE_URL}/api/users/logout`,
+
+    {
+      withCredentials: true,
+    }
+  );
+
+  localStorage.removeItem("userInfo");
+};

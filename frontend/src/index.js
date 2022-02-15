@@ -1,10 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./styles/main.css";
-// import "./styles/footer.css";
-// import "./styles/register.css";
-import "./styles/userProfile.css";
-
 import App from "./App";
 import { Provider } from "react-redux";
 import store from "./redux/store";

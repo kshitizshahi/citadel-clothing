@@ -4,7 +4,7 @@ const productSchema = new mongoose.Schema(
   {
     admin: {
       type: mongoose.Schema.Types.ObjectId,
-      required: true,
+      // required: true,
       ref: "User",
     },
 
@@ -50,6 +50,10 @@ const productSchema = new mongoose.Schema(
       default: 0,
     },
     isOffer: {
+      type: Boolean,
+      default: false,
+    },
+    isVerified: {
       type: Boolean,
       default: false,
     },
