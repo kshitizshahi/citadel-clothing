@@ -3,6 +3,9 @@ import dotenv from "dotenv";
 import connectDatabase from "./configs/database.js";
 import cors from "cors";
 import userRoute from "./routes/userRoute.js";
+import sellerRoute from "./routes/sellerRoute.js";
+import categoryRoute from "./routes/categoryRoute.js";
+import productRoute from "./routes/productRoute.js";
 import path from "path";
 import createUploadFolder from "./configs/upload.js";
 import cookieParser from "cookie-parser";
@@ -24,6 +27,9 @@ const __dirname = path.resolve();
 app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
 
 app.use("/api/users", userRoute);
+app.use("/api/sellers", sellerRoute);
+app.use("/api/category", categoryRoute);
+app.use("/api/product", productRoute);
 
 app.get("/", (req, res) => {
   res.status(200).json({ message: "Database configured" });

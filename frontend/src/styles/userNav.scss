@@ -1,13 +1,22 @@
 @use "../styles/" as *;
 
 .user-nav-container {
-  background-color: var(--background-clr);
+  // background-color: var(--background-clr);
+  background-color: var(--user-nav-background);
+
+  // background-color: #242526;
   color: var(--text-color);
-  border-radius: 0.2rem;
-  // height: 70rem;
+  border-radius: 0.4rem;
+  // height: 70vh;
 
   ul {
     padding-block: 2.4rem;
+
+    .current-tab {
+      background-color: var(--user-nav-current);
+      // background-color: var(--profile-hover);
+      font-weight: 600;
+    }
 
     li {
       @include flexBox(row, null);
@@ -15,7 +24,7 @@
       padding: 1rem 2rem;
 
       &:hover {
-        background-color: var(--profile-hover);
+        background-color: var(--user-nav-hover);
       }
 
       p {

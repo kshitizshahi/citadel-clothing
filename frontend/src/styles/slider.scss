@@ -1,0 +1,104 @@
+@use "../styles/" as *;
+
+.image-slider {
+  height: 70vh;
+  // height: max-content;
+  position: relative;
+
+  .slide {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    display: none;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .text-container {
+      position: absolute;
+      top: 33%;
+      right: 13%;
+      transform: translate(-13%, -33%);
+
+      h1 {
+        font-size: 4.5rem;
+      }
+
+      h2 {
+        font-size: 2.5rem;
+        margin-block: 1.5rem 0.5rem;
+      }
+
+      .shop-btn {
+        padding: 1.3rem 1.5rem;
+        background-color: var(--background-clr);
+        border: none;
+        color: var(--text-color);
+        font-size: 1.5rem;
+        border-radius: 0.3rem;
+        margin-block: 2rem 0;
+        cursor: pointer;
+      }
+    }
+  }
+  .active {
+    display: block;
+  }
+
+  .btn-slide {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background-color: var(--background-clr);
+    color: var(--text-color);
+    border: none;
+    position: absolute;
+    @include flexBox(row, center);
+    align-items: center;
+    cursor: pointer;
+
+    .slider-icon {
+      width: 1.2rem;
+      height: 1.2rem;
+    }
+  }
+
+  .prev {
+    top: 50%;
+    left: 1rem;
+    transform: translateY(-50%);
+  }
+  .next {
+    top: 50%;
+    right: 1rem;
+    transform: translateY(-50%);
+  }
+}
+
+.dot-container {
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+
+  .dot {
+    width: 1.6rem;
+    height: 1.6rem;
+    border-radius: 50%;
+    // border: 0.3rem solid var(--background-clr);
+    border: 0.3rem solid #f1f1f1;
+    margin-inline: 0.5rem;
+    // background-color: var(--background-clr);
+    background: #f1f1f1;
+    cursor: pointer;
+  }
+
+  .dot.active {
+    // background-color: var(--text-color);
+    background: rgb(32, 32, 32);
+  }
+}

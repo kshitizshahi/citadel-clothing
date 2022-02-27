@@ -19,7 +19,7 @@
 
       .info {
         .logo-heading {
-          font-size: 2.4rem;
+          font-size: 2.3rem;
           /* font-size: calc(0.7rem + 1vmax); */
           padding: 0;
           margin-block: 1.5rem 2.1rem;
@@ -27,7 +27,7 @@
 
         .company-info {
           text-align: justify;
-          font-size: clamp(1rem, 1.5vw, 1.4rem);
+          font-size: clamp(1rem, 1.5vw, 1.3rem);
           /* font-size: 1.4rem; */
           line-height: 1.6;
         }
@@ -38,15 +38,15 @@
 
 .site-theme {
   .theme-heading {
-    margin-block: 2rem;
-    font-size: 2rem;
+    margin-block: 2rem 1.7rem;
+    font-size: 1.8rem;
   }
 
   .light-theme-btn {
     background-color: #fff;
     cursor: pointer;
-    height: 3.4rem;
-    width: 3.4rem;
+    height: 3.2rem;
+    width: 3.2rem;
     border: none;
     border-radius: 0.5rem;
     border: 0.2rem solid gray;
@@ -55,11 +55,11 @@
   .dark-theme-btn {
     background-color: #171613;
     cursor: pointer;
-    height: 3.4rem;
-    width: 3.4rem;
+    height: 3.2rem;
+    width: 3.2rem;
     border: 0.2rem solid gray;
     border-radius: 0.5rem;
-    margin-left: 2rem;
+    margin-left: 1.5rem;
   }
 }
 
@@ -81,7 +81,7 @@
   .account ul,
   .products ul {
     li {
-      font-size: 1.55rem;
+      font-size: 1.45rem;
       margin-bottom: 2.5rem;
     }
   }
@@ -91,7 +91,7 @@
 .account-heading,
 .product-heading,
 .follow-heading {
-  font-size: 1.7rem;
+  font-size: 1.6rem;
 }
 
 .footer-social-media {

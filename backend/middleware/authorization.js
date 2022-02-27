@@ -3,7 +3,7 @@ import User from "../models/userModel.js";
 import asyncHandler from "express-async-handler";
 import { generateAccessToken } from "../configs/generateToken.js";
 
-export const isAuth = asyncHandler(async (req, res, next) => {
+export const isAuth = (req, res, next) => {
   const token = req.cookies.accessToken;
 
   try {
@@ -19,7 +19,7 @@ export const isAuth = asyncHandler(async (req, res, next) => {
           }
         }
       );
-      req.user = await User.findById(decode.id).select("-password");
+      req.user = decode.id;
       next();
     } else if (req.accessToken) {
       next();
@@ -29,15 +29,17 @@ export const isAuth = asyncHandler(async (req, res, next) => {
   } catch (error) {
     console.log(error);
   }
-});
+};
 
-export const admin = (req, res, next) => {
-  if (req.user && req.user.isAdmin) {
+export const admin = asyncHandler(async (req, res, next) => {
+  const data = await User.findById(req.user).select("-password");
+
+  if (req.user && data.isAdmin) {
     next();
   } else {
     res.status(401).json({ message: "Not authorized as an admin" });
   }
-};
+});
 
 export const verifyAccessTokenExpiry = asyncHandler(async (req, res, next) => {
   const token = req.cookies.accessToken;
@@ -57,6 +59,9 @@ export const verifyAccessTokenExpiry = asyncHandler(async (req, res, next) => {
         }
       );
       const accessToken = generateAccessToken(decoded.id);
+      req.user = decoded.id;
+      // req.user = await User.findById(decoded.id).select("-password");
+
       req.accessToken = accessToken;
 
       res.cookie("accessToken", accessToken, {

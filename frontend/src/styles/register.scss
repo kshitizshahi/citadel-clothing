@@ -3,9 +3,10 @@
 .register-container {
   @include flexBox(row, center);
   /* background-color: rgb(156, 205, 245); */
-  height: 92vh;
+  height: 93vh;
   /* height: max-content; */
-  background-color: #ccc;
+  background-color: var(--register-background);
+
   // background: linear-gradient(
   //   to bottom right,
   //   rgb(228, 196, 220) 0%,
@@ -15,7 +16,8 @@
   //   rgb(228, 196, 220) 50%,
   //   rgba(0, 212, 255, 1) 100%
   // );
-  margin-block: 0.1rem;
+  padding-block: 1rem;
+  // margin-block: 0.1rem;
 
   .image-container {
     flex: 40%;
@@ -54,7 +56,8 @@
       .heading {
         text-align: center;
         margin-top: 0.5rem;
-        font-size: 1.4rem;
+        font-size: 1.25rem;
+        color: var(--text-color);
         /* font-size: clamp(1rem, 3vw, 2.5rem); */
       }
     }
@@ -62,7 +65,7 @@
 }
 
 .register-form-spacing {
-  margin: 2rem 3rem 0 3rem;
+  margin: 3rem 3rem 0 3rem;
   /* background-color: mediumorchid; */
 
   .flex-container {
@@ -79,47 +82,30 @@
       /* background-color: grey; */
 
       input {
-        width: 100%;
-        margin-block: 0.7rem 1.8rem;
-        /* height: 2.3rem; */
-        padding: 1rem;
-        border-radius: 0.5rem;
-        border: 0.1rem #a4a4a4 solid;
-        font-size: 1.5rem;
-        font-family: inherit;
+        @include inputBox();
       }
     }
   }
   .form-fields input {
-    width: 100%;
-    /* width: 59rem; */
-    margin-block: 0.7rem 1.8rem;
-    /* height: 2.3rem; */
-    padding: 1rem;
-    border-radius: 0.5rem;
-    border: 0.1rem #a4a4a4 solid;
-    font-size: clamp(1rem, 2vw, 1.5rem);
-    /* font-size: 1.6rem; */
-    font-family: inherit;
+    @include inputBox();
   }
   .register-button {
-    padding: 1rem 2rem;
+    padding: 1.3rem 0;
     background-color: #4e9c80;
     border: none;
     color: #fff;
-    font-size: 2rem;
-    border-radius: 0.5rem;
+    font-size: 1.8rem;
+    border-radius: 0.3rem;
     width: 100%;
     /* width: 61.2rem; */
-    margin-block: 1rem 1.5rem;
+    margin-block: 1rem 2.5rem;
     cursor: pointer;
   }
 
   .redirect {
+    color: var(--text-color);
     /* margin-top: 1.5rem; */
-    /* padding-bottom: 1rem; */
-    // font-size: 1.5rem;
-
+    /* padding-bottom: 1rem; */ // font-size: 1.5rem;
     .link {
       text-decoration: none;
       color: #185638;
@@ -134,15 +120,22 @@
     height: max-content;
     /* max-height: 135vh; */
 
+    .image-container {
+      // flex: 45%;
+      // max-width: 45%;
+      display: none;
+    }
+
     .register-form-container {
-      flex: 60%;
-      max-width: 60%;
+      flex: 90%;
+      max-width: 90%;
+      box-shadow: none;
 
       .form {
         margin: 0;
 
         .heading {
-          font-size: 1rem;
+          font-size: 1.1rem;
           margin-block: 1rem 2rem;
         }
       }
@@ -160,14 +153,14 @@
         max-width: 100%;
 
         input {
-          margin-block: 1rem 1.7rem;
+          margin-block: 0.5rem 1.7rem;
           font-size: 1.4rem;
         }
       }
     }
 
     .form-fields input {
-      margin-block: 1rem 1.7rem;
+      margin-block: 0.5rem 1.7rem;
       font-size: 1.4rem;
     }
 

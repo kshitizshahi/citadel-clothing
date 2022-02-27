@@ -1,20 +1,21 @@
 import { useNavigate } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import { Link } from "react-router-dom";
-import { logout } from "../redux/actions/userActions";
 import { useDispatch, useSelector } from "react-redux";
+import { logoutUser } from "../redux/thunkApi/authApi";
 import SearchBar from "./SearchBar";
+import { BASE_URL } from "../utils/BaseUrl";
 import "../styles/main.scss";
 
 const NavBar = () => {
-  const userLogin = useSelector((state) => state.userLogin);
-  const { userInfo } = userLogin;
+  const { isLoggedIn, userInfo } = useSelector((state) => state.authUser);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const logoutHandler = () => {
-    dispatch(logout());
-    navigate("/login");
+  const logoutHandler = (e) => {
+    dispatch(logoutUser({}));
+    navigate("/");
   };
 
   return (
@@ -51,14 +52,26 @@ const NavBar = () => {
       </div>
       <div className="nav-icons">
         <div className="profile-dropdown">
-          <Icon icon="ant-design:user-outlined" className="profile-icon" />
+          {userInfo ? (
+            <div className="profile-image-container">
+              <img
+                className="profile-image"
+                src={`${BASE_URL}/uploads/${userInfo.profileImage}`}
+                alt="Profile Picture"
+              />
+              {/* <p>{userInfo.firstName}</p> */}
+            </div>
+          ) : (
+            <Icon icon="ant-design:user-outlined" className="profile-icon" />
+          )}
+
           <ul className="dropdown-content">
-            {userInfo ? (
+            {isLoggedIn ? (
               <div>
                 <Link to="/profile">
                   <li>Profile</li>
                 </Link>
-                <li onClick={(e) => logoutHandler()}>Logout</li>
+                <li onClick={logoutHandler}>Logout</li>
               </div>
             ) : (
               <div>

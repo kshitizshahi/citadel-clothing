@@ -1,30 +1,25 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Icon } from "@iconify/react";
-import { useDispatch, useSelector } from "react-redux";
-import { darkTheme } from "../redux/actions/themeActions";
+
 import "../styles/footer.scss";
 
 const Footer = () => {
-  const dispatch = useDispatch();
-
-  const theme = useSelector((state) => state.theme);
-  const { darkMode } = theme;
+  const darkMode = JSON.parse(localStorage.getItem("darkTheme"));
 
   if (darkMode) {
-    document.body.classList.add("dark-mode");
+    document.documentElement.setAttribute("theme", "dark");
   }
 
   const setDarkTheme = (e) => {
     e.preventDefault();
-    dispatch(darkTheme(true));
-    document.body.classList.add("dark-mode");
+    document.documentElement.setAttribute("theme", "dark");
+    localStorage.setItem("darkTheme", true);
   };
 
   const setLightTheme = (e) => {
     e.preventDefault();
-    dispatch(darkTheme(false));
-    document.body.classList.remove("dark-mode");
+    document.documentElement.removeAttribute("theme");
+    localStorage.setItem("darkTheme", false);
   };
   return (
     <div className="footer-container">

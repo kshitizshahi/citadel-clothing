@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { register } from "../redux/actions/userActions";
 import "../styles/register.scss";
 import { Register_Page_Title } from "../utils/PageTitle";
+import Button from "../components/Button";
+import { useNavigate } from "react-router-dom";
+import { registerUser } from "../redux/thunkApi/authApi";
+import { PUBLIC_URL } from "../utils/BaseUrl";
+import { toast } from "react-toastify";
 
 const Register = () => {
   const [firstName, setFirstName] = useState("");
@@ -14,32 +18,48 @@ const Register = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const dispatch = useDispatch();
-  const userRegister = useSelector((state) => state.userRegister);
-  const { userInfo, error } = userRegister;
+  const navigate = useNavigate();
+
+  const { error, isRegistered, isLoggedIn, message } = useSelector(
+    (state) => state.authUser
+  );
 
   const submitHandler = (e) => {
     e.preventDefault();
 
     dispatch(
-      register(
+      registerUser({
         firstName,
         lastName,
         email,
         phoneNumber,
         password,
-        confirmPassword
-      )
+        confirmPassword,
+      })
     );
   };
   useEffect(() => {
     document.title = Register_Page_Title;
-  }, []);
+    if (isLoggedIn) {
+      navigate("/");
+    } else if (isRegistered) {
+      toast.success(message, {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      setTimeout(() => navigate("/"), 2000);
+    } else if (error) {
+      toast.error(error.message, {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    }
+  }, [isLoggedIn, isRegistered, error]);
   return (
     <div className="register-container">
       <div className="image-container">
         <img
           className="image"
-          src="/images/daniel-roe-lpjb_UMOyx8-unsplash.jpg"
+          src={`${PUBLIC_URL}/images/daniel-roe-lpjb_UMOyx8-unsplash.jpg`}
+          alt="register-image"
         />
       </div>
       <div className="register-form-container">
@@ -114,9 +134,7 @@ const Register = () => {
               </div>
             </div>
             <div>
-              <button className="register-button" type="submit">
-                Create Account
-              </button>
+              <Button className="register-button" text="Create Account" />
             </div>
             <div>
               <p className="redirect">
@@ -126,9 +144,11 @@ const Register = () => {
                 </Link>
               </p>
             </div>
-            <div>
-              <label>{error}</label>
-            </div>
+            {/* {error && (
+              <div>
+                <label>{error.message}</label>
+              </div>
+            )} */}
           </div>
         </form>
       </div>

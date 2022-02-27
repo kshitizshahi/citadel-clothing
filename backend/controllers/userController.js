@@ -107,12 +107,20 @@ const login = asyncHandler(async (req, res) => {
   res.status(401).json({ message: "Invalid email or password" });
 });
 
-const changeProfile = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.params.userId);
-  // const user = await User.findById(req.user._id);
+const updateUser = asyncHandler(async (req, res) => {
+  // const user = await User.findById(req.params.userId);
+  const user = await User.findById(req.user);
+
+  const { firstName, lastName, email, phoneNumber } = req.body;
 
   if (user) {
-    user.profileImage = req.file.filename;
+    user.firstName = firstName || user.firstName;
+    user.lastName = lastName || user.lastName;
+    user.email = email || user.email;
+    user.phoneNumber = phoneNumber || user.phoneNumber;
+
+    user.profileImage = req.file ? req.file.filename : user.profileImage;
+
     const updatedProfile = await user.save();
     const data = defaultResponse(updatedProfile);
 
@@ -136,7 +144,7 @@ const changeProfile = asyncHandler(async (req, res) => {
 });
 
 const getAuthToken = (req, res) => {
-  const accessToken = generateAccessToken(req.user._id);
+  const accessToken = generateAccessToken(req.user);
 
   res.cookie("accessToken", accessToken, {
     httpOnly: true,
@@ -159,4 +167,17 @@ const logout = (req, res) => {
   res.status(202).json({ message: "User logged out" });
 };
 
-export { register, login, changeProfile, getAuthToken, logout };
+const getUser = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user);
+  if (user) {
+    const data = defaultResponse(user);
+
+    res.status(200).json({
+      data,
+      isValid: true,
+      message: "User fetched",
+    });
+  }
+});
+
+export { register, login, updateUser, getAuthToken, logout, getUser };

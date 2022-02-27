@@ -8,19 +8,37 @@
   --search-bg: #d4caca;
   /* --search-clr: var(--text-color);
     --search-placeholder: var(--text-color); */
-  --search-clr: rgb(43, 42, 42);
-  --search-placeholder: rgb(43, 42, 42);
+  --search-clr: #2b2a2a;
+  --search-placeholder: #2b2a2a;
   --nav-hover: #44af69;
-  --profile-hover: rgb(215, 219, 221);
-  --profile-dropdown-hover: rgb(197, 193, 193);
+  --profile-hover: #eaf0f0;
+  --profile-dropdown-hover: #c5c1c1;
+  // --profile-background: #fbf8f1;
+  // --profile-background: #d0dbdb;
+  --profile-background: #e5e7eb;
+  // background-color: rgb(51, 167, 128);
+
+  // --profile-background: #f5f5f5;
+  --register-background: #ccc;
+
+  // --profile-background: rgb(223, 222, 222);
+
+  // --user-nav-background: #eaf0f0;
+  --user-nav-background: rgb(255, 255, 255, 0.85);
+
+  // --user-nav-background: #f0d7d7;
+  --user-nav-current: #d6d2d2;
+  --user-nav-hover: #c5c1c1;
+  --change-profile-file: #d6d2d2;
+  --login-button: #4dadff;
 
   /* --nav-hover: #bc904c; */
 }
 
-.dark-mode {
-  /* --background-clr: #18191a; */
-  /* --background-clr: #171613; */
-  --background-clr: rgb(31, 29, 29);
+html[theme="dark"] {
+  // --background-clr: #18191a;
+  // --background-clr: #171613;
+  --background-clr: #1f1d1d;
   /* --text-color: #fff; */
   /* --text-color: #dee0e5; */
   --text-color: #e4e6eb;
@@ -31,7 +49,14 @@
     --search-placeholder: var(--text-color); */
   --search-clr: #a9a9a9;
   --search-placeholder: #a9a9a9;
-  --nav-hover: rgb(0, 255, 255);
+  --nav-hover: #00ffff;
   --profile-hover: #2a2a30;
   --profile-dropdown-hover: #3a3b3c;
+  --profile-background: #181818;
+  --register-background: #2c2929;
+  --user-nav-background: #212121;
+  --user-nav-current: #303031;
+  --user-nav-hover: #383737;
+  --change-profile-file: #383737;
+  --login-button: #673d4d;
 }

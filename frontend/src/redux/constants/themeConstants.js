@@ -1,1 +1,0 @@
-export const DARK_THEME_SUCCESS = "DARK_THEME_SUCCESS";

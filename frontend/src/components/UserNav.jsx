@@ -1,18 +1,18 @@
 import { Link } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import "../styles/userNav.scss";
-const UserNav = () => {
+const UserNav = ({ profile, order, height }) => {
   return (
-    <div className="user-nav-container">
+    <div className="user-nav-container" style={height && { height: height }}>
       <ul>
         <Link to="/profile">
-          <li>
+          <li className={profile && "current-tab"}>
             <Icon icon="ant-design:user-outlined" className="profile-icon" />
             <p>My Profile</p>
           </li>
         </Link>
         <Link to="/orders">
-          <li>
+          <li className={order && "current-tab"}>
             <Icon icon="clarity:list-line" className="order-icon" />
             <p>My Orders</p>
           </li>

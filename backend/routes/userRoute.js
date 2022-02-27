@@ -3,15 +3,19 @@ import upload from "../middleware/imageUploader.js";
 import {
   register,
   login,
-  changeProfile,
   logout,
+  getUser,
+  updateUser,
 } from "../controllers/userController.js";
 import {
+  admin,
   isAuth,
   verifyAccessTokenExpiry,
 } from "../middleware/authorization.js";
 
 const router = express.Router();
+
+router.get("/get/user", verifyAccessTokenExpiry, isAuth, getUser);
 
 router.post("/register", register);
 router.post("/login", login);
@@ -24,11 +28,11 @@ router.post("/login", login);
 //     changeProfile
 //   );
 router.put(
-  "/change-profile/:userId",
+  "/update-user",
   verifyAccessTokenExpiry,
   isAuth,
   upload.single("profileImage"),
-  changeProfile
+  updateUser
 );
 router.delete("/logout", logout);
 // router.get("/token", verifyRefresh, getAuthToken);
