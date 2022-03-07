@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema(
     // isSeller: { type: Boolean, default: false, required: true },
     profileImage: {
       type: String,
-      default: "default.png",
+      default: `uploads\\profile\\default.png`,
     },
   },
   {

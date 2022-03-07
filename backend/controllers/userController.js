@@ -119,7 +119,7 @@ const updateUser = asyncHandler(async (req, res) => {
     user.email = email || user.email;
     user.phoneNumber = phoneNumber || user.phoneNumber;
 
-    user.profileImage = req.file ? req.file.filename : user.profileImage;
+    user.profileImage = req.file ? req.file.path : user.profileImage;
 
     const updatedProfile = await user.save();
     const data = defaultResponse(updatedProfile);

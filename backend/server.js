@@ -6,6 +6,8 @@ import userRoute from "./routes/userRoute.js";
 import sellerRoute from "./routes/sellerRoute.js";
 import categoryRoute from "./routes/categoryRoute.js";
 import productRoute from "./routes/productRoute.js";
+import subCategoryRoute from "./routes/subCategoryRoute.js";
+
 import path from "path";
 import createUploadFolder from "./configs/upload.js";
 import cookieParser from "cookie-parser";
@@ -15,8 +17,6 @@ connectDatabase();
 createUploadFolder();
 
 const app = express();
-
-// app.use(cors());
 
 app.use(cors({ origin: process.env.ORIGIN, credentials: true }));
 app.use(express.json());
@@ -29,7 +29,9 @@ app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
 app.use("/api/users", userRoute);
 app.use("/api/sellers", sellerRoute);
 app.use("/api/category", categoryRoute);
-app.use("/api/product", productRoute);
+app.use("/api/sub-category", subCategoryRoute);
+
+app.use("/api/products", productRoute);
 
 app.get("/", (req, res) => {
   res.status(200).json({ message: "Database configured" });
@@ -41,7 +43,7 @@ app.use((err, req, res, next) => {
   res.status(500).json({
     message:
       process.env.NODE_ENV === "production"
-        ? "Internal server error"
+        ? "Something went wrong"
         : err.message,
   });
 });

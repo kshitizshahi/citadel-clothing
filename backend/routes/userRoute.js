@@ -1,5 +1,5 @@
 import express from "express";
-import upload from "../middleware/imageUploader.js";
+import upload from "../middleware/profileImageUploader.js";
 import {
   register,
   login,

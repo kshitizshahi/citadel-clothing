@@ -4,18 +4,14 @@ const categorySchema = new mongoose.Schema(
   {
     admin: {
       type: mongoose.Schema.Types.ObjectId,
-      required: true,
+      // required: true,
       ref: "User",
     },
     name: {
       type: String,
       required: true,
       unique: true,
-    },
-    subType: {
-      type: String,
-      required: true,
-      enum: ["PANTS", "SHIRTS", "T-SHIRTS"],
+      enum: ["Men's Fashion", "Women's Fashion", "Kid's Wear"],
     },
   },
   {
@@ -23,6 +19,6 @@ const categorySchema = new mongoose.Schema(
   }
 );
 
-const Category = mongoose.model("category", categorySchema);
+const Category = mongoose.model("Category", categorySchema);
 
 export default Category;

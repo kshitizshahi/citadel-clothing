@@ -1,6 +1,6 @@
 import { Icon } from "@iconify/react";
 
-const Loading = () => {
+const LoadingDots = () => {
   const loadingStyle = {
     height: "100px",
     width: "200px",
@@ -20,4 +20,4 @@ const Loading = () => {
   );
 };
 
-export default Loading;
+export default LoadingDots;

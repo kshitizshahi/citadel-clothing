@@ -1,6 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userSlice from "./slice/userSlice";
 import authSlice from "./slice/authSlice";
+import productSlice from "./slice/productSlice";
+import categorySlice from "./slice/categorySlice";
 
 export default configureStore({
   reducer: {
@@ -8,5 +10,7 @@ export default configureStore({
     // userRegister: registerUserReducer,
     authUser: authSlice,
     User: userSlice,
+    Product: productSlice,
+    Category: categorySlice,
   },
 });

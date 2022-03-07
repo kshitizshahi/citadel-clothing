@@ -10,8 +10,12 @@ import PrivateRoute from "./routes/PrivateRoute";
 import { getUser } from "./redux/thunkApi/userApi";
 import { validateUser } from "./redux/thunkApi/authApi";
 import { useEffect } from "react";
-import Loading from "./components/Loading";
+import LoadingDots from "./components/Loading";
+
 import HomePage from "./pages/HomePage";
+import Mens from "./pages/Mens";
+import Shop from "./pages/Shop";
+import Dashboard from "./pages/admin/Dashboard";
 
 function App() {
   const { isLoggedIn, loading } = useSelector((state) => state.authUser);
@@ -23,23 +27,31 @@ function App() {
     dispatch(validateUser({}));
   }, []);
 
-  if (loading) {
-    // navigate("/login");
-    // return (
-    //   <div>
-    //     <Loading />
-    //   </div>
-    // );
-  }
+  // if (loading) {
+  // navigate("/login");
+  // return (
+  //   <div>
+  //     <LoadingDots />
+  //   </div>
+  // );
+  // }
+
+  // useEffect(() => {
+  //   window.addEventListener("resize", () => {
+  //     console.log("hey");
+  //   });
+  // }, [window.innerWidth]);
 
   return (
     <Router>
       <div className="App">
-        <NavBar />
+        {window.innerWidth > 768 && <NavBar />}
         {/* style={{ minHeight: window.innerHeight }} */}
         <div>
           <Routes>
-            <Route path="/" element={<HomePage />} />
+            <Route path="/" element={<HomePage />} exact />
+            <Route path="/admin/dashboard" element={<Dashboard />} />
+            <Route path="/shop" element={<Shop />} />
 
             {/* {!isLoggedIn && ( */}
             <>

@@ -1,8 +1,8 @@
 @use "../styles/" as *;
 
-.user-profile-container {
-  @include flexBox(row, center);
-  padding-block: 3rem;
+.admin-dashboard-container {
+  display: flex;
+
   background-color: var(--profile-background);
   // height: max-content;
 
@@ -10,24 +10,24 @@
   // background-color: #18191a;
   // background-color: #242427;
   // background-color: rgb(190, 235, 223);
-  gap: 3%;
 
-  .user-profile-nav {
-    flex: 16.5%;
-    max-width: 16.5%;
+  .side-bar {
+    flex: 20%;
+    max-width: 20%;
+    border-right: 0.1rem solid var(--profile-background);
   }
 
   .form-container {
-    flex: 64.5%;
-    max-width: 64.5%;
+    flex: 80%;
+    max-width: 80%;
     background-color: var(--user-nav-background);
-    border-radius: 0.4rem;
 
     // background-color: aqua;
 
     .user-address-container {
       width: 90%;
       margin: auto;
+
       // background-color: #242526;
 
       .user-profile-form {

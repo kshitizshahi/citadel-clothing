@@ -31,7 +31,8 @@ const LogIn = () => {
       toast.success(message, {
         position: toast.POSITION.TOP_RIGHT,
       });
-      setTimeout(() => navigate("/"), 2000);
+      navigate("/");
+      // setTimeout(() => navigate("/"), 2000);
     }
 
     if (error) {

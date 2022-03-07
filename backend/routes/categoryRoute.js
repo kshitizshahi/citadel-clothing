@@ -1,16 +1,15 @@
 import express from "express";
-
-import { register, login, getSeller } from "../controllers/sellerController.js";
 import {
-  isAuth,
-  verifyAccessTokenExpiry,
-} from "../middleware/authorization.js";
+  createCategory,
+  getCategory,
+} from "../controllers/categoryController.js";
+
+import { admin } from "../middleware/authorization.js";
 
 const router = express.Router();
 
-router.get("/get/seller", verifyAccessTokenExpiry, isAuth, getSeller);
+router.get("/get/category", getCategory);
 
-router.post("/register", register);
-router.post("/login", login);
+router.post("/create", createCategory);
 
 export default router;

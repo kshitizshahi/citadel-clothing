@@ -1,19 +1,18 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import "../styles/userProfile.scss";
-import { Profile_Page_Title } from "../utils/PageTitle";
-import UserNav from "../components/UserNav";
-import Button from "../components/Button";
+import "../../styles/dashboard.scss";
+import { Admin_Page_Dashboard } from "../../utils/PageTitle";
+import Button from "../../components/Button";
 import { toast } from "react-toastify";
-import { updateUser } from "../redux/thunkApi/userApi";
-import { logoutUser, validateUser } from "../redux/thunkApi/authApi";
-import { BASE_URL } from "../utils/BaseUrl";
-import { clearError, clearuserUpdate } from "../redux/slice/userSlice";
-import { resetSuccess } from "../redux/slice/authSlice";
-import LoadingDots from "../components/Loading";
+import { updateUser } from "../../redux/thunkApi/userApi";
+import { logoutUser, validateUser } from "../../redux/thunkApi/authApi";
+import { BASE_URL } from "../../utils/BaseUrl";
+import { clearError, clearuserUpdate } from "../../redux/slice/userSlice";
+import LoadingDots from "../../components/Loading";
+import SideBar from "../../components/Admin/SideBar";
 
-const UserProfile = () => {
+const Dashboard = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -69,7 +68,7 @@ const UserProfile = () => {
   // }, [success, isValid, loaded]);
 
   useEffect(() => {
-    document.title = Profile_Page_Title;
+    document.title = Admin_Page_Dashboard;
 
     if (error && error.message) {
       dispatch(logoutUser({}));
@@ -94,13 +93,26 @@ const UserProfile = () => {
       {loading ? (
         <LoadingDots />
       ) : (
-        // height="60vh"
-        <div className="user-profile-container">
-          <div className="user-profile-nav">
-            <UserNav profile="profile" />
+        <div className="admin-dashboard-container">
+          <div className="side-bar">
+            <SideBar dashboard="current" height="90vh" />
           </div>
           <div className="form-container">
             <div className="user-address-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Products</th>
+                    <th>Name</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td style={{ border: "1px solid black" }}>Adidas</td>
+                    <td>Puma</td>
+                  </tr>
+                </tbody>
+              </table>
               <form onSubmit={submitHandler} encType="multipart/form-data">
                 <div className="user-profile-form">
                   <div className="profile-image">
@@ -204,4 +216,4 @@ const UserProfile = () => {
   );
 };
 
-export default UserProfile;
+export default Dashboard;

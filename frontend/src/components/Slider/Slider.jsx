@@ -40,7 +40,8 @@ const Slider = ({ data }) => {
           className={slideIndex === index + 1 ? "slide active" : "slide"}
         >
           <img src={elem.image} alt={`image ${index}`} />
-          <div className="text-container">
+
+          <div className={`${elem.className}`}>
             <h1>{elem.title}</h1>
             {elem.titleBreak && <h1>{elem.titleBreak}</h1>}
             <h2>{elem.subTitle}</h2>

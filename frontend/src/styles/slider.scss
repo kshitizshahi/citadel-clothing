@@ -1,7 +1,8 @@
 @use "../styles/" as *;
 
 .image-slider {
-  height: 70vh;
+  // height: max;
+  height: 91vh;
   // height: max-content;
   position: relative;
 
@@ -17,11 +18,13 @@
       object-fit: cover;
     }
 
-    .text-container {
+    .first-text-container,
+    .second-text-container,
+    .third-text-container {
       position: absolute;
-      top: 33%;
-      right: 13%;
-      transform: translate(-13%, -33%);
+      top: 35%;
+      right: 12%;
+      transform: translate(-12%, -35%);
 
       h1 {
         font-size: 4.5rem;
@@ -33,7 +36,7 @@
       }
 
       .shop-btn {
-        padding: 1.3rem 1.5rem;
+        padding: 1.3rem 1.3rem;
         background-color: var(--background-clr);
         border: none;
         color: var(--text-color);

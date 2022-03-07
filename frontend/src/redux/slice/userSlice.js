@@ -8,10 +8,14 @@ const userSlice = createSlice({
     error: null,
     isValid: true,
     success: false,
+    userUpdate: null,
   },
   reducers: {
     clearError: (state) => {
       state.error = null;
+    },
+    clearuserUpdate: (state) => {
+      state.userUpdate = null;
     },
   },
 
@@ -40,5 +44,5 @@ const userSlice = createSlice({
 
 // export { loginUserReducer, registerUserReducer };
 
-export const { clearError } = userSlice.actions;
+export const { clearError, clearuserUpdate } = userSlice.actions;
 export default userSlice.reducer;

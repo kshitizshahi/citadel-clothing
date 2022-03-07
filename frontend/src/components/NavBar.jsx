@@ -56,7 +56,7 @@ const NavBar = () => {
             <div className="profile-image-container">
               <img
                 className="profile-image"
-                src={`${BASE_URL}/uploads/${userInfo.profileImage}`}
+                src={`${BASE_URL}/${userInfo.profileImage}`}
                 alt="Profile Picture"
               />
               {/* <p>{userInfo.firstName}</p> */}
@@ -65,25 +65,27 @@ const NavBar = () => {
             <Icon icon="ant-design:user-outlined" className="profile-icon" />
           )}
 
-          <ul className="dropdown-content">
-            {isLoggedIn ? (
-              <div>
-                <Link to="/profile">
-                  <li>Profile</li>
-                </Link>
-                <li onClick={logoutHandler}>Logout</li>
-              </div>
-            ) : (
-              <div>
-                <Link to="/login">
-                  <li>Login</li>
-                </Link>
-                <Link to="/register">
-                  <li>Register</li>
-                </Link>
-              </div>
-            )}
-          </ul>
+          <div className="dropdown-content-wrap">
+            <ul className="dropdown-content">
+              {isLoggedIn ? (
+                <div>
+                  <Link to="/profile">
+                    <li>Profile</li>
+                  </Link>
+                  <li onClick={logoutHandler}>Logout</li>
+                </div>
+              ) : (
+                <div>
+                  <Link to="/login">
+                    <li>Login</li>
+                  </Link>
+                  <Link to="/register">
+                    <li>Register</li>
+                  </Link>
+                </div>
+              )}
+            </ul>
+          </div>
         </div>
         <div className="cart">
           <Link to="/cart">

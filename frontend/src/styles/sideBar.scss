@@ -1,0 +1,55 @@
+@use "../styles/" as *;
+
+.admin-sidebar-container {
+  background-color: var(--user-nav-background);
+  color: var(--text-color);
+  // height: 70vh;
+
+  .heading {
+    text-align: center;
+    font-size: 2.3rem;
+    font-weight: 600;
+    padding-block: 1rem 0.5rem;
+  }
+  .sub-heading {
+    text-align: center;
+    font-size: 1.3rem;
+  }
+
+  ul {
+    padding-top: 2.4rem;
+
+    .current-tab {
+      background-color: var(--user-nav-current);
+      font-weight: 600;
+    }
+
+    li {
+      @include flexBox(row, null);
+      gap: 7%;
+      padding: 1.7rem 3.5rem;
+      // margin-block: 1rem;
+
+      &:hover {
+        background-color: var(--user-nav-hover);
+      }
+
+      p {
+        margin-block: auto;
+      }
+
+      .profile-icon,
+      .order-icon,
+      .review-icon,
+      .logout-icon {
+        height: 2.2rem;
+        width: 2.5rem;
+      }
+
+      .cart-icon {
+        height: 2.1rem;
+        width: 2.5rem;
+      }
+    }
+  }
+}
