@@ -8,10 +8,17 @@ import "../styles/login.scss";
 import { toast } from "react-toastify";
 import Button from "../components/Button";
 import { PUBLIC_URL } from "../utils/BaseUrl";
+import { useForm } from "react-hook-form";
 
 const LogIn = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -20,9 +27,8 @@ const LogIn = () => {
     (state) => state.authUser
   );
 
-  const submitHandler = (e) => {
-    e.preventDefault();
-    dispatch(loginUser({ email, password }));
+  const submitHandler = (data) => {
+    dispatch(loginUser({ email: data.email, password: data.password }));
   };
 
   useEffect(() => {
@@ -44,7 +50,7 @@ const LogIn = () => {
 
   return (
     <div>
-      <form onSubmit={submitHandler}>
+      <form onSubmit={handleSubmit(submitHandler)}>
         <div className="login-container">
           <div className="image-container">
             <img src={`${PUBLIC_URL}/images/login.jpg`} alt="login-image" />
@@ -59,9 +65,11 @@ const LogIn = () => {
                 type="email"
                 id="email"
                 placeholder="Enter email"
-                required
-                onChange={(e) => setEmail(e.target.value)}
+                {...register("email", { required: true, maxLength: 30 })}
+                // required
+                // onChange={(e) => setEmail(e.target.value)}
               ></input>
+              {errors.email?.type === "required" && <p>Email is required.</p>}
             </div>
             <div>
               <label htmlFor="password">Password</label>
@@ -69,9 +77,12 @@ const LogIn = () => {
                 type="password"
                 id="password"
                 placeholder="Enter password"
-                required
-                onChange={(e) => setPassword(e.target.value)}
+                {...register("password", { required: true, maxLength: 30 })}
+
+                // required
+                // onChange={(e) => setPassword(e.target.value)}
               ></input>
+              {errors.password && <p>Please enter password.</p>}
             </div>
             <div>
               <Button className="login-button" text="Login" />

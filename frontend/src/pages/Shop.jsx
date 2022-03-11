@@ -15,6 +15,9 @@ const Shop = () => {
 
   useEffect(() => {
     document.title = Shop_Page_Title;
+  }, []);
+
+  useEffect(() => {
     if (!shopProduct) {
       dispatch(getAllProduct({}));
     } else {

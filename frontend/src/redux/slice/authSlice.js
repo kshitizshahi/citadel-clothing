@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 import {
   loginUser,
   registerUser,
@@ -10,6 +11,11 @@ const authSlice = createSlice({
   name: "auth user",
   initialState: {
     fetchSuccess: false,
+    isAdmin: localStorage.getItem("isAdmin")
+      ? JSON.parse(localStorage.getItem("isAdmin"))
+      : {
+          isAdmin: false,
+        },
     isLoggedIn: localStorage.getItem("userLogin")
       ? JSON.parse(localStorage.getItem("userLogin"))
       : {
@@ -36,6 +42,8 @@ const authSlice = createSlice({
       state.isLoggedIn = true;
       state.userInfo = action.payload.data;
       state.fetchSuccess = true;
+      state.isAdmin = action.payload.data.isAdmin;
+      localStorage.setItem("isAdmin", JSON.stringify(state.isAdmin));
       localStorage.setItem("userLogin", JSON.stringify(state.isLoggedIn));
       state.loading = false;
     },
@@ -67,7 +75,13 @@ const authSlice = createSlice({
       state.isLoggedIn = false;
       state.loading = false;
       state.userInfo = null;
+      state.isAdmin = false;
       localStorage.setItem("userLogin", JSON.stringify(state.isLoggedIn));
+      localStorage.setItem("isAdmin", JSON.stringify(state.isAdmin));
+
+      toast.success(action.payload.message, {
+        position: toast.POSITION.TOP_RIGHT,
+      });
     },
     [logoutUser.rejected]: (state, action) => {
       state.loading = false;
@@ -82,9 +96,11 @@ const authSlice = createSlice({
       state.loading = false;
       state.isLoggedIn = true;
       state.userInfo = action.payload.data;
+      state.isAdmin = action.payload.data.isAdmin;
       state.error = null;
       state.fetchSuccess = true;
       localStorage.setItem("userLogin", JSON.stringify(state.isLoggedIn));
+      localStorage.setItem("isAdmin", JSON.stringify(state.isAdmin));
     },
     [validateUser.rejected]: (state, action) => {
       state.loading = false;

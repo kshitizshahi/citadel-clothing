@@ -1,5 +1,5 @@
 .shop-container {
-  background-color: var(--background-clr);
+  background-color: var(--color-profile-page-bg);
   .container {
     max-width: 84%;
     margin: 0 auto;
@@ -9,7 +9,7 @@
         font-size: 2.5rem;
         font-weight: 600;
         margin-block: 0 2.5rem;
-        color: var(--text-color);
+        color: var(--color-text);
       }
     }
   }

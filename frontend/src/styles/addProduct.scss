@@ -1,0 +1,122 @@
+@use "../styles/" as *;
+
+.add-product-container {
+  display: flex;
+  background-color: var(--color-admin-dashboard-bg);
+
+  .side-bar {
+    flex: 18%;
+    max-width: 18%;
+  }
+
+  .side-bar.hide {
+    display: none;
+  }
+
+  .form-container {
+    flex: 82%;
+    max-width: 82%;
+
+    .container {
+      width: 95%;
+      margin: auto;
+
+      .heading-container {
+        display: flex;
+        margin-top: 1.5rem;
+        align-items: center;
+        gap: 1rem;
+
+        .toggle-sidebar {
+          color: var(--color-text);
+          width: clamp(1.4rem, 1.5vw, 2.7rem);
+          height: clamp(1.4rem, 1.5vw, 2.7rem);
+          cursor: pointer;
+        }
+
+        .heading {
+          font-size: clamp(1.5rem, 1.5vw, 2.2rem);
+          color: var(--color-text);
+        }
+      }
+
+      .form-wrapper {
+        margin-block: 2rem 3rem;
+
+        .form-wrapper-container {
+          display: flex;
+          gap: 2rem;
+
+          .first-container {
+            flex: 60%;
+            max-width: 60%;
+            background-color: var(--color-admin-dashboard-foreground);
+            border-radius: 1.5rem;
+            padding: 2rem 2.5rem;
+
+            input {
+              @include inputBox();
+              margin-block: 0.8rem 1.5rem;
+              // background-color: var(--color-admin-dashboard-foreground);
+              // color: var(--color-text);
+            }
+
+            .description-label {
+              margin-bottom: 0.8rem;
+            }
+
+            .editor {
+              // .tox .tox-tinymce .tox-platform-touch {
+              // background-color: var(--color-admin-dashboard-foreground);
+              // color: var(--color-text);
+              // }
+              .tox-tinymce {
+                border-radius: 0.4rem;
+              }
+
+              .tox-editor-header {
+                border-bottom: 0.0625rem solid #ccc;
+              }
+
+              // .tox-edit-area {
+              //   border-bottom: 0.0625rem solid #ccc;
+              //   background-color: var(--color-admin-dashboard-foreground);
+              //   color: var(--color-text);
+              // }
+            }
+
+            .image-label {
+              margin-block: 1.5rem 0.8rem;
+            }
+          }
+          .second-container {
+            flex-grow: 1;
+            // flex: 30%;
+            // max-width: 30%;
+            background-color: var(--color-admin-dashboard-foreground);
+            border-radius: 1.5rem;
+          }
+        }
+      }
+    }
+  }
+
+  .form-container.full {
+    flex: 100%;
+    max-width: 100%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .admin-product-container {
+    .side-bar {
+      flex: 30%;
+      max-width: 30%;
+    }
+
+    .form-container {
+      flex: 70%;
+      max-width: 70%;
+    }
+  }
+}

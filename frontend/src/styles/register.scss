@@ -5,7 +5,7 @@
   /* background-color: rgb(156, 205, 245); */
   height: 93vh;
   /* height: max-content; */
-  background-color: var(--register-background);
+  background-color: var(--color-register-page-bg);
 
   // background: linear-gradient(
   //   to bottom right,
@@ -57,7 +57,7 @@
         text-align: center;
         margin-top: 0.5rem;
         font-size: 1.25rem;
-        color: var(--text-color);
+        color: var(--color-text);
         /* font-size: clamp(1rem, 3vw, 2.5rem); */
       }
     }
@@ -103,7 +103,7 @@
   }
 
   .redirect {
-    color: var(--text-color);
+    color: var(--color-text);
     /* margin-top: 1.5rem; */
     /* padding-bottom: 1rem; */ // font-size: 1.5rem;
     .link {

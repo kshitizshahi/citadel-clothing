@@ -3,158 +3,65 @@
 .admin-dashboard-container {
   display: flex;
 
-  background-color: var(--profile-background);
-  // height: max-content;
-
-  // background-color: #4e9c80;
-  // background-color: #18191a;
-  // background-color: #242427;
-  // background-color: rgb(190, 235, 223);
+  // background-color: var(--color-admin-dashboard-bg);
 
   .side-bar {
     flex: 20%;
     max-width: 20%;
-    border-right: 0.1rem solid var(--profile-background);
+    // background-color: var(--color-admin-dashboard-foreground);
   }
 
-  .form-container {
+  .table-container {
     flex: 80%;
     max-width: 80%;
-    background-color: var(--user-nav-background);
+    background-color: var(--color-admin-dashboard-foreground);
 
-    // background-color: aqua;
-
-    .user-address-container {
+    .container {
       width: 90%;
       margin: auto;
 
-      // background-color: #242526;
+      .heading {
+        font-size: 2rem;
+        margin-block: 2rem;
+      }
 
-      .user-profile-form {
-        // background-color: #242526;
-        // background-color: var(--background-clr);
-
-        label {
-          color: var(--text-color);
-          // font-size: 1.4rem;
-        }
-
-        @include flexBox(row, space-between);
-        // background-color: rgb(231, 240, 240);
+      table {
+        width: 100%;
+        border-collapse: collapse;
         border-radius: 0.2rem;
-        padding-top: 2rem;
+        overflow: hidden;
 
-        .profile-image {
-          flex: 30%;
-          max-width: 30%;
-          padding-top: 2rem;
-          @include flexBox(column, null);
-          align-items: center;
-          // background-color: rgb(152, 152, 201);
-          // .img {
-          //   background-repeat: no-repeat;
-          //   background-size: cover;
-          //   border-radius: 50%;
-          //   height: 60%;
-          //   width: 75%;
-          //   //   background-position: center;
-          //   //   width: 25%;
-          //   //   height: 30vh;
-          //   //   position: relative;
-          // }
-          img {
-            height: 17rem;
-            width: 17rem;
-            object-fit: cover;
-            border-radius: 50%;
-          }
+        thead tr {
+          background-color: #009879;
+          background-color: #b0d8d8;
 
-          .image-change {
-            margin-block: 1.5rem;
-          }
+          color: var(--color-text);
+          text-align: left;
+          font-weight: bold;
+        }
 
-          .profile-image-input {
-            font-size: 1.2rem;
-            cursor: pointer;
-            color: var(--text-color);
-          }
+        th,
+        td {
+          padding: 1.2rem 1.5rem;
+          color: var(--color-text);
+        }
 
-          input[type="file"] {
-            &::file-selector-button {
-              background-color: var(--change-profile-file);
-              font-size: 1.3rem;
-              // margin-left: 5rem;
-              padding: 1rem 1.5rem;
-              border-radius: 0.2rem;
-              border: none;
-              cursor: pointer;
-              color: var(--text-color);
-            }
+        tbody tr {
+          border-bottom: 0.1rem solid #dddddd;
+        }
+
+        tbody tr:nth-child(odd) {
+          background-color: var(--color-bg);
+          &:hover {
+            background-color: var(--color-user-nav-hover);
           }
         }
 
-        .input-field-container {
-          flex: 65%;
-          max-width: 65%;
-          // background-color: aquamarine;
-          .flex-container {
-            @include flexBox(row, space-between);
-            /* gap: 7rem; */
-            /* width: 80%; */
-            /* background-color: darkgoldenrod; */
-
-            .first-name-container,
-            .last-name-container {
-              @include flexBox(column, null);
-              flex: 45%;
-              max-width: 45%;
-              /* background-color: grey; */
-
-              input {
-                @include inputBox();
-              }
-            }
+        tbody tr:nth-child(even) {
+          background-color: var(--color-profile-page-bg);
+          &:hover {
+            background-color: var(--color-user-nav-hover);
           }
-
-          .other-form-fields {
-            input {
-              @include inputBox();
-            }
-          }
-        }
-      }
-
-      .user-profile-btn {
-        @include flexBox(row, null);
-        gap: 7%;
-        .update-button,
-        .change-password-button {
-          padding: 1.5rem 1.3rem;
-          background-color: var(--user-nav-current);
-          border: none;
-          color: var(--text-color);
-          font-size: 1.6rem;
-          border-radius: 0.3rem;
-          // width: 100%;
-          margin-block: 1.5rem 2.5rem;
-          cursor: pointer;
-        }
-      }
-
-      .user-address {
-        max-width: 100%;
-        .line {
-          margin-inline: auto;
-          width: 100%;
-          border: none;
-          height: 0.05rem;
-          background-color: rgb(114, 111, 111);
-          color: rgb(114, 111, 111);
-        }
-
-        h3 {
-          margin: auto;
-          color: var(--text-color);
         }
       }
     }

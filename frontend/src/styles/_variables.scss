@@ -1,62 +1,77 @@
 :root {
-  --background-clr: #f0f2f5;
-  /* --text-color: #171613; */
-  --text-color: #2c2c2a;
-  /* --text-color: #050505; */
-  /* --text-color: #1d1d1d; */
-  /* --search-bg: #e5e5e5; */
-  --search-bg: #d4caca;
-  /* --search-clr: var(--text-color);
-    --search-placeholder: var(--text-color); */
-  --search-clr: #2b2a2a;
-  --search-placeholder: #2b2a2a;
-  --nav-hover: #44af69;
-  --profile-hover: #eaf0f0;
-  --profile-dropdown-hover: #c5c1c1;
-  // --profile-background: #fbf8f1;
-  // --profile-background: #d0dbdb;
-  --profile-background: #e5e7eb;
+  // --color-text: #171613;
+  // --color-text: #050505;
+  // --color-text: #1d1d1d;
+  // --color-search-bg: #e5e5e5;
+  // --color-search-text: var(--color-text);
+  // --color-search-placeholder: var(--color-text);
+  // --color-profile-page-bg: #fbf8f1;
+  // --color-profile-page-bg: #d0dbdb;
+  // --color-profile-page-bg: rgb(250, 251, 251);
+  // --color-profile-page-bg: #e5e7eb;
   // background-color: rgb(51, 167, 128);
+  // --color-profile-page-bg: #f5f5f5;
+  // --color-profile-page-bg: rgb(223, 222, 222);
+  // --color-user-nav-bg: #eaf0f0;
+  // --color-user-nav-bg: #f0d7d7;
+  // --color-user-nav-current: #ebf8f2;
+  // --color-admin-dashboard-bg: rgb(237, 241, 245);
+  // --color-nav-bar-hover: #bc904c;
 
-  // --profile-background: #f5f5f5;
-  --register-background: #ccc;
-
-  // --profile-background: rgb(223, 222, 222);
-
-  // --user-nav-background: #eaf0f0;
-  --user-nav-background: rgb(255, 255, 255, 0.85);
-
-  // --user-nav-background: #f0d7d7;
-  --user-nav-current: #d6d2d2;
-  --user-nav-hover: #c5c1c1;
-  --change-profile-file: #d6d2d2;
-  --login-button: #4dadff;
-
-  /* --nav-hover: #bc904c; */
+  --color-bg: #f0f2f5;
+  --color-text: #2c2c2a;
+  --color-search-bg: #d4caca;
+  --color-search-text: #2b2a2a;
+  --color-search-placeholder: #2b2a2a;
+  --color-nav-bar-hover: #44af69;
+  --color-profile-icon-hover: rgb(250, 251, 251);
+  --color-profile-dropdown-hover: #c5c1c1;
+  --color-profile-page-bg: #f6f8f8;
+  --color-register-page-bg: #ccc;
+  --color-user-nav-bg: rgb(255, 255, 255, 0.85);
+  --color-user-nav-current: #f1e9e9;
+  --color-user-nav-hover: #f2f3f5;
+  --color-image-input-btn: #d6d2d2;
+  --color-login-btn: #4dadff;
+  --color-admin-dashboard-bg: #f6f8f8;
+  --color-admin-dashboard-foreground: rgb(255, 255, 255, 0.95);
+  --color-admin-dashboard-border: #dadce0;
+  --color-admin-table-head: #b0d8d8;
+  --color-add-product-btn-bg: #00ab55;
+  --color-add-product-btn-text: #ffffff;
+  --color-dropzone-border: #2c2c2a;
 }
 
 html[theme="dark"] {
-  // --background-clr: #18191a;
-  // --background-clr: #171613;
-  --background-clr: #1f1d1d;
-  /* --text-color: #fff; */
-  /* --text-color: #dee0e5; */
-  --text-color: #e4e6eb;
-  /* --search-bg: rgb(134, 141, 146); */
-  /* --search-bg: #3a3b3c; */
-  --search-bg: #3f4041;
-  /* --search-clr: var(--text-color);
-    --search-placeholder: var(--text-color); */
-  --search-clr: #a9a9a9;
-  --search-placeholder: #a9a9a9;
-  --nav-hover: #00ffff;
-  --profile-hover: #2a2a30;
-  --profile-dropdown-hover: #3a3b3c;
-  --profile-background: #181818;
-  --register-background: #2c2929;
-  --user-nav-background: #212121;
-  --user-nav-current: #303031;
-  --user-nav-hover: #383737;
-  --change-profile-file: #383737;
-  --login-button: #673d4d;
+  // --color-bg: #18191a;
+  // --color-bg: #171613;
+  // --color-text: #fff;
+  // --color-text: #dee0e5;
+  // --color-search-bg: rgb(134, 141, 146);
+  // --color-search-bg: #3a3b3c;
+  // --color-search-text: var(--color-text);
+  // --color-search-placeholder: var(--color-text);
+
+  --color-bg: #1f1d1d;
+  --color-text: #e4e6eb;
+  --color-search-bg: #3f4041;
+  --color-search-text: #a9a9a9;
+  --color-search-placeholder: #a9a9a9;
+  --color-nav-bar-hover: #00ffff;
+  --color-profile-icon-hover: #2a2a30;
+  --color-profile-dropdown-hover: #3a3b3c;
+  --color-profile-page-bg: #181818;
+  --color-register-page-bg: #2c2929;
+  --color-user-nav-bg: #212121;
+  --color-user-nav-current: #303031;
+  --color-user-nav-hover: #383737;
+  --color-image-input-btn: #383737;
+  --color-login-btn: #673d4d;
+  --color-admin-dashboard-bg: #181818;
+  --color-admin-dashboard-foreground: #212121;
+  --color-admin-dashboard-border: #60707e;
+  --color-admin-table-head: #181818;
+  --color-add-product-btn-bg: #303031;
+  --color-add-product-btn-text: #e4e6eb;
+  --color-dropzone-border: null;
 }

@@ -1,0 +1,234 @@
+@use "../styles/" as *;
+
+.admin-product-container {
+  display: flex;
+  background-color: var(--color-admin-dashboard-bg);
+
+  .side-bar {
+    flex: 18%;
+    max-width: 18%;
+  }
+
+  .side-bar.hide {
+    display: none;
+  }
+
+  .table-container {
+    flex: 82%;
+    max-width: 82%;
+    // background-color: var(--color-admin-dashboard-foreground);
+    // background-color: var(--color-profile-page-bg);
+
+    // background-color: #0b1622;
+
+    // overflow-x: auto;
+
+    .container {
+      width: 94%;
+      margin: auto;
+
+      .heading-container {
+        display: flex;
+        margin-top: 1.5rem;
+        align-items: center;
+        gap: 1rem;
+
+        .toggle-sidebar {
+          color: var(--color-text);
+          width: clamp(1.4rem, 1.5vw, 2.7rem);
+          height: clamp(1.4rem, 1.5vw, 2.7rem);
+          cursor: pointer;
+        }
+
+        .heading {
+          font-size: clamp(1.5rem, 1.5vw, 2.2rem);
+
+          color: var(--color-text);
+        }
+      }
+
+      .table {
+        overflow-x: auto;
+        background-color: var(--color-admin-dashboard-foreground);
+        // border: 0.0625rem solid var(--color-admin-dashboard-border);
+        margin-block: 2rem;
+        border-radius: 1.5rem;
+
+        @media screen and (min-width: 768px) {
+          padding: 1.5rem 3rem 3rem 3rem;
+        }
+        @media screen and (max-width: 768px) {
+          padding: 1.5rem;
+        }
+
+        .search-div {
+          // margin-block: auto;
+          display: flex;
+          justify-content: space-between;
+
+          // width: max-content;
+
+          .search-bar {
+            position: relative;
+
+            .search-input {
+              background-color: var(--color-admin-dashboard-foreground);
+              // outline: none;
+              border: 0.0625rem solid var(--color-admin-dashboard-border);
+              color: var(--color-search-text);
+              border-radius: 0.4rem;
+              padding-block: 1.2rem;
+              padding-left: 3.5rem;
+              font-size: clamp(1.2rem, 1.5vw, 1.4rem);
+              width: 100%;
+              font-family: inherit;
+              margin-bottom: 2rem;
+
+              @media screen and (max-width: 768px) {
+                max-width: 90%;
+                padding-left: 1.5rem;
+              }
+            }
+
+            .search-icon {
+              position: absolute;
+              top: 1.5rem;
+              left: 1.2rem;
+
+              color: #999;
+              width: clamp(1.4rem, 1.5vw, 1.7rem);
+              height: clamp(1.4rem, 1.5vw, 1.7rem);
+
+              @media screen and (max-width: 768px) {
+                top: 1.5rem;
+                left: 0;
+              }
+
+              &:hover {
+                cursor: pointer;
+              }
+            }
+          }
+
+          .add-product {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+            background-color: var(--color-add-product-btn-bg);
+            border: none;
+            color: var(--color-add-product-btn-text);
+
+            font-size: clamp(1rem, 1.5vw, 1.35rem);
+            font-weight: 600;
+            border-radius: 0.4rem;
+            cursor: pointer;
+
+            @media screen and (max-width: 500px) {
+              gap: 0.5rem;
+              padding: 0.7rem 0.5rem;
+            }
+
+            .add-icon {
+              font-size: clamp(1.4rem, 1.5vw, 1.6rem);
+              color: var(--color-add-product-btn-text);
+            }
+          }
+        }
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        border-radius: 0.4rem;
+        // border: 1px solid black;
+        overflow: hidden;
+
+        thead tr {
+          background-color: var(--color-user-nav-hover);
+          // background-color: var(--color-admin-table-head);
+          color: var(--color-text);
+          text-align: left;
+          font-weight: bold;
+          font-size: clamp(1.2rem, 1.5vw, 1.45rem);
+        }
+
+        th,
+        td {
+          @media screen and (min-width: 768px) {
+            padding: 1.2rem 1.5rem;
+          }
+
+          @media screen and (max-width: 768px) {
+            padding: 0.5rem;
+          }
+
+          color: var(--color-text);
+        }
+
+        td {
+          // font-size: 1.35rem;
+          font-size: clamp(1.1rem, 1.5vw, 1.35rem);
+        }
+
+        td.button-container {
+          display: flex;
+          // flex-direction: column;
+          gap: 1vw;
+
+          .edit-btn {
+            height: clamp(1rem, 1.5vw, 1.7rem);
+            width: clamp(1rem, 1.5vw, 1.7rem);
+            color: var(--color-text);
+          }
+          .delete-btn {
+            height: clamp(1rem, 1.5vw, 1.5rem);
+            width: clamp(1rem, 1.5vw, 1.5rem);
+            color: var(--color-text);
+          }
+        }
+
+        tbody tr {
+          &:hover {
+            background-color: var(--color-user-nav-hover);
+            cursor: pointer;
+          }
+        }
+
+        // tbody tr:nth-child(odd) {
+        //   //   background-color: var(--color-bg);
+        //   &:hover {
+        //     background-color: var(--color-user-nav-hover);
+        //     cursor: pointer;
+        //   }
+        // }
+
+        // tbody tr:nth-child(even) {
+        //   //   background-color: var(--color-profile-page-bg);
+        //   &:hover {
+        //     background-color: var(--color-user-nav-hover);
+        //     cursor: pointer;
+        //   }
+        // }
+      }
+    }
+  }
+
+  .table-container.full {
+    flex: 100%;
+    max-width: 100%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .admin-product-container {
+    .side-bar {
+      flex: 30%;
+      max-width: 30%;
+    }
+
+    .table-container {
+      flex: 70%;
+      max-width: 70%;
+    }
+  }
+}

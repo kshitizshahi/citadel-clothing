@@ -46,7 +46,7 @@ const NavBar = () => {
             <Link to="/contact-us">Contact Us</Link>
           </li>
           <div className="nav-search">
-            <SearchBar />
+            <SearchBar placeholder="Search here" />
           </div>
         </ul>
       </div>

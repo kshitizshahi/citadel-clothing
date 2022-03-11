@@ -6,7 +6,8 @@ import LogIn from "./pages/LogIn";
 import Register from "./pages/Register";
 import UserProfile from "./pages/UserProfile";
 import PageNotFound from "./pages/PageNotFound";
-import PrivateRoute from "./routes/PrivateRoute";
+import UserRoute from "./routes/UserRoute";
+
 import { getUser } from "./redux/thunkApi/userApi";
 import { validateUser } from "./redux/thunkApi/authApi";
 import { useEffect } from "react";
@@ -16,6 +17,9 @@ import HomePage from "./pages/HomePage";
 import Mens from "./pages/Mens";
 import Shop from "./pages/Shop";
 import Dashboard from "./pages/admin/Dashboard";
+import Products from "./pages/admin/Products";
+import AdminRoute from "./routes/AdminRoute";
+import AddProduct from "./pages/admin/AddProduct";
 
 function App() {
   const { isLoggedIn, loading } = useSelector((state) => state.authUser);
@@ -27,14 +31,13 @@ function App() {
     dispatch(validateUser({}));
   }, []);
 
-  // if (loading) {
-  // navigate("/login");
-  // return (
-  //   <div>
-  //     <LoadingDots />
-  //   </div>
-  // );
-  // }
+  if (loading) {
+    return (
+      <div>
+        <LoadingDots />
+      </div>
+    );
+  }
 
   // useEffect(() => {
   //   window.addEventListener("resize", () => {
@@ -50,7 +53,9 @@ function App() {
         <div>
           <Routes>
             <Route path="/" element={<HomePage />} exact />
-            <Route path="/admin/dashboard" element={<Dashboard />} />
+
+            <Route path="/mens" element={<Mens />} />
+
             <Route path="/shop" element={<Shop />} />
 
             {/* {!isLoggedIn && ( */}
@@ -60,8 +65,15 @@ function App() {
             </>
             {/* )} */}
 
-            <Route element={<PrivateRoute />}>
+            <Route element={<UserRoute />}>
               <Route path="/profile" element={<UserProfile />} />
+              {/* <Route path="/admin/dashboard" element={<Dashboard />} />
+              <Route path="/admin/product" element={<Products />} /> */}
+            </Route>
+            <Route element={<AdminRoute />}>
+              <Route path="/admin/dashboard" element={<Dashboard />} />
+              <Route path="/admin/product" element={<Products />} />
+              <Route path="/admin/add-product" element={<AddProduct />} />
             </Route>
             <Route path="*" element={<PageNotFound />} />
           </Routes>

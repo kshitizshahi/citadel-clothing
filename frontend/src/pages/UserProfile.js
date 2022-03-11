@@ -94,7 +94,6 @@ const UserProfile = () => {
       {loading ? (
         <LoadingDots />
       ) : (
-        // height="60vh"
         <div className="user-profile-container">
           <div className="user-profile-nav">
             <UserNav profile="profile" />
@@ -108,6 +107,7 @@ const UserProfile = () => {
                       <img
                         src={`${BASE_URL}/${userInfo.profileImage}`}
                         alt="Profile Picture"
+                        className="img"
                       />
                       /* <div
                         className="img"

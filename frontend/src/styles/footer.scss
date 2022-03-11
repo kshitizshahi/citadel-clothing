@@ -2,9 +2,9 @@
 
 .footer-container {
   @include flexBox(column, null);
-  color: var(--text-color);
+  color: var(--color-text);
   /* background-color: #171613; */
-  background-color: var(--background-clr);
+  background-color: var(--color-bg);
   /* background-color: rgb(222, 235, 235); */
   /* background-color: rgb(0, 110, 255); */
 
@@ -98,7 +98,7 @@
   .facebook-icon {
     height: 2.1rem;
     width: 2.1rem;
-    color: var(--text-color);
+    color: var(--color-text);
     margin: 2.5rem 1rem 0 0;
   }
 
@@ -107,7 +107,7 @@
   .youtube-icon {
     height: 2.1rem;
     width: 2.1rem;
-    color: var(--text-color);
+    color: var(--color-text);
     margin-inline: 1rem;
   }
 }

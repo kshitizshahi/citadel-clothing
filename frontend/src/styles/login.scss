@@ -3,7 +3,7 @@
 .login-container {
   @include flexBox(row, center);
   padding-block: 2rem;
-  background-color: var(--register-background);
+  background-color: var(--color-register-page-bg);
   // background-color: #dbdad7;
 
   height: max-content;
@@ -33,7 +33,7 @@
 
     .heading {
       margin-block: 2rem;
-      color: var(--text-color);
+      color: var(--color-text);
     }
 
     input {
@@ -43,12 +43,12 @@
 
     .login-button {
       padding: 1.3rem 2rem;
-      background-color: var(--background-clr);
-      // background-color: var(--login-button);
+      background-color: var(--color-bg);
+      // background-color: var(--color-login-btn);
 
       border: none;
       // color: white;
-      color: var(--text-color);
+      color: var(--color-text);
       font-size: 1.6rem;
       border-radius: 0.3rem;
       // width: 100%;
@@ -57,7 +57,7 @@
     }
 
     .redirect {
-      color: var(--text-color);
+      color: var(--color-text);
       padding-bottom: 0.5rem;
       /* margin-top: 1.5rem; */
       /* padding-bottom: 1rem; */ // font-size: 1.5rem;

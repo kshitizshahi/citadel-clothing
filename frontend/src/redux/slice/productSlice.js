@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 import { getAllProduct, getDiscountProduct } from "../thunkApi/productApi";
 
 const productSlice = createSlice({
@@ -18,6 +19,9 @@ const productSlice = createSlice({
       state.shopProduct = action.payload;
       state.loading = false;
       state.fetchSuccess = true;
+      toast.success(action.payload.message, {
+        position: toast.POSITION.TOP_RIGHT,
+      });
     },
     [getAllProduct.rejected]: (state, action) => {
       state.loading = false;

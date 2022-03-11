@@ -17,21 +17,21 @@ body {
   font-size: 1.45rem;
   font-family: Poppins, "Segoe UI", Helvetica, Arial, sans-serif;
 
-  /* color: var(--text-color); */
+  /* color: var(--color-text); */
 }
 
 label {
   display: block;
   // font-family: Roboto;
   font-size: clamp(1.1rem, 2vw, 1.35rem);
-  color: var(--text-color);
+  color: var(--color-text);
 
   /* font-size: 1.8rem; */
 }
 
 a {
   text-decoration: none;
-  color: var(--text-color);
+  color: var(--color-text);
 }
 
 li {
@@ -43,9 +43,9 @@ li {
 }
 
 .navigation-bar {
-  background: var(--background-clr);
+  background: var(--color-bg);
   @include flexBox(row, center);
-  color: var(--text-color);
+  color: var(--color-text);
   /* min-width: 100vw; */
   /* max-height: 30vh; */
   /* justify-content: space-evenly; */
@@ -75,7 +75,7 @@ li {
       &:hover {
         /* background-color: rgb(165, 52, 52); */
         /* border-radius: 1rem; */
-        color: var(--nav-hover);
+        color: var(--color-nav-bar-hover);
         /* border: 0.1rem solid white; */
       }
     }
@@ -109,10 +109,10 @@ li {
     position: relative;
 
     .search-input {
-      background-color: var(--search-bg);
+      background-color: var(--color-search-bg);
       outline: none;
       border: none;
-      color: var(--search-clr);
+      color: var(--color-search-text);
       border-radius: 0.5rem;
       padding: 0.8rem 1rem;
       // padding-left: 3rem;
@@ -121,7 +121,7 @@ li {
       font-family: "Poppins", sans-serif;
 
       &::placeholder {
-        color: var(--search-placeholder);
+        color: var(--color-search-placeholder);
       }
     }
 
@@ -131,9 +131,13 @@ li {
       right: 1.2rem;
       // left: 1rem;
 
-      color: var(--search-clr);
+      color: var(--color-search-text);
       width: 1.65rem;
       height: 1.65rem;
+
+      &:hover {
+        cursor: pointer;
+      }
     }
   }
 }
@@ -165,7 +169,7 @@ li {
     }
 
     .profile-icon {
-      color: var(--text-color);
+      color: var(--color-text);
       width: 2.7rem;
       height: 2.7rem;
       // padding-bottom: 1rem;
@@ -185,7 +189,7 @@ li {
       .dropdown-content {
         margin-top: 1rem;
         font-size: 1.4rem;
-        background-color: var(--profile-hover);
+        background-color: var(--color-profile-icon-hover);
         min-width: 15rem;
         box-shadow: 0 0.8rem 1.6rem 0 rgba(0, 0, 0, 0.2);
         border-radius: 0.2rem;
@@ -193,15 +197,15 @@ li {
 
         li {
           padding: 0.7rem 2rem;
-          color: var(--text-color);
+          color: var(--color-text);
 
           &:hover {
-            background-color: var(--profile-dropdown-hover);
+            background-color: var(--color-profile-dropdown-hover);
           }
         }
       }
       & svg:hover {
-        color: var(--nav-hover);
+        color: var(--color-nav-bar-hover);
       }
     }
 
@@ -220,7 +224,7 @@ li {
     margin-block: auto;
 
     .cart-icon {
-      color: var(--text-color);
+      color: var(--color-text);
       width: 2.4rem;
       height: 2.4rem;
     }

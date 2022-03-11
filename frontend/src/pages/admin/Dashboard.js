@@ -97,116 +97,48 @@ const Dashboard = () => {
           <div className="side-bar">
             <SideBar dashboard="current" height="90vh" />
           </div>
-          <div className="form-container">
-            <div className="user-address-container">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Products</th>
-                    <th>Name</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td style={{ border: "1px solid black" }}>Adidas</td>
-                    <td>Puma</td>
-                  </tr>
-                </tbody>
-              </table>
-              <form onSubmit={submitHandler} encType="multipart/form-data">
-                <div className="user-profile-form">
-                  <div className="profile-image">
-                    {userInfo && (
-                      <img
-                        src={`${BASE_URL}/${userInfo.profileImage}`}
-                        alt="Profile Picture"
-                      />
-                      /* <div
-                        className="img"
-                        style={{
-                          backgroundImage: `url(${BASE_URL}/${userInfo.profileImage})
-                          `,
-
-                        }}
-                      ></div> */
-                    )}
-
-                    <label htmlFor="imageChange" className="image-change">
-                      Change Image
-                    </label>
-                    <input
-                      type="file"
-                      id="imageChange"
-                      accept=".png, .jpg, .jpeg"
-                      // required
-                      className="profile-image-input"
-                      onChange={(e) => setUserImage(e.target.files[0])}
-                    ></input>
-                  </div>
-
-                  <div className="input-field-container">
-                    <div className="flex-container">
-                      <div className="first-name-container">
-                        <label htmlFor="firstName">First Name</label>
-                        <input
-                          type="text"
-                          id="firstName"
-                          placeholder="First Name"
-                          value={firstName}
-                          // required
-                          onChange={(e) => setFirstName(e.target.value)}
-                        ></input>
-                      </div>
-                      <div className="last-name-container">
-                        <label htmlFor="lastName">Last Name</label>
-                        <input
-                          type="text"
-                          id="lastName"
-                          placeholder="Last Name"
-                          value={lastName}
-                          // required
-                          onChange={(e) => setLastName(e.target.value)}
-                        ></input>
-                      </div>
-                    </div>
-                    <div className="other-form-fields">
-                      <div>
-                        <label htmlFor="emailAddress">Email Addresss</label>
-                        <input
-                          type="email"
-                          id="emailAddress"
-                          placeholder="Email address"
-                          value={email}
-                          // required
-                          onChange={(e) => setEmail(e.target.value)}
-                        ></input>
-                      </div>
-                      <div>
-                        <label htmlFor="phoneNumber">Phone Number</label>
-                        <input
-                          type="tel"
-                          id="phoneNumber"
-                          placeholder="Phone Number"
-                          value={phoneNumber}
-                          // required
-                          onChange={(e) => setPhoneNumber(e.target.value)}
-                        ></input>
-                      </div>
-                    </div>
-                    <div className="user-profile-btn">
-                      <Button className="update-button" text="Update Profile" />
-                      <Button
-                        className="change-password-button"
-                        text="Change Password"
-                        onClick={changePasswordHandler}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </form>
-              <div className="user-address">
-                <hr className="line" />
-                <h3> My Address Book</h3>
+          <div className="table-container">
+            <div className="container">
+              <p className="heading">Products</p>
+              <div className="table">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Sn</th>
+                      <th>Name</th>
+                      <th>Category</th>
+                      <th>Mark Price</th>
+                      <th>Discount</th>
+                      <th>Category</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Adidas</td>
+                      <td>Puma</td>
+                      <td>Puma</td>
+                      <td>Puma</td>
+                      <td>Puma</td>
+                      <td>Puma</td>
+                    </tr>
+                    <tr>
+                      <td>Adidas</td>
+                      <td>Puma</td>
+                      <td>Puma</td>
+                      <td>Puma</td>
+                      <td>Puma</td>
+                      <td>Puma</td>
+                    </tr>
+                    <tr>
+                      <td>Adidas</td>
+                      <td>Puma</td>
+                      <td>Puma</td>
+                      <td>Puma</td>
+                      <td>Puma</td>
+                      <td>Puma</td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>

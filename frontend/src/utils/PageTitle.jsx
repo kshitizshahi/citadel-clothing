@@ -4,3 +4,5 @@ export const Login_Page_Title = "Log In";
 export const Register_Page_Title = "Register";
 export const Shop_Page_Title = "Shop";
 export const Admin_Page_Dashboard = "Dashboard";
+export const Product_Page_Dashboard = "Product Details";
+export const Add_Product_Page = "Add Product";
