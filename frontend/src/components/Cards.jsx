@@ -15,7 +15,7 @@ const Cards = ({ data }) => {
                 alt="Kid's Wear"
               ></img>
               <p className={prod.discount > 0 ? "discount" : ""}>
-                {prod.discount > 0 && `${prod.discount}% off`}
+                {prod.discount > 0 && `${prod.discount}% OFF`}
               </p>
             </div>
             <div className="product-details">
@@ -36,8 +36,6 @@ const Cards = ({ data }) => {
                     ? `Rs. ${prod.markPrice}`
                     : ""}
                 </p>
-
-                {/* Rs. {prod.markPrice} */}
               </div>
             </div>
           </Link>

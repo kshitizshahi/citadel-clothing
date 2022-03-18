@@ -30,3 +30,18 @@ export const getDiscountProduct = createAsyncThunk(
     }
   }
 );
+
+export const getSingleProduct = createAsyncThunk(
+  "product/getSingle",
+  async ({ id }, { rejectWithValue }) => {
+    try {
+      const res = await axios.get(`/api/products/get/${id}`);
+      return res.data;
+    } catch (err) {
+      if (!err.response) {
+        return err.message;
+      }
+      return rejectWithValue(err.response.data);
+    }
+  }
+);

@@ -27,7 +27,7 @@ const HomePage = () => {
   const { loading, fetchSuccess, error, homeProduct } = useSelector(
     (state) => state.Product
   );
-  const { success, homeCategory } = useSelector((state) => state.Category);
+  const { success, productCategory } = useSelector((state) => state.Category);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -63,10 +63,10 @@ const HomePage = () => {
   //   }
   // };
   useEffect(() => {
-    if (!homeCategory) {
+    if (!productCategory) {
       dispatch(getCategory({}));
     } else {
-      setCategory(homeCategory.category);
+      setCategory(productCategory.category);
     }
   }, [success]);
 
@@ -90,8 +90,8 @@ const HomePage = () => {
       <Slider data={data} />
       <div className="container">
         <div className="category-container">
-          {/* {homeCategory && console.log(category)} */}
-          {homeCategory &&
+          {/* {productCategory && console.log(category)} */}
+          {productCategory &&
             category &&
             category.map((elem, index) => (
               <div key={index} className="category-items">

@@ -10,7 +10,7 @@ import UserRoute from "./routes/UserRoute";
 
 import { getUser } from "./redux/thunkApi/userApi";
 import { validateUser } from "./redux/thunkApi/authApi";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import LoadingDots from "./components/Loading";
 
 import HomePage from "./pages/HomePage";
@@ -20,16 +20,28 @@ import Dashboard from "./pages/admin/Dashboard";
 import Products from "./pages/admin/Products";
 import AdminRoute from "./routes/AdminRoute";
 import AddProduct from "./pages/admin/AddProduct";
+import Product from "./pages/Product";
 
 function App() {
-  const { isLoggedIn, loading } = useSelector((state) => state.authUser);
+  const { loading } = useSelector((state) => state.authUser);
+
   // const { isLoggedIn } = user;
+
+  // let { id } = useParams();
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(validateUser({}));
   }, []);
+
+  // useEffect(() => {
+  //   window.addEventListener("resize", () => {
+  //     if (window.innerWidth < 768) {
+  //       console.log("mobile");
+  //     }
+  //   });
+  // }, []);
 
   if (loading) {
     return (
@@ -39,36 +51,22 @@ function App() {
     );
   }
 
-  // useEffect(() => {
-  //   window.addEventListener("resize", () => {
-  //     console.log("hey");
-  //   });
-  // }, [window.innerWidth]);
-
   return (
     <Router>
       <div className="App">
-        {window.innerWidth > 768 && <NavBar />}
-        {/* style={{ minHeight: window.innerHeight }} */}
+        <NavBar />
+
         <div>
           <Routes>
             <Route path="/" element={<HomePage />} exact />
-
             <Route path="/mens" element={<Mens />} />
-
             <Route path="/shop" element={<Shop />} />
-
-            {/* {!isLoggedIn && ( */}
-            <>
-              <Route path="/login" element={<LogIn />} />
-              <Route path="/register" element={<Register />} />
-            </>
-            {/* )} */}
+            <Route path="/product/:id" element={<Product />} />
+            <Route path="/login" element={<LogIn />} />
+            <Route path="/register" element={<Register />} />
 
             <Route element={<UserRoute />}>
               <Route path="/profile" element={<UserProfile />} />
-              {/* <Route path="/admin/dashboard" element={<Dashboard />} />
-              <Route path="/admin/product" element={<Products />} /> */}
             </Route>
             <Route element={<AdminRoute />}>
               <Route path="/admin/dashboard" element={<Dashboard />} />

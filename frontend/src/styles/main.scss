@@ -17,6 +17,27 @@ body {
   font-size: 1.45rem;
   font-family: Poppins, "Segoe UI", Helvetica, Arial, sans-serif;
 
+  .swal2-popup {
+    font-size: 1.2rem;
+    font-family: "Roboto";
+
+    background-color: var(--color-swal-bg);
+    color: var(--color-swal);
+
+    .swal2-actions {
+      button {
+        font-size: 1.4rem;
+        font-family: "Roboto";
+        border-radius: 0.3rem;
+        margin-top: 1rem;
+      }
+    }
+  }
+
+  .swal2-popup .swal2-styled:focus {
+    box-shadow: none !important;
+  }
+
   /* color: var(--color-text); */
 }
 
@@ -85,6 +106,10 @@ li {
       // font-size: clamp(1.6rem, 2vw, 2rem);
       margin-block: auto;
       /* padding: 0 2rem; */
+
+      .active {
+        color: var(--color-nav-bar-hover);
+      }
     }
   }
 }

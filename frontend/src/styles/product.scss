@@ -1,0 +1,153 @@
+.product-container {
+  background-color: var(--color-admin-dashboard-bg);
+  font-family: "Open Sans";
+  font-weight: 550;
+  .container {
+    width: 84%;
+    margin: auto;
+    padding-block: 2rem;
+    // background-color: var(--color-admin-dashboard-foreground);
+
+    .wrapper {
+      // background-color: var(--color-admin-dashboard-foreground);
+      display: flex;
+      // padding: 2rem 1.5rem;
+      // border-radius: 0.4rem;
+    }
+
+    .product-image-container {
+      flex: 45%;
+      max-width: 45%;
+      height: 60vh;
+    }
+
+    .product-details-container {
+      flex: 55%;
+      max-width: 55%;
+
+      .details-container {
+        width: 90%;
+        margin: auto;
+      }
+
+      color: var(--color-text);
+
+      .heading {
+        font-size: 2.7rem;
+      }
+
+      .brand {
+        margin-block: 0.7rem 1rem;
+        font-size: 1.4rem;
+
+        a {
+          padding-left: 0.5rem;
+        }
+      }
+
+      .ratings {
+        margin-bottom: 2rem;
+      }
+
+      .price {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+
+        .product-price {
+          font-size: 1.8rem;
+          font-weight: 550;
+        }
+
+        .mark-price {
+          font-size: 1.2rem;
+          text-decoration: line-through;
+          color: gray;
+        }
+
+        .discount {
+          padding: 0.3rem 0.5rem;
+          font-size: 1.35rem;
+          background-color: var(--color-text);
+          color: var(--color-bg);
+        }
+      }
+
+      .description {
+        margin-block: 3rem;
+      }
+
+      .product-quantity {
+        display: flex;
+        gap: 1.5rem;
+        align-items: center;
+
+        label {
+          font-size: 1.6rem;
+        }
+
+        .quantity {
+          display: inline-block;
+          border-radius: 0.2rem;
+          border: 0.0625rem #a4a4a4 solid;
+          background-color: var(--color-quantity-bg);
+
+          span {
+            color: var(--color-text);
+            padding: 0.4rem 1rem;
+            cursor: pointer;
+            outline: none;
+            user-select: none;
+            // background-color: var(--color-text);
+            // color: var(--color-bg);
+
+            .subtract,
+            .add {
+              margin-block: auto;
+              height: 1.4rem;
+              width: 1.4rem;
+              padding-top: 0.2rem;
+            }
+          }
+
+          input {
+            max-width: 4rem;
+            padding: 0.4rem 0;
+
+            border-left: 0.1rem #a4a4a4 solid;
+            border-right: 0.1rem #a4a4a4 solid;
+            border-block: none;
+            // border: none;
+            font-size: 1.4rem;
+            font-family: inherit;
+            outline: none;
+            text-align: center;
+            user-select: none;
+
+            color: var(--color-text);
+
+            background-color: var(--color-quantity-bg);
+          }
+        }
+
+        .add-cart {
+          height: 2.5rem;
+          width: 2.5rem;
+          cursor: pointer;
+        }
+        & svg:hover {
+          color: rgb(179, 54, 54);
+        }
+      }
+      .line {
+        margin-inline: auto;
+        width: 100%;
+        border: none;
+        height: 0.01rem;
+        background-color: rgb(219, 216, 216);
+        color: rgb(219, 216, 216);
+        margin-top: 2rem;
+      }
+    }
+  }
+}

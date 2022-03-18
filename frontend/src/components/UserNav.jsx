@@ -1,18 +1,18 @@
 import { Link } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import "../styles/userNav.scss";
-const UserNav = ({ profile, order, height }) => {
+const UserNav = ({ current }) => {
   return (
-    <div className="user-nav-container" style={height && { height: height }}>
+    <div className="user-nav-container">
       <ul>
         <Link to="/profile">
-          <li className={profile && "current-tab"}>
+          <li className={current === "profile" ? "current-tab" : ""}>
             <Icon icon="ant-design:user-outlined" className="profile-icon" />
             <p>My Profile</p>
           </li>
         </Link>
         <Link to="/orders">
-          <li className={order && "current-tab"}>
+          <li className={current === "orders" ? "current-tab" : ""}>
             <Icon icon="clarity:list-line" className="order-icon" />
             <p>My Orders</p>
           </li>

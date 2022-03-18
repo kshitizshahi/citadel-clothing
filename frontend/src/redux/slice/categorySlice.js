@@ -15,7 +15,7 @@ const CategorySlice = createSlice({
       state.success = false;
     },
     [getCategory.fulfilled]: (state, action) => {
-      state.homeCategory = action.payload;
+      state.productCategory = action.payload;
       state.loading = false;
       state.success = true;
     },

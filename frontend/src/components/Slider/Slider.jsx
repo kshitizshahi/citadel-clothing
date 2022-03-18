@@ -2,7 +2,7 @@ import { useState } from "react";
 import "../../styles/slider.scss";
 import ButtonSlider from "../ButtonSlider";
 import Button from "../Button";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Slider = ({ data }) => {
   const [slideIndex, setSlideIndex] = useState(1);

@@ -95,6 +95,60 @@
             // max-width: 30%;
             background-color: var(--color-admin-dashboard-foreground);
             border-radius: 1.5rem;
+
+            .container {
+              width: 90%;
+              margin: auto;
+              margin-block: 2rem 3rem;
+
+              .select {
+                input {
+                  color: #2c2c2a;
+                  font-weight: 500;
+                  font-size: 1.55rem;
+                  &::placeholder {
+                    color: #999 !important;
+                    font-family: "Poppins";
+                    font-size: 1.45rem;
+                  }
+                }
+              }
+
+              input {
+                @include inputBox();
+                margin-block: 0.8rem 1.5rem;
+                // background-color: var(--color-admin-dashboard-foreground);
+                // color: var(--color-text);
+              }
+              .add-product-button {
+                padding: 1.3rem 2rem;
+                background-color: var(--color-add-product-btn-bg);
+                border: none;
+                color: var(--color-add-product-btn-text);
+                font-size: 1.6rem;
+                border-radius: 0.3rem;
+                width: 100%;
+                margin-block: 1.5rem 2.5rem;
+                cursor: pointer;
+              }
+
+              // select {
+              //   padding: 0.8rem 1rem;
+              //   font-size: 1.45rem;
+              //   // font-weight: 550;
+
+              //   width: 100%;
+              //   outline: none;
+              //   border: none;
+              //   border-radius: 0.4rem;
+              //   color: #2c2c2a;
+
+              //   option {
+              //     padding-block: 5rem;
+              //     font-size: 1.45rem;
+              //   }
+              // }
+            }
           }
         }
       }

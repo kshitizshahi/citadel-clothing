@@ -16,35 +16,67 @@
       // font-size: 1.7rem;
       font-size: clamp(1.1rem, 1.5vw, 1.6rem);
 
-      // font-weight: 600;
       padding-block: 1.5rem 0.5rem;
       // padding-left: 3.5rem;
     }
-    // .sub-heading {
-    //   text-align: center;
-    //   font-size: 1.3rem;
-    // }
 
-    ul {
+    .ul-items {
       padding-top: 2.4rem;
 
       .current-tab {
         background-color: var(--color-user-nav-current);
         font-weight: 600;
         border-radius: 0.3rem;
-        // color: var(--current-tab-color);
+      }
+
+      .sub-category {
+        font-weight: 600;
+        color: var(--color-text);
+        // color: green;
       }
 
       li {
-        @include flexBox(row, null);
-        gap: 7%;
-        padding: 1.5rem 3.5rem;
-        margin-block: 0.01rem;
-        font-size: clamp(1rem, 1.5vw, 1.35rem);
+        .dropdown {
+          position: relative;
+        }
 
-        &:hover {
-          background-color: var(--color-user-nav-hover);
-          border-radius: 0.3rem;
+        .caret {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          right: 1rem;
+          height: 1.2rem;
+          width: 1.2rem;
+          transition: transform 0.3s ease;
+        }
+        .rotate {
+          transform: translateY(-50%) rotate(90deg);
+        }
+        a {
+          // display: block;
+
+          @include flexBox(row, null);
+          gap: 7%;
+
+          padding: 1.2rem 3.5rem;
+          margin-block: 0.01rem;
+          font-size: clamp(1rem, 1.5vw, 1.35rem);
+          // width: 100%;
+
+          &:hover {
+            background-color: var(--color-user-nav-hover);
+            border-radius: 0.3rem;
+          }
+        }
+
+        .nested {
+          a {
+            padding-left: 4.3rem;
+          }
+        }
+
+        .nested.hide {
+          display: none;
         }
 
         p {
@@ -72,9 +104,11 @@
       max-width: 100%;
       margin: 0;
 
-      ul {
+      .ul-items {
         li {
-          padding: 1.5rem 0;
+          a {
+            padding: 1.5rem 0;
+          }
 
           .dashboard-icon,
           .category-icon,

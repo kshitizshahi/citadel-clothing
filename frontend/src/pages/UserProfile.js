@@ -96,7 +96,7 @@ const UserProfile = () => {
       ) : (
         <div className="user-profile-container">
           <div className="user-profile-nav">
-            <UserNav profile="profile" />
+            <UserNav current="profile" />
           </div>
           <div className="form-container">
             <div className="user-address-container">

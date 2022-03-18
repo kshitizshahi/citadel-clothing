@@ -31,14 +31,13 @@ const DropZone = forwardRef(({ onImagesChange, showPreview }, ref) => {
   const [dropFiles, setDropFiles] = useState([]);
 
   const deleteImage = (file, index) => {
-    let abc;
-    const filterImage = PreviewImagesList(dropFiles).filter((element, ind) => {
-      //   return element.name !== file.name;
-      if (ind === index) {
-        abc = ind;
+    let fileIndex;
+    const filterImage = PreviewImagesList(dropFiles).filter((element, i) => {
+      if (i === index) {
+        fileIndex = i;
       }
 
-      return ind !== index;
+      return i !== index;
     });
 
     onImagesChange(filterImage);
@@ -48,8 +47,8 @@ const DropZone = forwardRef(({ onImagesChange, showPreview }, ref) => {
         for (let j = 0; j < dropFiles[i].length; j++) {
           const elem = dropFiles[i][j];
           const name = elem.name;
-          if (name === file.name && abc === index) {
-            abc = null;
+          if (name === file.name && fileIndex === index) {
+            fileIndex = null;
             dropFiles[i].splice(j, 1);
           }
         }
@@ -58,21 +57,6 @@ const DropZone = forwardRef(({ onImagesChange, showPreview }, ref) => {
     };
 
     setDropFiles(setDrag());
-
-    // const setDrag = () => {
-    //   for (let i = 0; i < dropFiles.length; i++) {
-    //     for (let j = 0; j < dropFiles[i].length; j++) {
-    //       const elem = dropFiles[i][j];
-    //       const name = elem.name;
-    //       if (name === file.name) {
-    //         dropFiles[i].splice(j, 1);
-    //       }
-    //     }
-    //   }
-    //   return dropFiles;
-    // };
-
-    // setDropFiles(setDrag());
   };
 
   const { getRootProps, getInputProps } = useDropzone({

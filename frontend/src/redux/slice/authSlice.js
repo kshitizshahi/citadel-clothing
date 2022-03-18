@@ -79,9 +79,7 @@ const authSlice = createSlice({
       localStorage.setItem("userLogin", JSON.stringify(state.isLoggedIn));
       localStorage.setItem("isAdmin", JSON.stringify(state.isAdmin));
 
-      toast.success(action.payload.message, {
-        position: toast.POSITION.TOP_RIGHT,
-      });
+      toast.success(action.payload.message);
     },
     [logoutUser.rejected]: (state, action) => {
       state.loading = false;

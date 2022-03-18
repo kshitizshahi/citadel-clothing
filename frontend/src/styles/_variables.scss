@@ -40,6 +40,9 @@
   --color-add-product-btn-bg: #00ab55;
   --color-add-product-btn-text: #ffffff;
   --color-dropzone-border: #2c2c2a;
+  --color-swal: #545454;
+  --color-swal-bg: #ffffff;
+  --color-quantity-bg: rgb(255, 255, 255, 0.8);
 }
 
 html[theme="dark"] {
@@ -74,4 +77,7 @@ html[theme="dark"] {
   --color-add-product-btn-bg: #303031;
   --color-add-product-btn-text: #e4e6eb;
   --color-dropzone-border: null;
+  --color-swal: var(--color-text);
+  --color-swal-bg: #212121;
+  --color-quantity-bg: #212121;
 }

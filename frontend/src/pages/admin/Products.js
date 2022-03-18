@@ -9,14 +9,19 @@ import SideBar from "../../components/Admin/SideBar";
 import "../../styles/productDashboard.scss";
 import { getAllProduct } from "../../redux/thunkApi/productApi";
 import { Icon } from "@iconify/react";
+import { Modal } from "@mantine/core";
+import Button from "../../components/Button";
+import Swal from "sweetalert2";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [hideSideBar, setHideSideBar] = useState(false);
+  // const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [deleteSuccess, setDeleteSuccess] = useState(false);
 
-  const { loading, fetchSuccess, error, shopProduct } = useSelector(
-    (state) => state.Product
-  );
+  const { loading } = useSelector((state) => state.Product);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -25,12 +30,18 @@ const Products = () => {
   }, []);
 
   useEffect(() => {
-    if (!shopProduct) {
-      dispatch(getAllProduct({}));
-    } else {
-      setProducts(shopProduct.product);
-    }
-  }, [fetchSuccess]);
+    let mounted = true;
+    (async function () {
+      const response = await dispatch(getAllProduct({}));
+      if (mounted) {
+        setProducts(response.payload.product);
+      }
+    })();
+
+    return () => {
+      mounted = false;
+    };
+  }, [deleteSuccess]);
 
   const toggleSideBar = (e) => {
     setHideSideBar(!hideSideBar);
@@ -40,6 +51,36 @@ const Products = () => {
     navigate("/admin/add-product");
   };
 
+  const toggleDeleteSuccess = (e) => {
+    setDeleteSuccess(!deleteSuccess);
+  };
+
+  const deleteProduct = async (prodId) => {
+    // setOpenDeleteModal(true);
+
+    Swal.fire({
+      title: "Are you sure you want to delete the product?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Delete",
+      // showClass: {
+      //   popup: "", // disable popup animation
+      //   icon: "",
+      // },
+      // hideClass: {
+      //   popup: "swal2-hide",
+      // },
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const res = await axios.delete(`/api/products/delete/${prodId}`);
+        toast.success(res.data.message);
+        setDeleteSuccess(!deleteSuccess);
+      }
+    });
+  };
+
   return (
     <div>
       {loading ? (
@@ -47,7 +88,7 @@ const Products = () => {
       ) : (
         <div className="admin-product-container">
           <div className={hideSideBar ? "side-bar hide" : "side-bar"}>
-            <SideBar product="current" />
+            <SideBar current="product" select="product" />
           </div>
           <div
             className={hideSideBar ? "table-container full" : "table-container"}
@@ -121,7 +162,7 @@ const Products = () => {
                               <Icon
                                 icon="ant-design:delete-filled"
                                 className="delete-btn"
-                                onClick={(e) => console.log(prod.name)}
+                                onClick={(e) => deleteProduct(prod._id)}
                               />
                             </Tooltip>
                           </td>
@@ -132,6 +173,36 @@ const Products = () => {
               </div>
             </div>
           </div>
+          {/* {openDeleteModal && (
+            <>
+              <Modal
+                styles={{
+                  root: { color: "red" },
+                  inner: { color: "red" },
+                  // modal: { color: "red", backgroundColor: "black" },
+                  header: { color: "red" },
+                  overlay: { color: "red" },
+                  title: {
+                    color: "red",
+                    fontFamily: "Poppins",
+                    fontWeight: "550",
+                    fontSize: "24px",
+                    textAlign: "center",
+                  },
+                  body: { color: "red" },
+                  close: { color: "red" },
+                }}
+                size="md"
+                opened={openDeleteModal}
+                onClose={() => setOpenDeleteModal(false)}
+                title="Are you sure you want to delete the product?"
+                centered
+              >
+                <Button text="Delete" />
+                <Button text="Cancel" />
+              </Modal>
+            </>
+          )} */}
         </div>
       )}
     </div>

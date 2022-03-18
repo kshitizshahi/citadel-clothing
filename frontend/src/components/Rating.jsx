@@ -5,7 +5,9 @@ const Rating = ({ rating, numReviews }) => {
     <div
       className="rating"
       style={{
-        fontSize: "1.2rem",
+        fontSize: "1.15rem",
+        display: "flex",
+        gap: "0.5rem",
       }}
     >
       <div>
@@ -68,7 +70,7 @@ const Rating = ({ rating, numReviews }) => {
       <div>
         <span
           style={{
-            fontSize: "1.2rem",
+            fontSize: "1.15rem",
           }}
         >
           {numReviews > 1 ? `(${numReviews}) ` : `(${numReviews})`}

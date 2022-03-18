@@ -95,7 +95,7 @@ const Dashboard = () => {
       ) : (
         <div className="admin-dashboard-container">
           <div className="side-bar">
-            <SideBar dashboard="current" height="90vh" />
+            <SideBar current="dashboard" />
           </div>
           <div className="table-container">
             <div className="container">

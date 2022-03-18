@@ -25,16 +25,18 @@ const createSubCategory = asyncHandler(async (req, res) => {
 });
 
 const getSubCategory = asyncHandler(async (req, res) => {
-  const subCategory = await SubCategory.findById(req.params.id).populate(
-    "category",
-    "_id name"
-  );
-  if (subCategory) {
-    const data = defaultResponse(Category);
+  const subCategory = await SubCategory.find({
+    category: req.params.id,
+  });
 
+  if (subCategory) {
     res.status(200).json({
-      data,
+      data: subCategory,
       message: "Category fetched",
+    });
+  } else {
+    res.status(404).json({
+      message: "Sub-category not found",
     });
   }
 });

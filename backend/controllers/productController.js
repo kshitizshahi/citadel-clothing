@@ -27,9 +27,20 @@ const query = [
     path: "subCategory",
     select: "_id name",
   },
+  {
+    path: "seller",
+    select: "_id fullName",
+  },
 ];
 
 const createProduct = asyncHandler(async (req, res) => {
+  let imageArray = [];
+
+  req.files.forEach((elem) => {
+    const image = elem.path;
+    imageArray.push(image);
+  });
+
   const {
     category,
     subCategory,
@@ -41,7 +52,10 @@ const createProduct = asyncHandler(async (req, res) => {
     discount,
     totalRatings,
     averageRating,
+    countInStock,
   } = req.body;
+
+  console.log(req.body);
 
   const product = new Product({
     category,
@@ -50,12 +64,17 @@ const createProduct = asyncHandler(async (req, res) => {
     brand,
     seller,
     markPrice,
+    countInStock,
     price:
       discount && discount > 0
         ? (markPrice - (markPrice * discount) / 100).toFixed()
-        : markPrice.toFixed(),
+        : markPrice,
+    // : markPrice.toFixed(),
+
     description,
     discount: discount && discount,
+    images: imageArray,
+
     totalRatings: totalRatings,
     averageRating: averageRating,
 
@@ -115,14 +134,16 @@ const getDiscountProduct = asyncHandler(async (req, res) => {
 });
 const updateProduct = asyncHandler(async (req, res) => {
   const productId = req.params.productId;
-  const { name } = req.body;
-  const product = await Product.findById({ _id: productId })
-    .populate(query)
-    .lean();
+  const { name, isVerified, description, countInStock } = req.body;
+  const product = await Product.findById({ _id: productId }).populate(query);
+  // .lean();
 
   if (product) {
     // const data = defaultResponse(Product);
     product.name = name || product.name;
+    product.isVerified = isVerified || product.isVerified;
+    product.description = description || product.description;
+    product.countInStock = countInStock || product.countInStock;
 
     const updatedProduct = await product.save();
 
@@ -133,10 +154,28 @@ const updateProduct = asyncHandler(async (req, res) => {
   }
 });
 
+const deleteProduct = asyncHandler(async (req, res) => {
+  const { productId } = req.params;
+
+  const product = await Product.findById(productId);
+
+  if (product) {
+    await product.remove();
+    res.status(200).json({
+      message: "Product deleted",
+    });
+  } else {
+    res.status(404).json({
+      message: "Product not found",
+    });
+  }
+});
+
 export {
   createProduct,
   getProduct,
   getAllProduct,
   getDiscountProduct,
   updateProduct,
+  deleteProduct,
 };

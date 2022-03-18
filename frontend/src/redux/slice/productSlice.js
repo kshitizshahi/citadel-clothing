@@ -1,6 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
-import { getAllProduct, getDiscountProduct } from "../thunkApi/productApi";
+import {
+  getAllProduct,
+  getDiscountProduct,
+  getSingleProduct,
+} from "../thunkApi/productApi";
 
 const productSlice = createSlice({
   name: "product",
@@ -19,9 +23,7 @@ const productSlice = createSlice({
       state.shopProduct = action.payload;
       state.loading = false;
       state.fetchSuccess = true;
-      toast.success(action.payload.message, {
-        position: toast.POSITION.TOP_RIGHT,
-      });
+      // toast.success(action.payload.message);
     },
     [getAllProduct.rejected]: (state, action) => {
       state.loading = false;
@@ -39,6 +41,21 @@ const productSlice = createSlice({
       state.fetchSuccess = true;
     },
     [getDiscountProduct.rejected]: (state, action) => {
+      state.loading = false;
+      state.fetchSuccess = false;
+      state.error = action.payload;
+    },
+    [getSingleProduct.pending]: (state) => {
+      state.loading = true;
+      state.error = null;
+      state.fetchSuccess = false;
+    },
+    [getSingleProduct.fulfilled]: (state, action) => {
+      state.singleProduct = action.payload;
+      state.loading = false;
+      state.fetchSuccess = true;
+    },
+    [getSingleProduct.rejected]: (state, action) => {
       state.loading = false;
       state.fetchSuccess = false;
       state.error = action.payload;
