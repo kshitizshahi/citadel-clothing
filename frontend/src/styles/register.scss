@@ -1,4 +1,4 @@
-@use "../styles/" as *;
+@use "../styles/mixins" as *;
 
 .register-container {
   @include flexBox(row, center);

@@ -3,17 +3,34 @@ const sellerSchema = new mongoose.Schema(
   {
     fullName: {
       type: String,
-      required: [true, "Please Enter Your Name"],
-      maxLength: [30, "Name cannot exceed 30 characters"],
-      minLength: [4, "Name should have more than 4 characters"],
+      required: true,
+      maxLength: [50, "Seller name cannot be more than 50 characters"],
+      minLength: [3, "Seller name should contain at least 3 characters"],
       trim: true,
     },
-    email: { type: String, required: true, unique: true },
-    phoneNumber: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      match: [
+        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+        "Please enter a valid email",
+      ],
+    },
+    phoneNumber: {
+      type: String,
+      required: true,
+      unique: true,
+      minLength: [10, "Phone number should at least be 10 digits"],
+    },
+    password: {
+      type: String,
+      required: true,
+      minLength: [8, "Password should be 8 characters or longer"],
+    },
     profileImage: {
       type: String,
-      default: "default.png",
+      default: "uploads\\profile\\default.png",
     },
   },
   {

@@ -1,7 +1,7 @@
 .product-container {
   background-color: var(--color-admin-dashboard-bg);
   font-family: "Open Sans";
-  font-weight: 550;
+  // font-weight: 550;
   .container {
     width: 84%;
     margin: auto;
@@ -42,6 +42,7 @@
 
         a {
           padding-left: 0.5rem;
+          color: var(--color-link);
         }
       }
 
@@ -147,6 +148,28 @@
         background-color: rgb(219, 216, 216);
         color: rgb(219, 216, 216);
         margin-top: 2rem;
+      }
+
+      .seller {
+        display: flex;
+        gap: 1rem;
+        margin-block: 1.5rem 0.5rem;
+
+        label {
+          font-size: 1.4rem;
+        }
+
+        a {
+          color: var(--color-link);
+        }
+      }
+
+      .stock {
+        display: flex;
+        gap: 2.3rem;
+        label {
+          font-size: 1.4rem;
+        }
       }
     }
   }

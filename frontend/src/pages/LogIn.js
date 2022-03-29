@@ -4,21 +4,30 @@ import { useDispatch, useSelector } from "react-redux";
 import { Login_Page_Title } from "../utils/PageTitle";
 import { loginUser } from "../redux/thunkApi/authApi";
 import { useNavigate } from "react-router-dom";
-import "../styles/login.scss";
 import { toast } from "react-toastify";
 import Button from "../components/Button";
 import { PUBLIC_URL } from "../utils/BaseUrl";
 import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import "../styles/login.scss";
+
+const loginSchema = yup
+  .object({
+    email: yup.string().email("Invalid email").required("Required"),
+    password: yup.string().required("Required"),
+  })
+  .required();
 
 const LogIn = () => {
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
-
   const {
     register,
     handleSubmit,
+
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    resolver: yupResolver(loginSchema),
+  });
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -65,11 +74,11 @@ const LogIn = () => {
                 type="email"
                 id="email"
                 placeholder="Enter email"
-                {...register("email", { required: true, maxLength: 30 })}
-                // required
-                // onChange={(e) => setEmail(e.target.value)}
-              ></input>
-              {errors.email?.type === "required" && <p>Email is required.</p>}
+                // value={email}
+                {...register("email")}
+              />
+
+              <p className="error">{errors.email?.message || "\u00A0"}</p>
             </div>
             <div>
               <label htmlFor="password">Password</label>
@@ -77,12 +86,9 @@ const LogIn = () => {
                 type="password"
                 id="password"
                 placeholder="Enter password"
-                {...register("password", { required: true, maxLength: 30 })}
-
-                // required
-                // onChange={(e) => setPassword(e.target.value)}
-              ></input>
-              {errors.password && <p>Please enter password.</p>}
+                {...register("password")}
+              />
+              <p className="error">{errors.password?.message || "\u00A0"}</p>
             </div>
             <div>
               <Button className="login-button" text="Login" />
@@ -96,16 +102,6 @@ const LogIn = () => {
                 </Link>
               </p>
             </div>
-            {/* {error && (
-              <div>
-                <label>{error.message}</label>
-              </div>
-            )} */}
-            {/* {isLoggedIn && (
-            <div>
-              <label>{message}</label>
-            </div>
-          )} */}
           </div>
         </div>
       </form>

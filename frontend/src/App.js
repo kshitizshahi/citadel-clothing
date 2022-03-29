@@ -17,10 +17,11 @@ import HomePage from "./pages/HomePage";
 import Mens from "./pages/Mens";
 import Shop from "./pages/Shop";
 import Dashboard from "./pages/admin/Dashboard";
-import Products from "./pages/admin/Products";
+import Products from "./pages/admin/ListProduct";
 import AdminRoute from "./routes/AdminRoute";
 import AddProduct from "./pages/admin/AddProduct";
 import Product from "./pages/Product";
+import EditProduct from "./pages/admin/EditProduct";
 
 function App() {
   const { loading } = useSelector((state) => state.authUser);
@@ -42,13 +43,8 @@ function App() {
   //     }
   //   });
   // }, []);
-
   if (loading) {
-    return (
-      <div>
-        <LoadingDots />
-      </div>
-    );
+    <LoadingDots />;
   }
 
   return (
@@ -72,6 +68,7 @@ function App() {
               <Route path="/admin/dashboard" element={<Dashboard />} />
               <Route path="/admin/product" element={<Products />} />
               <Route path="/admin/add-product" element={<AddProduct />} />
+              <Route path="/admin/edit-product/:id" element={<EditProduct />} />
             </Route>
             <Route path="*" element={<PageNotFound />} />
           </Routes>

@@ -1,6 +1,6 @@
 @use "../styles/mixins" as *;
 
-.add-product-container {
+.edit-product-container {
   display: flex;
   background-color: var(--color-admin-dashboard-bg);
 
@@ -98,6 +98,39 @@
             .image-label {
               margin-block: 0.2rem 0.8rem;
             }
+
+            .preview {
+              display: flex;
+              gap: 1rem;
+              flex-wrap: wrap;
+              margin-top: 2rem;
+
+              .preview-single-image {
+                position: relative;
+
+                .image-style {
+                  width: 10rem;
+                  height: 10rem;
+                  border: 0.0625rem solid black;
+                  object-fit: cover;
+                }
+
+                .preview-close {
+                  position: absolute;
+                  top: 0.1rem;
+                  right: 0.1rem;
+                  color: #000;
+                  height: 1.8rem;
+                  width: 1.8rem;
+                }
+              }
+
+              .preview-drop-zone {
+                display: flex;
+                gap: 1rem;
+                flex-wrap: wrap;
+              }
+            }
           }
           .second-container {
             flex-grow: 1;
@@ -116,7 +149,6 @@
                   color: #2c2c2a;
                   font-weight: 500;
                   font-size: 1.55rem;
-                  padding-block: 1.85rem;
                   &::placeholder {
                     color: #999 !important;
                     font-family: "Poppins";

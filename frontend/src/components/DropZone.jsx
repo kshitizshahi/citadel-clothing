@@ -4,30 +4,36 @@ import { useDropzone } from "react-dropzone";
 import "../styles/dropZone.scss";
 
 const DropZone = forwardRef(({ onImagesChange, showPreview }, ref) => {
-  //   useImperativeHandle(ref, () => ({
-  //     deleteImage(file) {
-  //       const filterImage = PreviewImagesList(dropFiles).filter((element) => {
-  //         return element.name !== file.name;
-  //       });
+  useImperativeHandle(ref, () => ({
+    deleteImage(file, index) {
+      let fileIndex;
+      const filterImage = PreviewImagesList(dropFiles).filter((element, i) => {
+        if (i === index) {
+          fileIndex = i;
+        }
 
-  //       onImagesChange(filterImage);
+        return i !== index;
+      });
 
-  //       const setDrag = () => {
-  //         for (let i = 0; i < dropFiles.length; i++) {
-  //           for (let j = 0; j < dropFiles[i].length; j++) {
-  //             const elem = dropFiles[i][j];
-  //             const name = elem.name;
-  //             if (name === file.name) {
-  //               dropFiles[i].splice(j, 1);
-  //             }
-  //           }
-  //         }
-  //         return dropFiles;
-  //       };
+      onImagesChange(filterImage);
 
-  //       setDropFiles(setDrag());
-  //     },
-  //   }));
+      const setDrag = () => {
+        for (let i = 0; i < dropFiles.length; i++) {
+          for (let j = 0; j < dropFiles[i].length; j++) {
+            const elem = dropFiles[i][j];
+            const name = elem.name;
+            if (name === file.name && fileIndex === index) {
+              fileIndex = null;
+              dropFiles[i].splice(j, 1);
+            }
+          }
+        }
+        return dropFiles;
+      };
+
+      setDropFiles(setDrag());
+    },
+  }));
   const [dropFiles, setDropFiles] = useState([]);
 
   const deleteImage = (file, index) => {

@@ -1,4 +1,4 @@
-@use "../styles/" as *;
+@use "../styles/mixins" as *;
 
 .no-page {
   @include flexBox(column, center);

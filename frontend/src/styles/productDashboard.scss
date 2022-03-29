@@ -1,4 +1,4 @@
-@use "../styles/" as *;
+@use "../styles/mixins" as *;
 
 .admin-product-container {
   display: flex;
@@ -7,15 +7,21 @@
   .side-bar {
     flex: 18%;
     max-width: 18%;
+    transition: all 0.6s ease;
   }
 
   .side-bar.hide {
-    display: none;
+    flex: 0;
+    max-width: 0;
+    overflow: hidden;
   }
 
   .table-container {
-    flex: 82%;
-    max-width: 82%;
+    // flex: 82%;
+    // max-width: 82%;
+    flex-grow: 1;
+    overflow: hidden;
+
     // background-color: var(--color-admin-dashboard-foreground);
     // background-color: var(--color-profile-page-bg);
 
@@ -79,7 +85,7 @@
               border-radius: 0.4rem;
               padding-block: 0.9rem;
               padding-left: 3.5rem;
-              font-size: clamp(1.2rem, 1.5vw, 1.35rem);
+              font-size: clamp(1.2rem, 1.5vw, 1.4rem);
               width: 100%;
               font-family: inherit;
               margin-bottom: 2rem;
@@ -92,12 +98,12 @@
 
             .search-icon {
               position: absolute;
-              top: 1.38rem;
+              top: 1.2rem;
               left: 1.3rem;
 
               color: #999;
-              width: clamp(1.4rem, 1.5vw, 1.6rem);
-              height: clamp(1.4rem, 1.5vw, 1.6rem);
+              width: clamp(1.4rem, 1.5vw, 1.8rem);
+              height: clamp(1.4rem, 1.5vw, 1.8rem);
 
               @media screen and (max-width: 768px) {
                 top: 1.5rem;
@@ -212,23 +218,13 @@
       }
     }
   }
-
-  .table-container.full {
-    flex: 100%;
-    max-width: 100%;
-  }
 }
 
 @media screen and (max-width: 768px) {
   .admin-product-container {
     .side-bar {
-      flex: 30%;
-      max-width: 30%;
-    }
-
-    .table-container {
-      flex: 70%;
-      max-width: 70%;
+      flex: 40%;
+      max-width: 40%;
     }
   }
 }

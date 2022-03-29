@@ -95,7 +95,7 @@ const Dashboard = () => {
       ) : (
         <div className="admin-dashboard-container">
           <div className="side-bar">
-            <SideBar current="dashboard" />
+            <SideBar />
           </div>
           <div className="table-container">
             <div className="container">

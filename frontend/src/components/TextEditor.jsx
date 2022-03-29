@@ -1,13 +1,14 @@
 import { Editor } from "@tinymce/tinymce-react";
 import { forwardRef } from "react";
 
-const TextEditor = forwardRef(({ props }, ref) => {
+const TextEditor = forwardRef(({ ...props }, ref) => {
   return (
     <div>
       <Editor
         apiKey={process.env.REACT_APP_TINYMCE}
         onInit={(evt, editor) => (ref.current = editor)}
-        // initialValue="<p>Initial content.</p>"
+        value={props.value}
+        onEditorChange={props.onChange}
         init={{
           min_height: 175,
           height: 210,

@@ -13,6 +13,7 @@ const NavBar = () => {
   const { isLoggedIn, userInfo, isAdmin } = useSelector(
     (state) => state.authUser
   );
+
   const [openNav, setOpenNav] = useState(false);
 
   const [matches, setMatches] = useState(
@@ -50,8 +51,17 @@ const NavBar = () => {
         </Link>
       </div>
       <div className="navigation-items">
-        {openNav && matches && (
-          <div>
+        {matches && (
+          <div
+            className="navigation-side-bar"
+            style={{ width: openNav ? "20rem" : "0" }}
+          >
+            {openNav && (
+              <div className={"close"}>
+                <Icon icon="ci:close-big" id="cancel-btn" onClick={showNav} />
+              </div>
+            )}
+
             <ul>
               <li>
                 <NavLink
@@ -101,6 +111,38 @@ const NavBar = () => {
                   Contact Us
                 </NavLink>
               </li>
+              <li>
+                <NavLink
+                  to="/profile"
+                  className={({ isActive }) => (isActive ? "active" : "")}
+                >
+                  Profile
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/admin/dashboard"
+                  className={({ isActive }) => (isActive ? "active" : "")}
+                >
+                  Dashboard
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/cart"
+                  className={({ isActive }) => (isActive ? "active" : "")}
+                >
+                  Cart
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/logout"
+                  className={({ isActive }) => (isActive ? "active" : "")}
+                >
+                  Logout
+                </NavLink>
+              </li>
             </ul>
           </div>
         )}
@@ -108,7 +150,7 @@ const NavBar = () => {
           <Icon
             icon="charm:menu-hamburger"
             onClick={showNav}
-            className="toggle-sidebar"
+            className="toggle-navbar"
           />
         ) : (
           <ul className="menus">

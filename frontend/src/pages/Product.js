@@ -82,7 +82,7 @@ const Product = () => {
               <p className="heading">{product.name}</p>
               <p className="brand">
                 Brand:
-                <Link to={"/brand"}>{product.brand}</Link>
+                <Link to={`/brand/${product.brand}`}>{product.brand}</Link>
               </p>
               <div className="ratings">
                 <Rating
@@ -134,11 +134,16 @@ const Product = () => {
                 </div>
               </div>
               <hr className="line" />
-              <label>Sold by</label>
-              <p>{product?.seller?.fullName}</p>
-              <label>Stock</label>
-
-              <p>{product.countInStock}</p>
+              <div className="seller">
+                <label>Sold by:</label>
+                <Link to={`/seller/${product?.seller?.fullName}`}>
+                  <p>{product?.seller?.fullName}</p>
+                </Link>
+              </div>
+              <div className="stock">
+                <label>Stock:</label>
+                <p>{product.countInStock}</p>
+              </div>
             </div>
           </div>
         </div>

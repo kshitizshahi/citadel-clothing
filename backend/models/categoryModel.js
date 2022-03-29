@@ -11,7 +11,10 @@ const categorySchema = new mongoose.Schema(
       type: String,
       required: true,
       unique: true,
-      enum: ["Men's Fashion", "Women's Fashion", "Kid's Wear"],
+      // enum: ["Men's Fashion", "Women's Fashion", "Kid's Wear"],
+      maxLength: [50, "Category name cannot be more than 50 characters"],
+      minLength: [3, "Category name should contain at least 3 characters"],
+      trim: true,
     },
   },
   {

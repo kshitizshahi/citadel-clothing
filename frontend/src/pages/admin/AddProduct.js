@@ -10,27 +10,54 @@ import DropZone from "../../components/DropZone";
 import { toast } from "react-toastify";
 import axios from "axios";
 import TextEditor from "../../components/TextEditor";
-import "../../styles/addProduct.scss";
 import { getCategory } from "../../redux/thunkApi/categoryApi";
 import SelectBox from "../../components/SelectBox";
+import { Controller, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import "../../styles/addProduct.scss";
+
+const addProductSchema = yup
+  .object({
+    productName: yup.string().required("Required"),
+    markPrice: yup.number().required("Required"),
+    category: yup.string().required("Required"),
+    subCategory: yup.string().required("Required"),
+    seller: yup.string().required("Required"),
+    discount: yup.number().min(0).max(100).required("Required"),
+    brand: yup.string().required("Required"),
+    stock: yup.number().min(1).max(100).required("Required"),
+    textEditor: yup.string().required("Required"),
+  })
+  .required();
 
 const AddProduct = () => {
-  const [category, setCategory] = useState("");
-  const [subCategory, setSubCategory] = useState("");
-  const [productName, setProductName] = useState("");
   const [productImage, setProductImage] = useState([]);
-  const [discount, setDiscount] = useState("");
-  const [markPrice, setMarkPrice] = useState("");
-  const [brand, setBrand] = useState("");
-  const [stock, setStock] = useState("");
   const [categories, setCategories] = useState([]);
   const [subCategories, setSubCategories] = useState([]);
+  const [sellers, setSellers] = useState([]);
+
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    watch,
+    reset,
+    setValue,
+    control,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(addProductSchema),
+  });
+  const watchCategory = watch("category", "");
+  const watchEditor = watch("textEditor", "");
 
   const [hideSideBar, setHideSideBar] = useState(false);
   const editorRef = useRef(null);
 
-  let selectArray = [];
+  let selectCatArray = [];
   let selectSubCatArray = [];
+  let selectSellerArray = [];
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -39,26 +66,22 @@ const AddProduct = () => {
     (state) => state.Category
   );
 
-  const submitHandler = async (e) => {
-    e.preventDefault();
-
-    // if (selectSubCatArray.length === 0) {
-    //   setSubCategory("");
-    // }
-
+  const submitHandler = async (data) => {
     if (productImage.length > 4) {
-      toast.error("Cannot upload more than 4 images", {
-        position: toast.POSITION.TOP_RIGHT,
-      });
+      toast.error("Cannot upload more than 4 images");
+    } else if (productImage.length === 0) {
+      toast.error("Please upload product image");
     } else {
       const formdata = new FormData();
-      formdata.append("name", productName);
-      formdata.append("markPrice", markPrice);
-      formdata.append("discount", discount);
-      formdata.append("brand", brand);
-      formdata.append("stock", stock);
-      formdata.append("category", category);
-      formdata.append("subCategory", subCategory);
+      formdata.append("name", data.productName);
+      formdata.append("markPrice", data.markPrice);
+      formdata.append("discount", data.discount);
+      formdata.append("brand", data.brand);
+      formdata.append("countInStock", data.stock);
+      formdata.append("category", data.category);
+      formdata.append("seller", data.seller);
+      formdata.append("subCategory", data.subCategory);
+      formdata.append("description", data.textEditor);
 
       for (let i = 0; i < productImage.length; i++) {
         formdata.append("images", productImage[i]);
@@ -67,13 +90,13 @@ const AddProduct = () => {
       // dispatch();
       //   updateUser({ firstName, lastName, email, phoneNumber, userImage })
 
-      if (editorRef.current) {
-        formdata.append("description", editorRef.current.getContent());
-        console.log(editorRef.current.getContent());
-      }
+      // if (editorRef.current) {
+      //   formdata.append("description", editorRef.current.getContent());
+      //   console.log(editorRef.current.getContent());
+      // }
 
       const res = await axios.post(`/api/products/create`, formdata);
-      console.log(res);
+      console.log(data);
 
       toast.success(res.data.message);
 
@@ -84,7 +107,18 @@ const AddProduct = () => {
   };
 
   useEffect(() => {
+    let mounted = true;
     document.title = Add_Product_Page;
+    (async function () {
+      const res = await axios.get(`/api/sellers/get/seller`);
+      if (mounted) {
+        setSellers(res.data.data);
+      }
+    })();
+
+    return () => {
+      mounted = false;
+    };
   }, []);
 
   useEffect(() => {
@@ -92,15 +126,18 @@ const AddProduct = () => {
       dispatch(getCategory({}));
     } else {
       setCategories(productCategory.category);
+      // reset({category:data})
     }
   }, [success]);
 
   useEffect(async () => {
-    if (category !== "") {
-      const res = await axios.get(`/api/sub-category/get/${category}`);
+    if (getValues("category") !== undefined) {
+      const res = await axios.get(
+        `/api/sub-category/get/${getValues("category")}`
+      );
       setSubCategories(res.data.data);
     }
-  }, [category]);
+  }, [getValues("category")]);
 
   const toggleSideBar = (e) => {
     setHideSideBar(!hideSideBar);
@@ -111,18 +148,11 @@ const AddProduct = () => {
   };
 
   if (categories && categories.length > 0) {
-    let name = "selected";
     categories.map((elem, index) => {
-      selectArray.push({
+      selectCatArray.push({
         value: elem._id,
         label: elem.name,
       });
-    });
-
-    selectArray.push({
-      value: "2",
-      label: name,
-      selected: true,
     });
   }
 
@@ -135,6 +165,15 @@ const AddProduct = () => {
     });
   }
 
+  if (sellers && sellers.length > 0) {
+    sellers.map((elem, index) => {
+      selectSellerArray.push({
+        value: elem._id,
+        label: elem.fullName,
+      });
+    });
+  }
+
   return (
     <div>
       {loading ? (
@@ -142,11 +181,9 @@ const AddProduct = () => {
       ) : (
         <div className="add-product-container">
           <div className={hideSideBar ? "side-bar hide" : "side-bar"}>
-            <SideBar current="addProduct" select="product" />
+            <SideBar select="product" />
           </div>
-          <div
-            className={hideSideBar ? "form-container full" : "form-container"}
-          >
+          <div className="form-container">
             <div className="container">
               <div className="heading-container">
                 <Icon
@@ -159,7 +196,10 @@ const AddProduct = () => {
               </div>
 
               <div className="form-wrapper">
-                <form onSubmit={submitHandler} encType="multipart/form-data">
+                <form
+                  onSubmit={handleSubmit(submitHandler)}
+                  encType="multipart/form-data"
+                >
                   <div className="form-wrapper-container">
                     <div className="first-container">
                       <div>
@@ -168,16 +208,28 @@ const AddProduct = () => {
                           type="text"
                           id="productName"
                           placeholder="Product Name"
-                          value={productName}
                           // required
-                          onChange={(e) => setProductName(e.target.value)}
+                          {...register("productName")}
                         ></input>
+
+                        <p className="error">
+                          {errors.productName?.message || "\u00A0"}
+                        </p>
                       </div>
 
                       <div>
                         <label className="description-label">Description</label>
                         <div className="editor">
-                          <TextEditor ref={editorRef} />
+                          <Controller
+                            control={control}
+                            name="textEditor"
+                            render={({ field }) => (
+                              <TextEditor ref={editorRef} {...field} />
+                            )}
+                          />
+                          <p className="error">
+                            {errors?.textEditor?.message || "\u00A0"}
+                          </p>
                         </div>
                       </div>
                       <div>
@@ -191,45 +243,68 @@ const AddProduct = () => {
                     <div className="second-container">
                       <div className="container">
                         <div>
-                          <label htmlFor="productName">Category</label>
-                          {/* <select
-                            onChange={(e) => {
-                              setCategory(e.target.value);
-                            }}
-                          >
-                            <option placeholder="Select Category">
-                              Select Category
-                            </option>
-
-                            {categories &&
-                              categories.map((elem, index) => (
-                                <option key={index} value={elem._id}>
-                                  {elem.name}
-                                </option>
-                              ))}
-                          </select> */}
+                          <label htmlFor="category">Category</label>
                           <span className="select">
-                            <SelectBox
-                              // value={category}
-                              change={setCategory}
-                              placeholder="Select category"
-                              data={selectArray}
+                            <Controller
+                              control={control}
+                              name="category"
+                              render={({ field }) => (
+                                <SelectBox
+                                  // onChange={setCategory}
+                                  placeholder="Select category"
+                                  data={selectCatArray}
+                                  {...field}
+                                  onChange={(e) => {
+                                    field.onChange(e);
+                                    setValue("subCategory", "");
+                                  }}
+                                  // error={errors.category?.message || "\u00A0"}
+                                />
+                              )}
                             />
+                            <p className="error">
+                              {errors?.category?.message || "\u00A0"}
+                            </p>
                           </span>
                         </div>
                         <div>
-                          <label htmlFor="productName">Sub Category</label>
+                          <label htmlFor="subCategory">Sub Category</label>
                           <span className="select">
-                            <SelectBox
-                              value={selectSubCatArray.length === 0 && null}
-                              change={
-                                selectSubCatArray.length > 0
-                                  ? setSubCategory
-                                  : null
-                              }
-                              placeholder="Select sub category"
-                              data={selectSubCatArray}
+                            <Controller
+                              control={control}
+                              name="subCategory"
+                              render={({ field }) => (
+                                <SelectBox
+                                  // value={selectSubCatArray.length === 0 && ""}
+
+                                  placeholder="Select sub category"
+                                  data={selectSubCatArray}
+                                  {...field}
+                                />
+                              )}
                             />
+                            <p className="error">
+                              {errors?.subCategory?.message || "\u00A0"}
+                            </p>
+                          </span>
+                        </div>
+                        <div>
+                          <label htmlFor="seller">Seller</label>
+                          <span className="select">
+                            <Controller
+                              control={control}
+                              name="seller"
+                              render={({ field }) => (
+                                <SelectBox
+                                  placeholder="Select seller"
+                                  data={selectSellerArray}
+                                  {...field}
+                                />
+                              )}
+                            />
+                            <p className="error">
+                              {errors?.seller?.message || "\u00A0"}
+                            </p>
                           </span>
                         </div>
                         <div>
@@ -239,22 +314,26 @@ const AddProduct = () => {
                             id="markPrice"
                             placeholder="0"
                             min="0"
-                            value={markPrice}
                             // required
-                            onChange={(e) => setMarkPrice(e.target.value)}
+                            {...register("markPrice")}
                           ></input>
+                          <p className="error">
+                            {errors?.markPrice?.message || "\u00A0"}
+                          </p>
                         </div>
                         <div>
                           <label htmlFor="discount">Discount</label>
                           <input
                             type="number"
                             id="discount"
-                            min="0"
-                            max="100"
-                            value={discount}
+                            // min="0"
+                            // max="100"
                             placeholder="0"
-                            onChange={(e) => setDiscount(e.target.value)}
+                            {...register("discount")}
                           ></input>
+                          <p className="error">
+                            {errors?.discount?.message || "\u00A0"}
+                          </p>
                         </div>
                         <div>
                           <label htmlFor="brand">Brand</label>
@@ -262,10 +341,12 @@ const AddProduct = () => {
                             type="text"
                             id="brand"
                             placeholder="Brand"
-                            value={brand}
                             // required
-                            onChange={(e) => setBrand(e.target.value)}
+                            {...register("brand")}
                           ></input>
+                          <p className="error">
+                            {errors?.brand?.message || "\u00A0"}
+                          </p>
                         </div>
                         <div>
                           <label htmlFor="stock">Stock</label>
@@ -273,11 +354,13 @@ const AddProduct = () => {
                             type="number"
                             id="stock"
                             placeholder="0"
-                            min="0"
-                            value={stock}
+                            // min="1"
                             // required
-                            onChange={(e) => setStock(e.target.value)}
+                            {...register("stock")}
                           ></input>
+                          <p className="error">
+                            {errors?.stock?.message || "\u00A0"}
+                          </p>
                         </div>
                         <div className="btn-container">
                           <Button

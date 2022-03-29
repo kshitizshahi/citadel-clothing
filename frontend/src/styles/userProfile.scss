@@ -1,4 +1,4 @@
-@use "../styles/" as *;
+@use "../styles/mixins" as *;
 
 .user-profile-container {
   @include flexBox(row, center);
@@ -183,20 +183,20 @@
   }
 }
 
-// @media screen and (max-width: 768px) {
-//   .user-profile-container {
-//     padding-block: 1rem;
-//     justify-content: null;
-//     gap: 1%;
+@media screen and (max-width: 1000px) {
+  .user-profile-container {
+    padding-block: 1rem;
+    justify-content: null;
+    gap: 1%;
 
-//     .user-profile-nav {
-//       flex: 20%;
-//       max-width: 20%;
-//     }
+    .user-profile-nav {
+      flex: 20%;
+      max-width: 20%;
+    }
 
-//     .form-container {
-//       flex: 80%;
-//       max-width: 80%;
-//     }
-//   }
-// }
+    .form-container {
+      flex: 80%;
+      max-width: 80%;
+    }
+  }
+}

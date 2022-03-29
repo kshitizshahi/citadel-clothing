@@ -43,6 +43,8 @@
   --color-swal: #545454;
   --color-swal-bg: #ffffff;
   --color-quantity-bg: rgb(255, 255, 255, 0.8);
+  --color-error: #ff0033;
+  --color-link: #007185;
 }
 
 html[theme="dark"] {
@@ -80,4 +82,6 @@ html[theme="dark"] {
   --color-swal: var(--color-text);
   --color-swal-bg: #212121;
   --color-quantity-bg: #212121;
+  --color-error: #e4e6eb;
+  --color-link: gray;
 }

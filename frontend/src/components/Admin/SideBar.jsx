@@ -2,8 +2,9 @@ import { Link } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import "../../styles/sideBar.scss";
 import { useState } from "react";
+import { NavLink } from "react-router-dom";
 
-const SideBar = ({ current, select }) => {
+const SideBar = ({ select }) => {
   const [openProduct, setOpenProduct] = useState(false);
 
   return (
@@ -13,37 +14,37 @@ const SideBar = ({ current, select }) => {
 
         <ul className="ul-items">
           <li>
-            <Link
+            <NavLink
               to="/admin/dashboard"
-              className={current === "dashboard" ? "current-tab" : ""}
+              className={({ isActive }) => (isActive ? "current-tab" : "")}
             >
               <Icon icon="radix-icons:dashboard" className="dashboard-icon" />
               <p>Dashboard</p>
-            </Link>
+            </NavLink>
           </li>
           <li>
-            <Link
+            <NavLink
               to="/admin/category"
-              className={current === "category" ? "current-tab" : ""}
+              className={({ isActive }) => (isActive ? "current-tab" : "")}
             >
               <Icon
                 icon="mdi:format-list-bulleted-type"
                 className="category-icon"
               />
               <p>Category</p>
-            </Link>
+            </NavLink>
           </li>
           <li>
-            <Link
+            <NavLink
               to="/admin/sub-category"
-              className={current === "subCategory" ? "current-tab" : ""}
+              className={({ isActive }) => (isActive ? "current-tab" : "")}
             >
               <Icon
                 icon="icon-park-outline:difference-set"
                 className="sub-category-icon"
               />
               <p>Sub Category</p>
-            </Link>
+            </NavLink>
           </li>
           <li>
             <Link
@@ -67,56 +68,56 @@ const SideBar = ({ current, select }) => {
             </Link>
 
             <ul className={openProduct ? "nested" : "nested hide"}>
-              <Link
+              <NavLink
                 to="/admin/product"
-                className={current === "product" ? "sub-category" : ""}
+                className={({ isActive }) => (isActive ? "sub-category" : "")}
               >
                 <Icon icon="bi:dot" className="product-icon" />
                 <p>List Products</p>
-              </Link>
+              </NavLink>
               <li>
-                <Link
+                <NavLink
                   to="/admin/add-product"
-                  className={current === "addProduct" ? "sub-category" : ""}
+                  className={({ isActive }) => (isActive ? "sub-category" : "")}
                 >
                   <Icon icon="bi:dot" className="product-icon" />
                   <p>Add Product</p>
-                </Link>
+                </NavLink>
               </li>
               <li>
-                <Link
+                <NavLink
                   to="/admin/edit-product"
-                  className={current === "editProduct" ? "sub-category" : ""}
+                  className={({ isActive }) => (isActive ? "sub-category" : "")}
                 >
                   <Icon icon="bi:dot" className="product-icon" />
                   <p>Edit Product</p>
-                </Link>
+                </NavLink>
               </li>
             </ul>
           </li>
           <li>
-            <Link
+            <NavLink
               to="/admin/order"
-              className={current === "orders" ? "current-tab" : ""}
+              className={({ isActive }) => (isActive ? "current-tab" : "")}
             >
               <Icon icon="clarity:list-line" className="order-icon" />
               <p>Orders</p>
-            </Link>
+            </NavLink>
           </li>
           <li>
-            <Link
+            <NavLink
               to="/admin/users"
-              className={current === "users" ? "current-tab" : ""}
+              className={({ isActive }) => (isActive ? "current-tab" : "")}
             >
               <Icon icon="ant-design:user-outlined" className="user-icon" />
               <p>Users</p>
-            </Link>
+            </NavLink>
           </li>
           <li>
-            <Link to="/logout">
+            <NavLink to="/logout">
               <Icon icon="clarity:sign-out-line" className="logout-icon" />
               <p>Logout</p>
-            </Link>
+            </NavLink>
           </li>
         </ul>
       </div>

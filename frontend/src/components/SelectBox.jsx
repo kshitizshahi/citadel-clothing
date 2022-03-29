@@ -1,15 +1,12 @@
 import { Select } from "@mantine/core";
+import { forwardRef } from "react";
 
-const SelectBox = ({ value, change, placeholder, data }) => {
+const SelectBox = forwardRef(({ ...props }, ref) => {
   return (
     <div>
       <Select
-        placeholder={placeholder}
         // searchable
         // nothingFound="No options"
-        value={value}
-        onChange={change}
-        data={data}
         styles={{
           item: {
             color: "#2c2c2a",
@@ -21,9 +18,12 @@ const SelectBox = ({ value, change, placeholder, data }) => {
           selected: { color: "#2c2c2a" },
           nothingFound: { color: "#2c2c2a" },
         }}
+        ref={ref}
+        {...props}
       />
+      {/* <p className="error">{props.errors?.productName?.message || "\u00A0"}</p> */}
     </div>
   );
-};
+});
 
 export default SelectBox;

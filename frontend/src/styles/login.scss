@@ -1,4 +1,4 @@
-@use "../styles/" as *;
+@use "../styles/mixins" as *;
 
 .login-container {
   @include flexBox(row, center);
@@ -39,6 +39,13 @@
     input {
       @include inputBox();
       max-width: 90%;
+      margin-block: 0.7rem 0.3rem;
+    }
+
+    .error {
+      color: var(--color-error);
+      font-size: 1.15rem;
+      margin-block: 0.1rem 0.2rem;
     }
 
     .login-button {
@@ -66,6 +73,18 @@
         color: #185638;
         font-weight: 700;
       }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .login-container {
+    .image-container {
+      display: none;
+    }
+    .form-container {
+      flex: 75%;
+      max-width: 75%;
     }
   }
 }

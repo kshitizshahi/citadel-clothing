@@ -21,12 +21,15 @@ const productSchema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
+      maxLength: [100, "Product name cannot be more than 100 characters"],
+      minLength: [3, "Product name should contain at least 3 characters"],
+      trim: true,
     },
     brand: { type: String, required: true },
     seller: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Seller",
-      // required: true,
+      required: true,
     },
     price: {
       type: Number,
@@ -38,6 +41,8 @@ const productSchema = new mongoose.Schema(
     discount: {
       type: Number,
       default: 0,
+      min: [0, "Discount cannot be less than 0"],
+      max: [100, "Discount cannot be more than 100"],
     },
     description: {
       type: String,

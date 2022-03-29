@@ -1,4 +1,4 @@
-@use "../styles/" as *;
+@use "../styles/mixins" as *;
 
 .user-nav-container {
   // background-color: var(--color-bg);
@@ -13,22 +13,23 @@
   ul {
     padding-block: 2.4rem;
 
-    .current-tab {
-      background-color: var(--color-user-nav-current);
-      // background-color: var(--color-profile-icon-hover);
-      font-weight: 600;
-      border-radius: 0.3rem;
-      // color: var(--current-tab-color);
-    }
-
     li {
-      @include flexBox(row, null);
-      gap: 5%;
-      padding: 1.2rem 2rem;
-      margin: 0.01rem;
+      a {
+        @include flexBox(row, null);
+        gap: 5%;
+        padding: 1.2rem 2rem;
+        margin: 0.01rem;
 
-      &:hover {
-        background-color: var(--color-user-nav-hover);
+        &:hover {
+          background-color: var(--color-user-nav-hover);
+        }
+      }
+      .current-tab {
+        background-color: var(--color-user-nav-current);
+        // background-color: var(--color-profile-icon-hover);
+        font-weight: 600;
+        border-radius: 0.3rem;
+        // color: var(--current-tab-color);
       }
 
       p {

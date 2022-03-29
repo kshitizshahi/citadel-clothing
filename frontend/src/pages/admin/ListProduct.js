@@ -14,12 +14,16 @@ import Button from "../../components/Button";
 import Swal from "sweetalert2";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useForm } from "react-hook-form";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [hideSideBar, setHideSideBar] = useState(false);
   // const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [deleteSuccess, setDeleteSuccess] = useState(false);
+  const [keywords, setKeywords] = useState("");
+
+  const { setValue } = useForm({});
 
   const { loading } = useSelector((state) => state.Product);
   const dispatch = useDispatch();
@@ -31,17 +35,30 @@ const Products = () => {
 
   useEffect(() => {
     let mounted = true;
-    (async function () {
-      const response = await dispatch(getAllProduct({}));
-      if (mounted) {
-        setProducts(response.payload.product);
-      }
-    })();
+    if (keywords.length > 0) {
+      (async function () {
+        const response = await axios.get(`/api/products/search/${keywords}`);
+        if (mounted) {
+          setProducts(response.data.product);
+        }
+      })();
+    } else {
+      (async function () {
+        const response = await dispatch(getAllProduct({}));
+        if (mounted) {
+          setProducts(response.payload.product);
+        }
+      })();
+    }
 
     return () => {
       mounted = false;
     };
-  }, [deleteSuccess]);
+  }, [deleteSuccess, keywords]);
+
+  const keywordsChange = (e) => {
+    setKeywords(e.target.value);
+  };
 
   const toggleSideBar = (e) => {
     setHideSideBar(!hideSideBar);
@@ -51,8 +68,8 @@ const Products = () => {
     navigate("/admin/add-product");
   };
 
-  const toggleDeleteSuccess = (e) => {
-    setDeleteSuccess(!deleteSuccess);
+  const editNavigate = (id) => {
+    navigate(`/admin/edit-product/${id}`);
   };
 
   const deleteProduct = async (prodId) => {
@@ -88,11 +105,9 @@ const Products = () => {
       ) : (
         <div className="admin-product-container">
           <div className={hideSideBar ? "side-bar hide" : "side-bar"}>
-            <SideBar current="product" select="product" />
+            <SideBar select="product" />
           </div>
-          <div
-            className={hideSideBar ? "table-container full" : "table-container"}
-          >
+          <div className="table-container">
             <div className="container">
               <div className="heading-container">
                 <Icon
@@ -105,7 +120,10 @@ const Products = () => {
               </div>
               <div className="table">
                 <div className="search-div">
-                  <SearchBar placeholder="Search product..." />
+                  <SearchBar
+                    placeholder="Search product..."
+                    onChange={keywordsChange}
+                  />
                   <div>
                     <button
                       className="add-product"
@@ -154,7 +172,7 @@ const Products = () => {
                               <Icon
                                 icon="bx:edit"
                                 className="edit-btn"
-                                onClick={(e) => console.log(prod._id)}
+                                onClick={(e) => editNavigate(prod._id)}
                               />
                             </Tooltip>
 

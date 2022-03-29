@@ -152,12 +152,11 @@ const logout = (req, res) => {
 };
 
 const getSeller = asyncHandler(async (req, res) => {
-  const Seller = await Seller.findById(req.Seller._id);
-  if (Seller) {
-    const data = defaultResponse(Seller);
+  const seller = await Seller.find().select("-createdAt -updatedAt -password");
 
+  if (seller) {
     res.status(200).json({
-      data,
+      data: seller,
       message: "Seller fetched",
     });
   }

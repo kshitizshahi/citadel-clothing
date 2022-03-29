@@ -1,40 +1,56 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import "../styles/userNav.scss";
-const UserNav = ({ current }) => {
+const UserNav = () => {
   return (
     <div className="user-nav-container">
       <ul>
-        <Link to="/profile">
-          <li className={current === "profile" ? "current-tab" : ""}>
+        <li>
+          <NavLink
+            to="/profile"
+            className={({ isActive }) => (isActive ? "current-tab" : "")}
+          >
             <Icon icon="ant-design:user-outlined" className="profile-icon" />
             <p>My Profile</p>
-          </li>
-        </Link>
-        <Link to="/orders">
-          <li className={current === "orders" ? "current-tab" : ""}>
+          </NavLink>
+        </li>
+
+        <li>
+          <NavLink
+            to="/orders"
+            className={({ isActive }) => (isActive ? "current-tab" : "")}
+          >
             <Icon icon="clarity:list-line" className="order-icon" />
             <p>My Orders</p>
-          </li>
-        </Link>
-        <Link to="/cart">
-          <li>
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
+            to="/cart"
+            className={({ isActive }) => (isActive ? "current-tab" : "")}
+          >
             <Icon icon="feather:shopping-cart" className="cart-icon" />
             <p>My Cart</p>
-          </li>
-        </Link>
-        <Link to="/reviews">
-          <li>
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
+            to="/reviews"
+            className={({ isActive }) => (isActive ? "current-tab" : "")}
+          >
             <Icon icon="codicon:star-half" className="review-icon" />
             <p>My Reviews</p>
-          </li>
-        </Link>
-        <Link to="/logout">
-          <li>
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
+            to="/logout"
+            className={({ isActive }) => (isActive ? "current-tab" : "")}
+          >
             <Icon icon="clarity:sign-out-line" className="logout-icon" />
             <p>Logout</p>
-          </li>
-        </Link>
+          </NavLink>
+        </li>
       </ul>
     </div>
   );

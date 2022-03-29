@@ -138,8 +138,9 @@ const updateUser = asyncHandler(async (req, res) => {
       message: "User updated successfully",
     });
   } else {
-    res.status(404);
-    throw new Error("User not found");
+    res.status(404).json({
+      message: "User not found",
+    });
   }
 });
 

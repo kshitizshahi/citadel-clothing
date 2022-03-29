@@ -1,5 +1,6 @@
 import Product from "../models/ProductModel.js";
 import asyncHandler from "express-async-handler";
+import fs from "fs";
 
 const defaultResponse = (Product) => {
   return {
@@ -54,8 +55,6 @@ const createProduct = asyncHandler(async (req, res) => {
     averageRating,
     countInStock,
   } = req.body;
-
-  console.log(req.body);
 
   const product = new Product({
     category,
@@ -132,18 +131,54 @@ const getDiscountProduct = asyncHandler(async (req, res) => {
     });
   }
 });
+
 const updateProduct = asyncHandler(async (req, res) => {
+  let imageArray = [];
+  let finalImages = [];
+
+  req.files.forEach((elem) => {
+    const image = elem.path;
+    imageArray.push(image);
+  });
+
   const productId = req.params.productId;
-  const { name, isVerified, description, countInStock } = req.body;
+
+  const {
+    name,
+    isVerified,
+    description,
+    countInStock,
+    category,
+    subCategory,
+    brand,
+    seller,
+    markPrice,
+    discount,
+  } = req.body;
+
   const product = await Product.findById({ _id: productId }).populate(query);
   // .lean();
 
   if (product) {
+    finalImages = product.images.concat(imageArray);
+
     // const data = defaultResponse(Product);
     product.name = name || product.name;
     product.isVerified = isVerified || product.isVerified;
     product.description = description || product.description;
     product.countInStock = countInStock || product.countInStock;
+    product.category = category || product.category;
+    product.subCategory = subCategory || product.subCategory;
+    product.brand = brand || product.brand;
+    product.seller = seller || product.seller;
+    product.markPrice = markPrice || product.markPrice;
+    product.discount = discount || product.discount;
+    product.price =
+      discount && discount > 0
+        ? (markPrice - (markPrice * discount) / 100).toFixed()
+        : markPrice;
+    product.isOffer = discount && discount > 0 ? true : false;
+    product.images = finalImages;
 
     const updatedProduct = await product.save();
 
@@ -171,6 +206,64 @@ const deleteProduct = asyncHandler(async (req, res) => {
   }
 });
 
+const searchProduct = asyncHandler(async (req, res) => {
+  const { keywords } = req.params;
+  const product = await Product.find({
+    name: { $regex: keywords, $options: "i" },
+  })
+    .populate(query)
+    .lean();
+
+  if (product) {
+    res.status(200).json({
+      product,
+      message: "Product found",
+    });
+  } else {
+    res.status(404).json({
+      message: "Product not found",
+    });
+  }
+});
+
+const deleteImage = asyncHandler(async (req, res) => {
+  const { removeDBImages } = req.body;
+  const { productId } = req.params;
+
+  const product = await Product.findById({ _id: productId });
+
+  if (product) {
+    const productImageDelete = await Product.updateOne(
+      { _id: productId },
+      {
+        $pull: {
+          images: {
+            $in: removeDBImages,
+          },
+        },
+      }
+    );
+
+    removeDBImages.forEach((elem) => {
+      fs.unlink(elem, (err) => {
+        if (err) {
+          return console.error(err);
+        }
+      });
+    });
+
+    if (productImageDelete) {
+      res.status(200).json({
+        message: "Product image deleted",
+      });
+    } else {
+      res.status(404).json({
+        message: "Product not found",
+      });
+    }
+  }
+});
+
 export {
   createProduct,
   getProduct,
@@ -178,4 +271,6 @@ export {
   getDiscountProduct,
   updateProduct,
   deleteProduct,
+  searchProduct,
+  deleteImage,
 };
