@@ -1,32 +1,42 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Add_Product_Page } from "../../utils/PageTitle";
-import Button from "../../components/Button";
-import LoadingDots from "../../components/Loading";
-import SideBar from "../../components/Admin/SideBar";
+import { Add_Product_Page } from "../../../utils/PageTitle";
+import Button from "../../../components/Button";
+import LoadingDots from "../../../components/Loading";
+import SideBar from "../../../components/Admin/SideBar";
 import { Icon } from "@iconify/react";
-import DropZone from "../../components/DropZone";
+import DropZone from "../../../components/DropZone";
 import { toast } from "react-toastify";
 import axios from "axios";
-import TextEditor from "../../components/TextEditor";
-import { getCategory } from "../../redux/thunkApi/categoryApi";
-import SelectBox from "../../components/SelectBox";
+import TextEditor from "../../../components/TextEditor";
+import { getCategory } from "../../../redux/thunkApi/categoryApi";
+import SelectBox from "../../../components/SelectBox";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import "../../styles/addProduct.scss";
+import "../../../styles/addProduct.scss";
 
 const addProductSchema = yup
   .object({
     productName: yup.string().required("Required"),
-    markPrice: yup.number().required("Required"),
+    markPrice: yup.number().required("Required").typeError("Required"),
     category: yup.string().required("Required"),
     subCategory: yup.string().required("Required"),
     seller: yup.string().required("Required"),
-    discount: yup.number().min(0).max(100).required("Required"),
+    discount: yup
+      .number()
+      .min(0)
+      .max(100)
+      .required("Required")
+      .typeError("Required"),
     brand: yup.string().required("Required"),
-    stock: yup.number().min(1).max(100).required("Required"),
+    stock: yup
+      .number()
+      .min(1)
+      .max(100)
+      .required("Required")
+      .typeError("Required"),
     textEditor: yup.string().required("Required"),
   })
   .required();
@@ -62,9 +72,7 @@ const AddProduct = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { loading, success, productCategory } = useSelector(
-    (state) => state.Category
-  );
+  const { loading } = useSelector((state) => state.Category);
 
   const submitHandler = async (data) => {
     if (productImage.length > 4) {
@@ -87,21 +95,20 @@ const AddProduct = () => {
         formdata.append("images", productImage[i]);
       }
 
-      // dispatch();
-      //   updateUser({ firstName, lastName, email, phoneNumber, userImage })
-
       // if (editorRef.current) {
       //   formdata.append("description", editorRef.current.getContent());
       //   console.log(editorRef.current.getContent());
       // }
 
-      const res = await axios.post(`/api/products/create`, formdata);
-      console.log(data);
+      try {
+        const res = await axios.post(`/api/products/create`, formdata);
+        toast.success(res.data.message);
 
-      toast.success(res.data.message);
-
-      if (res.data.message) {
-        navigate("/admin/product");
+        if (res.data.message) {
+          navigate("/admin/product");
+        }
+      } catch (error) {
+        toast.error(error.response.data.message);
       }
     }
   };
@@ -110,9 +117,13 @@ const AddProduct = () => {
     let mounted = true;
     document.title = Add_Product_Page;
     (async function () {
-      const res = await axios.get(`/api/sellers/get/seller`);
-      if (mounted) {
-        setSellers(res.data.data);
+      try {
+        const res = await axios.get(`/api/sellers/get/seller`);
+        if (mounted) {
+          setSellers(res.data.data);
+        }
+      } catch (error) {
+        toast.error(error.response.data.message);
       }
     })();
 
@@ -122,20 +133,29 @@ const AddProduct = () => {
   }, []);
 
   useEffect(() => {
-    if (!productCategory) {
-      dispatch(getCategory({}));
-    } else {
-      setCategories(productCategory.category);
-      // reset({category:data})
-    }
-  }, [success]);
+    let mounted = true;
+    (async function () {
+      const response = await dispatch(getCategory({}));
+      if (mounted) {
+        setCategories(response.payload.category);
+      }
+    })();
+
+    return () => {
+      mounted = false;
+    };
+  }, [dispatch]);
 
   useEffect(async () => {
     if (getValues("category") !== undefined) {
-      const res = await axios.get(
-        `/api/sub-category/get/${getValues("category")}`
-      );
-      setSubCategories(res.data.data);
+      try {
+        const res = await axios.get(
+          `/api/sub-category/get/category/${getValues("category")}`
+        );
+        setSubCategories(res.data.data);
+      } catch (error) {
+        toast.error(error.response.data.message);
+      }
     }
   }, [getValues("category")]);
 

@@ -1,0 +1,191 @@
+@use "../styles/mixins" as *;
+
+.add-customer-container {
+  display: flex;
+  background-color: var(--color-admin-dashboard-bg);
+
+  .side-bar {
+    flex: 18%;
+    max-width: 18%;
+    min-height: 70vh;
+    transition: all 0.6s ease;
+  }
+
+  .side-bar.hide {
+    flex: 0;
+    max-width: 0;
+    overflow: hidden;
+  }
+
+  .error {
+    color: var(--color-error);
+    font-size: 1rem;
+    margin-block: 0.2rem;
+  }
+
+  .form-container {
+    // flex: 82%;
+    // max-width: 82%;
+    flex-grow: 1;
+
+    .container {
+      width: 95%;
+      margin: auto;
+
+      .heading-container {
+        display: flex;
+        margin-top: 1.5rem;
+        align-items: center;
+        gap: 1rem;
+
+        .toggle-sidebar {
+          color: var(--color-text);
+          width: clamp(1.4rem, 1.5vw, 2.7rem);
+          height: clamp(1.4rem, 1.5vw, 2.7rem);
+          cursor: pointer;
+        }
+
+        .heading {
+          font-size: clamp(1.5rem, 1.5vw, 2.2rem);
+          color: var(--color-text);
+        }
+      }
+
+      .form-wrapper {
+        margin-block: 2rem 3rem;
+        background-color: var(--color-admin-dashboard-foreground);
+        border-radius: 1.5rem;
+
+        .form-wrapper-container {
+          //   max-width: 70%;
+          padding: 2.5rem 3.5rem;
+          @include flexBox(row, space-between);
+
+          .profile-image {
+            flex: 40%;
+            max-width: 40%;
+            padding-top: 2rem;
+            @include flexBox(column, null);
+            align-items: center;
+
+            .img {
+              @media screen and (max-width: 768px) {
+                width: 14rem;
+                height: 14rem;
+              }
+              @media screen and (max-width: 600px) {
+                width: 11rem;
+                height: 11rem;
+              }
+
+              @media screen and (min-width: 768px) {
+                width: 17rem;
+                height: 17rem;
+              }
+
+              @media screen and (min-width: 1024px) {
+                width: 20rem;
+                height: 20rem;
+              }
+              object-fit: cover;
+              border-radius: 50%;
+            }
+
+            .image-label {
+              margin-block: 1.5rem 0;
+            }
+
+            .profile-image-input {
+              font-size: clamp(1rem, 1vw, 1.2rem);
+
+              color: var(--color-text);
+            }
+
+            input[type="file"] {
+              &::file-selector-button {
+                background-color: var(--color-image-input-btn);
+                font-size: clamp(1rem, 1vw, 1.3rem);
+                padding: 1rem 1.5rem;
+                border-radius: 0.2rem;
+                border: none;
+                cursor: pointer;
+                color: var(--color-text);
+              }
+            }
+          }
+
+          .input-field-container {
+            flex-grow: 1;
+            .flex-container {
+              @include flexBox(row, space-between);
+
+              .first-name-container,
+              .last-name-container {
+                @include flexBox(column, null);
+                flex: 45%;
+                max-width: 45%;
+
+                input {
+                  @include inputBox();
+                  margin-block: 0.8rem 0;
+                }
+              }
+            }
+
+            .other-form-fields {
+              input {
+                @include inputBox();
+                margin-block: 0.8rem 0;
+              }
+            }
+          }
+
+          .add-category-button {
+            padding: 1.3rem 1rem;
+            background-color: var(--color-add-product-btn-bg);
+            border: none;
+            color: var(--color-add-product-btn-text);
+            font-size: 1.6rem;
+            border-radius: 0.3rem;
+            // width: 14rem;
+            max-width: 100%;
+            margin-block: 1.5rem 0.5rem;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .add-customer-container {
+    // flex-direction: column;
+
+    .side-bar {
+      //   flex-grow: 1;
+      //   max-width: 100%;
+      min-height: max-content;
+    }
+
+    .form-container {
+      // flex-grow: 1;
+      // max-width: 100%;
+      .container {
+        .form-wrapper {
+          .form-wrapper-container {
+            .input-field-container {
+              .flex-container {
+                @include flexBox(column, null);
+                .first-name-container,
+                .last-name-container {
+                  max-width: 100%;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

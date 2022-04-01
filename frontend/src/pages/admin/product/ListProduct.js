@@ -1,45 +1,46 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Product_Page_Dashboard } from "../../utils/PageTitle";
-import SearchBar from "../../components/SearchBar";
+import { Product_Page_Details } from "../../../utils/PageTitle";
+import SearchBar from "../../../components/SearchBar";
 import { useNavigate } from "react-router-dom";
 import { Tooltip } from "@mantine/core";
-import LoadingDots from "../../components/Loading";
-import SideBar from "../../components/Admin/SideBar";
-import "../../styles/productDashboard.scss";
-import { getAllProduct } from "../../redux/thunkApi/productApi";
+import LoadingDots from "../../../components/Loading";
+import SideBar from "../../../components/Admin/SideBar";
+import "../../../styles/listProduct.scss";
+import { getAllProduct } from "../../../redux/thunkApi/productApi";
 import { Icon } from "@iconify/react";
-import { Modal } from "@mantine/core";
-import Button from "../../components/Button";
+// import { Modal } from "@mantine/core";
+// import Button from "../../../components/Button";
 import Swal from "sweetalert2";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useForm } from "react-hook-form";
 
-const Products = () => {
+const ListProduct = () => {
   const [products, setProducts] = useState([]);
   const [hideSideBar, setHideSideBar] = useState(false);
   // const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [deleteSuccess, setDeleteSuccess] = useState(false);
   const [keywords, setKeywords] = useState("");
 
-  const { setValue } = useForm({});
-
   const { loading } = useSelector((state) => state.Product);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
-    document.title = Product_Page_Dashboard;
+    document.title = Product_Page_Details;
   }, []);
 
   useEffect(() => {
     let mounted = true;
     if (keywords.length > 0) {
       (async function () {
-        const response = await axios.get(`/api/products/search/${keywords}`);
-        if (mounted) {
-          setProducts(response.data.product);
+        try {
+          const response = await axios.get(`/api/products/search/${keywords}`);
+          if (mounted) {
+            setProducts(response.data.product);
+          }
+        } catch (error) {
+          toast.error(error.response.data.message);
         }
       })();
     } else {
@@ -54,7 +55,7 @@ const Products = () => {
     return () => {
       mounted = false;
     };
-  }, [deleteSuccess, keywords]);
+  }, [deleteSuccess, keywords, dispatch]);
 
   const keywordsChange = (e) => {
     setKeywords(e.target.value);
@@ -91,9 +92,13 @@ const Products = () => {
       // },
     }).then(async (result) => {
       if (result.isConfirmed) {
-        const res = await axios.delete(`/api/products/delete/${prodId}`);
-        toast.success(res.data.message);
-        setDeleteSuccess(!deleteSuccess);
+        try {
+          const res = await axios.delete(`/api/products/delete/${prodId}`);
+          toast.success(res.data.message);
+          setDeleteSuccess(!deleteSuccess);
+        } catch (error) {
+          toast.error(error.response.data.message);
+        }
       }
     });
   };
@@ -146,6 +151,7 @@ const Products = () => {
                       <th>Sub Category</th>
                       <th>Mark Price</th>
                       <th>Discount</th>
+                      <th>Price</th>
                       <th>Verified</th>
                       <th>Stock</th>
                       <th>Actions</th>
@@ -165,6 +171,7 @@ const Products = () => {
                           </td>
                           <td>Rs. {prod.markPrice}</td>
                           <td>{prod.discount}%</td>
+                          <td>Rs. {prod.price}</td>
                           <td>{prod.isVerified ? "True" : "False"}</td>
                           <td>{prod.countInStock}</td>
                           <td className="button-container">
@@ -227,4 +234,4 @@ const Products = () => {
   );
 };
 
-export default Products;
+export default ListProduct;

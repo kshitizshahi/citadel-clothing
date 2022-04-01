@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
 
 const ProgressBar = () => {
   const [progress, setProgress] = useState(0);

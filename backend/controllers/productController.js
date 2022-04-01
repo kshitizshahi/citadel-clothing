@@ -195,6 +195,14 @@ const deleteProduct = asyncHandler(async (req, res) => {
   const product = await Product.findById(productId);
 
   if (product) {
+    product.images.forEach((elem) => {
+      fs.unlink(elem, (err) => {
+        if (err) {
+          return console.error(err);
+        }
+      });
+    });
+
     await product.remove();
     res.status(200).json({
       message: "Product deleted",

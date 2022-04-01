@@ -75,9 +75,7 @@ const DropZone = forwardRef(({ onImagesChange, showPreview }, ref) => {
 
   const PreviewImagesList = (dropFiles) => {
     let finalImage = [];
-    dropFiles.map((elem) => {
-      elem.map((file) => finalImage.push(file));
-    });
+    dropFiles.map((elem) => elem.map((file) => finalImage.push(file)));
 
     return finalImage;
   };
@@ -85,7 +83,11 @@ const DropZone = forwardRef(({ onImagesChange, showPreview }, ref) => {
   const previewImages = PreviewImagesList(dropFiles).map(
     (previewFile, index) => (
       <div key={index} className="preview-single-image">
-        <img src={URL.createObjectURL(previewFile)} className="image-style" />
+        <img
+          src={URL.createObjectURL(previewFile)}
+          className="image-style"
+          alt=""
+        />
 
         <Icon
           icon="ci:close-big"

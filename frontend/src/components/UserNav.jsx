@@ -1,4 +1,4 @@
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import "../styles/userNav.scss";
 const UserNav = () => {

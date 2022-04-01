@@ -39,7 +39,7 @@ const Slider = ({ data }) => {
           key={index}
           className={slideIndex === index + 1 ? "slide active" : "slide"}
         >
-          <img src={elem.image} alt={`image ${index}`} />
+          <img src={elem.image} alt="" />
 
           <div className={`${elem.className}`}>
             <h1>{elem.title}</h1>

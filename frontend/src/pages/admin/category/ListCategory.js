@@ -1,0 +1,186 @@
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Category_Page_Details } from "../../../utils/PageTitle";
+import SearchBar from "../../../components/SearchBar";
+import { useNavigate } from "react-router-dom";
+import { Tooltip } from "@mantine/core";
+import LoadingDots from "../../../components/Loading";
+import SideBar from "../../../components/Admin/SideBar";
+import "../../../styles/listCategory.scss";
+import { Icon } from "@iconify/react";
+import Swal from "sweetalert2";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { getCategory } from "../../../redux/thunkApi/categoryApi";
+
+const ListCategory = () => {
+  const [category, setCategory] = useState([]);
+  const [hideSideBar, setHideSideBar] = useState(false);
+  const [deleteSuccess, setDeleteSuccess] = useState(false);
+  const [keywords, setKeywords] = useState("");
+
+  const { loading } = useSelector((state) => state.Product);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    document.title = Category_Page_Details;
+  }, []);
+
+  useEffect(() => {
+    let mounted = true;
+    if (keywords.length > 0) {
+      (async function () {
+        try {
+          const response = await axios.get(`/api/category/search/${keywords}`);
+          if (mounted) {
+            setCategory(response.data.category);
+          }
+        } catch (error) {
+          toast.error(error.response.data.message);
+        }
+      })();
+    } else {
+      (async function () {
+        const response = await dispatch(getCategory({}));
+        if (mounted) {
+          setCategory(response.payload.category);
+        }
+      })();
+    }
+
+    return () => {
+      mounted = false;
+      // setCategory({});
+    };
+  }, [deleteSuccess, keywords, dispatch]);
+
+  const keywordsChange = (e) => {
+    setKeywords(e.target.value);
+  };
+
+  const toggleSideBar = (e) => {
+    setHideSideBar(!hideSideBar);
+  };
+
+  const addCategoryNavigator = () => {
+    navigate("/admin/add-category");
+  };
+
+  const editNavigate = (id) => {
+    navigate(`/admin/edit-category/${id}`);
+  };
+
+  const deleteCategory = async (catId) => {
+    Swal.fire({
+      title: "Are you sure you want to delete the category?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Delete",
+      // showClass: {
+      //   popup: "", // disable popup animation
+      //   icon: "",
+      // },
+      // hideClass: {
+      //   popup: "swal2-hide",
+      // },
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const res = await axios.delete(`/api/category/delete/${catId}`);
+          toast.success(res.data.message);
+          setDeleteSuccess(!deleteSuccess);
+        } catch (error) {
+          toast.error(error.response.data.message);
+        }
+      }
+    });
+  };
+
+  return (
+    <div>
+      {loading ? (
+        <LoadingDots />
+      ) : (
+        <div className="admin-category-container">
+          <div className={hideSideBar ? "side-bar hide" : "side-bar"}>
+            <SideBar select="category" />
+          </div>
+          <div className="table-container">
+            <div className="container">
+              <div className="heading-container">
+                <Icon
+                  icon="charm:menu-hamburger"
+                  onClick={toggleSideBar}
+                  className="toggle-sidebar"
+                />
+
+                <p className="heading">Category</p>
+              </div>
+              <div className="table">
+                <div className="search-div">
+                  <SearchBar
+                    placeholder="Search category..."
+                    onChange={keywordsChange}
+                  />
+                  <div>
+                    <button
+                      className="add-category"
+                      onClick={addCategoryNavigator}
+                    >
+                      <Icon
+                        icon="ant-design:plus-outlined"
+                        className="add-icon"
+                      />
+                      New Category
+                    </button>
+                  </div>
+                </div>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Sn</th>
+                      <th>Name</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {category &&
+                      category.map((cat, index) => (
+                        <tr key={index}>
+                          <td>{index + 1}</td>
+                          <td>{cat.name}</td>
+
+                          <td className="button-container">
+                            <Tooltip label="Edit" color="green" withArrow>
+                              <Icon
+                                icon="bx:edit"
+                                className="edit-btn"
+                                onClick={(e) => editNavigate(cat._id)}
+                              />
+                            </Tooltip>
+
+                            <Tooltip label="Delete" color="red" withArrow>
+                              <Icon
+                                icon="ant-design:delete-filled"
+                                className="delete-btn"
+                                onClick={(e) => deleteCategory(cat._id)}
+                              />
+                            </Tooltip>
+                          </td>
+                        </tr>
+                      ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default ListCategory;

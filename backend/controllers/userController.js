@@ -6,6 +6,8 @@ import {
   generateRefreshToken,
 } from "../configs/generateToken.js";
 
+import fs from "fs";
+
 const defaultResponse = (user) => {
   return {
     _id: user._id,
@@ -42,6 +44,7 @@ const register = asyncHandler(async (req, res) => {
       email,
       phoneNumber,
       password: bcrypt.hashSync(password, 8),
+      profileImage: req.file?.path,
       isAdmin,
     });
     const createdUser = await admin_user.save();
@@ -57,6 +60,7 @@ const register = asyncHandler(async (req, res) => {
       email,
       phoneNumber,
       password: bcrypt.hashSync(password, 8),
+      profileImage: req.file?.path,
     });
     const createdUser = await user.save();
     const data = defaultResponse(createdUser);
@@ -108,32 +112,51 @@ const login = asyncHandler(async (req, res) => {
 });
 
 const updateUser = asyncHandler(async (req, res) => {
-  // const user = await User.findById(req.params.userId);
   const user = await User.findById(req.user);
 
-  const { firstName, lastName, email, phoneNumber } = req.body;
+  const {
+    firstName,
+    lastName,
+    email,
+    phoneNumber,
+    oldPassword,
+    newPassword,
+    confirmNewPassword,
+  } = req.body;
+
+  const deleteImage = user.profileImage;
 
   if (user) {
+    if (newPassword || confirmNewPassword || oldPassword) {
+      if (newPassword !== confirmNewPassword) {
+        res.status(400).json({ message: "Password does not match" });
+      } else {
+        if (bcrypt.compareSync(oldPassword, user.password)) {
+          user.password = bcrypt.hashSync(newPassword, 8);
+        } else {
+          res.status(400).json({ message: "Old Password does not match" });
+        }
+      }
+    }
+
+    if (req?.file) {
+      fs.unlink(deleteImage, (err) => {
+        if (err) {
+          return console.error(err);
+        }
+      });
+    }
+
     user.firstName = firstName || user.firstName;
     user.lastName = lastName || user.lastName;
     user.email = email || user.email;
     user.phoneNumber = phoneNumber || user.phoneNumber;
-
     user.profileImage = req.file ? req.file.path : user.profileImage;
 
     const updatedProfile = await user.save();
     const data = defaultResponse(updatedProfile);
 
     res.status(200).json({
-      // data: {
-      //   _id: user._id,
-      //   firstName: user.firstName,
-      //   lastName: user.lastName,
-      //   email: user.email,
-      //   phoneNumber: user.phoneNumber,
-      //   profileImage: user.profileImage,
-      //   isAdmin: user.isAdmin,
-      // },
       data,
       message: "User updated successfully",
     });
@@ -181,4 +204,196 @@ const getUser = asyncHandler(async (req, res) => {
   }
 });
 
-export { register, login, updateUser, getAuthToken, logout, getUser };
+const getAllCustomers = asyncHandler(async (req, res) => {
+  const customers = await User.find({
+    isAdmin: false,
+  }).select("-createdAt -updatedAt -password");
+  if (customers) {
+    res.status(200).json({
+      customers,
+      message: "User fetched",
+    });
+  }
+});
+
+const searchCustomers = asyncHandler(async (req, res) => {
+  const { keywords } = req.params;
+  const customers = await User.find({
+    firstName: { $regex: keywords, $options: "i" },
+  });
+
+  if (customers) {
+    res.status(200).json({
+      customers,
+      message: "Customers found",
+    });
+  } else {
+    res.status(404).json({
+      message: "Customers not found",
+    });
+  }
+});
+
+const deleteCustomer = asyncHandler(async (req, res) => {
+  const { customerId } = req.params;
+
+  const customer = await User.findById(customerId);
+
+  if (customer) {
+    fs.unlink(customer.profileImage, (err) => {
+      if (err) {
+        return console.error(err);
+      }
+    });
+    await customer.remove();
+    res.status(200).json({
+      message: "Customer deleted",
+    });
+  } else {
+    res.status(404).json({
+      message: "Customer not found",
+    });
+  }
+});
+
+const getAllUsersEmail = asyncHandler(async (req, res) => {
+  const users = await User.find({}).select("email -_id");
+  if (users) {
+    res.status(200).json({
+      users,
+      message: "User fetched",
+    });
+  }
+});
+
+const getCustomer = asyncHandler(async (req, res) => {
+  const { customerId } = req.params;
+  const customer = await User.findById(customerId).select(
+    "-createdAt -updatedAt -password"
+  );
+
+  if (customer) {
+    res.status(200).json({
+      customer,
+      message: "Customer fetched",
+    });
+  } else {
+    res.status(404).json({
+      message: "Customer not found",
+    });
+  }
+});
+
+const getOtherUsersEmail = asyncHandler(async (req, res) => {
+  const { customerId } = req.params;
+
+  const users = await User.findById({ _id: customerId });
+
+  if (users) {
+    const otherUsers = await User.find({
+      _id: { $ne: users._id },
+    }).select("email -_id");
+
+    res.status(200).json({
+      otherUsers,
+      message: "Other users email fetched",
+    });
+  } else {
+    res.status(404).json({
+      message: "Users not found",
+    });
+  }
+});
+
+const updateCustomer = asyncHandler(async (req, res) => {
+  const { customerId } = req.params;
+  const user = await User.findById(customerId);
+
+  const {
+    firstName,
+    lastName,
+    email,
+    phoneNumber,
+    oldPassword,
+    newPassword,
+    confirmNewPassword,
+  } = req.body;
+
+  const deleteImage = user.profileImage;
+
+  if (user) {
+    if (newPassword || confirmNewPassword || oldPassword) {
+      if (newPassword !== confirmNewPassword) {
+        res.status(400).json({ message: "Password does not match" });
+      } else {
+        if (bcrypt.compareSync(oldPassword, user.password)) {
+          user.password = bcrypt.hashSync(newPassword, 8);
+        } else {
+          res.status(400).json({ message: "Old Password does not match" });
+        }
+      }
+    }
+
+    if (req?.file) {
+      fs.unlink(deleteImage, (err) => {
+        if (err) {
+          return console.error(err);
+        }
+      });
+    }
+
+    user.firstName = firstName || user.firstName;
+    user.lastName = lastName || user.lastName;
+    user.email = email || user.email;
+    user.phoneNumber = phoneNumber || user.phoneNumber;
+    user.profileImage = req.file ? req.file.path : user.profileImage;
+
+    const updatedProfile = await user.save();
+    const data = defaultResponse(updatedProfile);
+
+    res.status(200).json({
+      data,
+      message: "User updated successfully",
+    });
+  } else {
+    res.status(404).json({
+      message: "User not found",
+    });
+  }
+});
+
+const checkOtherUsersEmail = asyncHandler(async (req, res) => {
+  const users = await User.findById({ _id: req.user });
+
+  if (users) {
+    const otherUsers = await User.find({
+      _id: { $ne: users._id },
+    }).select("email -_id");
+
+    res.status(200).json({
+      otherUsers,
+      message: "Other users email fetched",
+    });
+  } else {
+    res.status(404).json({
+      message: "Users not found",
+    });
+  }
+});
+
+export {
+  register,
+  login,
+  updateUser,
+  getAuthToken,
+  logout,
+  getUser,
+  getAllCustomers,
+  searchCustomers,
+  deleteCustomer,
+  getAllUsersEmail,
+  getCustomer,
+  getOtherUsersEmail,
+  updateCustomer,
+  checkOtherUsersEmail,
+};

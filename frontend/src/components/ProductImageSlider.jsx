@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { BASE_URL, PUBLIC_URL } from "../utils/BaseUrl";
+import { BASE_URL } from "../utils/BaseUrl";
 import "../styles/productImageSlider.scss";
 import ButtonSlider from "./ButtonSlider";
 
@@ -31,7 +31,7 @@ const ProductImageSlider = ({ data }) => {
           <img
             key={index}
             src={`${BASE_URL}/${elem}`}
-            alt="product image"
+            alt=""
             onClick={() => setIndex(index)}
             className={currentIndex === index ? "image active" : "image"}
             style={{

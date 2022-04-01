@@ -73,9 +73,16 @@
           a {
             padding-left: 4.3rem;
           }
+
+          .sub-nested {
+            a {
+              padding-left: 5.9rem;
+            }
+          }
         }
 
-        .nested.hide {
+        .nested.hide,
+        .sub-nested.hide {
           display: none;
         }
 

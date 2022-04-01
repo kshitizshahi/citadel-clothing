@@ -1,0 +1,134 @@
+@use "../styles/mixins" as *;
+
+.add-subCategory-container {
+  display: flex;
+  background-color: var(--color-admin-dashboard-bg);
+
+  .side-bar {
+    flex: 18%;
+    max-width: 18%;
+    min-height: 70vh;
+    transition: all 0.6s ease;
+  }
+
+  .side-bar.hide {
+    flex: 0;
+    max-width: 0;
+    overflow: hidden;
+  }
+
+  .error {
+    color: var(--color-error);
+    font-size: 0.95rem;
+    margin-block: 0.4rem;
+  }
+
+  .form-container {
+    // flex: 82%;
+    // max-width: 82%;
+    flex-grow: 1;
+
+    .container {
+      width: 95%;
+      margin: auto;
+
+      .heading-container {
+        display: flex;
+        margin-top: 1.5rem;
+        align-items: center;
+        gap: 1rem;
+
+        .toggle-sidebar {
+          color: var(--color-text);
+          width: clamp(1.4rem, 1.5vw, 2.7rem);
+          height: clamp(1.4rem, 1.5vw, 2.7rem);
+          cursor: pointer;
+        }
+
+        .heading {
+          font-size: clamp(1.5rem, 1.5vw, 2.2rem);
+          color: var(--color-text);
+        }
+      }
+
+      .form-wrapper {
+        margin-block: 2rem 3rem;
+        background-color: var(--color-admin-dashboard-foreground);
+        border-radius: 1.5rem;
+        max-width: 70%;
+
+        .form-wrapper-container {
+          //   max-width: 70%;
+          padding: 2.5rem 3.5rem;
+
+          .sub-category-name {
+            input {
+              @include inputBox();
+              margin-block: 0.8rem 0;
+              // color: var(--color-text);
+            }
+          }
+
+          .select {
+            label {
+              margin-bottom: 0.8rem;
+            }
+            input {
+              color: #2c2c2a;
+              font-weight: 500;
+              font-size: 1.55rem;
+              padding-block: 1.85rem;
+              &::placeholder {
+                color: #999 !important;
+                font-family: "Poppins";
+                font-size: 1.45rem;
+              }
+            }
+          }
+
+          .add-sub-category-button {
+            padding: 1.2rem 1rem;
+            background-color: var(--color-add-product-btn-bg);
+            border: none;
+            color: var(--color-add-product-btn-text);
+            font-size: 1.6rem;
+            border-radius: 0.3rem;
+            // width: 14rem;
+            max-width: 100%;
+            margin-block: 1.5rem 2.5rem;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .add-category-container {
+    // flex-direction: column;
+
+    .side-bar {
+      //   flex-grow: 1;
+      //   max-width: 100%;
+      min-height: max-content;
+    }
+
+    // .form-container {
+    //   // flex-grow: 1;
+    //   // max-width: 100%;
+    //   .container {
+    //     .form-wrapper {
+    //       .form-wrapper-container {
+    //         flex-direction: column;
+
+    //         .first-container {
+    //           flex-grow: 1;
+    //           max-width: 100%;
+    //         }
+    //       }
+    //     }
+    //   }
+    // }
+  }
+}

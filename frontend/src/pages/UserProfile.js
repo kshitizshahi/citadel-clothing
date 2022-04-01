@@ -10,18 +10,76 @@ import { updateUser } from "../redux/thunkApi/userApi";
 import { logoutUser, validateUser } from "../redux/thunkApi/authApi";
 import { BASE_URL } from "../utils/BaseUrl";
 import { clearError, clearuserUpdate } from "../redux/slice/userSlice";
-import { resetSuccess } from "../redux/slice/authSlice";
+// import { resetSuccess } from "../redux/slice/authSlice";
 import LoadingDots from "../components/Loading";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import axios from "axios";
 
 const UserProfile = () => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [userImage, setUserImage] = useState([]);
+  const [image, setImage] = useState([]);
+  const [user, setUser] = useState([]);
+  const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/png"];
+
+  let userEmailArray = [];
+
+  const updateUserSchema = yup
+    .object({
+      firstName: yup.string().required("Required"),
+      lastName: yup.string().required("Required"),
+      email: yup
+        .string()
+        .email("Invalid email")
+        .required("Required")
+        .test("existingEmail", "Email already exists", (value) => {
+          if (value && userEmailArray.includes(value)) {
+            return false;
+          } else {
+            return true;
+          }
+        }),
+      phoneNumber: yup
+        .number()
+        .required("Required")
+        .test(
+          "checkPhoneLength",
+          "Phone number should be at least be 10 digits",
+          (value) => {
+            return value.toString().length >= 10;
+          }
+        )
+        .typeError("Please enter number"),
+
+      userImage: yup.mixed().test("fileType", "Images Only", (value) => {
+        if (value && value.length > 0) {
+          if (SUPPORTED_FORMATS.includes(value[0].type)) {
+            return true;
+          } else {
+            return false;
+          }
+        } else {
+          return true;
+        }
+      }),
+    })
+    .required();
+
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    watch,
+    setValue,
+
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(updateUserSchema),
+  });
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const watchImage = watch("userImage", "");
 
   const { userUpdate, loading, error, isValid } = useSelector(
     (state) => state.User
@@ -32,10 +90,15 @@ const UserProfile = () => {
     loading: loadingUser,
   } = useSelector((state) => state.authUser);
 
-  const submitHandler = async (e) => {
-    e.preventDefault();
+  const submitHandler = async (data) => {
     dispatch(
-      updateUser({ firstName, lastName, email, phoneNumber, userImage })
+      updateUser({
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: data.email,
+        phoneNumber: data.phoneNumber,
+        userImage: data.userImage[0],
+      })
     );
     // dispatch(resetSuccess());
   };
@@ -43,30 +106,6 @@ const UserProfile = () => {
   const changePasswordHandler = (e) => {
     navigate("/change-password");
   };
-
-  // useEffect(() => {
-  //   document.title = Profile_Page_Title;
-
-  //success value is toggled after update success
-
-  //   if (error && error.message) {
-  //     dispatch(logoutUser({}));
-  //     dispatch(clearError());
-  //   } else if (userUpdate && userUpdate.data) {
-  //     dispatch(validateUser({}));
-  //     toast.success(userUpdate.message, {
-  //       position: toast.POSITION.TOP_RIGHT,
-  //     });
-  //   }
-
-  //   if (userInfo && fetchSuccess) {
-  //     setFirstName(userInfo.firstName);
-  //     setLastName(userInfo.lastName);
-  //     setEmail(userInfo.email);
-  //     setPhoneNumber(userInfo.phoneNumber);
-  //     setUserImage(userInfo.profileImage);
-  //   }
-  // }, [success, isValid, loaded]);
 
   useEffect(() => {
     document.title = Profile_Page_Title;
@@ -81,13 +120,36 @@ const UserProfile = () => {
       dispatch(clearuserUpdate());
     }
     if (userInfo && fetchSuccess) {
-      setFirstName(userInfo.firstName);
-      setLastName(userInfo.lastName);
-      setEmail(userInfo.email);
-      setPhoneNumber(userInfo.phoneNumber);
-      // setUserImage(userInfo.profileImage);
+      setValue("firstName", userInfo.firstName);
+      setValue("lastName", userInfo.lastName);
+      setValue("email", userInfo.email);
+      setValue("phoneNumber", userInfo.phoneNumber);
+      setImage(userInfo.profileImage);
     }
-  }, [isValid, fetchSuccess]);
+  }, [isValid, fetchSuccess, dispatch]);
+
+  useEffect(() => {
+    let mounted = true;
+
+    (async function () {
+      try {
+        const response = await axios.get(`/api/users/check/others/email/`);
+        if (mounted) {
+          setUser(response.data.otherUsers);
+        }
+      } catch (error) {
+        toast.error(error.response.data.message);
+      }
+    })();
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  if (user && user.length > 0) {
+    user.map((elem) => userEmailArray.push(elem.email));
+  }
 
   return (
     <div>
@@ -100,35 +162,54 @@ const UserProfile = () => {
           </div>
           <div className="form-container">
             <div className="user-address-container">
-              <form onSubmit={submitHandler} encType="multipart/form-data">
+              <form
+                onSubmit={handleSubmit(submitHandler)}
+                encType="multipart/form-data"
+              >
                 <div className="user-profile-form">
                   <div className="profile-image">
-                    {userInfo && (
+                    {getValues("userImage") &&
+                    getValues("userImage").length > 0 ? (
+                      <img
+                        src={URL.createObjectURL(getValues("userImage")[0])}
+                        alt=""
+                        className="img"
+                      />
+                    ) : (
+                      <img
+                        src={`${BASE_URL}/${image}`}
+                        alt=""
+                        className="img"
+                      />
+                    )}
+                    {/* {userInfo && (
                       <img
                         src={`${BASE_URL}/${userInfo.profileImage}`}
                         alt="Profile Picture"
                         className="img"
                       />
-                      /* <div
+                      <div
                         className="img"
                         style={{
                           backgroundImage: `url(${BASE_URL}/${userInfo.profileImage})
                           `,
 
                         }}
-                      ></div> */
-                    )}
+                      ></div> 
+                    )} */}
 
                     <label htmlFor="imageChange" className="image-change">
                       Change Image
                     </label>
+                    <p className="error">
+                      {errors.userImage?.message || "\u00A0"}
+                    </p>
                     <input
                       type="file"
                       id="imageChange"
                       accept=".png, .jpg, .jpeg"
-                      // required
                       className="profile-image-input"
-                      onChange={(e) => setUserImage(e.target.files[0])}
+                      {...register("userImage")}
                     ></input>
                   </div>
 
@@ -140,10 +221,11 @@ const UserProfile = () => {
                           type="text"
                           id="firstName"
                           placeholder="First Name"
-                          value={firstName}
-                          // required
-                          onChange={(e) => setFirstName(e.target.value)}
+                          {...register("firstName")}
                         ></input>
+                        <p className="error">
+                          {errors.firstName?.message || "\u00A0"}
+                        </p>
                       </div>
                       <div className="last-name-container">
                         <label htmlFor="lastName">Last Name</label>
@@ -151,10 +233,11 @@ const UserProfile = () => {
                           type="text"
                           id="lastName"
                           placeholder="Last Name"
-                          value={lastName}
-                          // required
-                          onChange={(e) => setLastName(e.target.value)}
+                          {...register("lastName")}
                         ></input>
+                        <p className="error">
+                          {errors.lastName?.message || "\u00A0"}
+                        </p>
                       </div>
                     </div>
                     <div className="other-form-fields">
@@ -164,10 +247,11 @@ const UserProfile = () => {
                           type="email"
                           id="emailAddress"
                           placeholder="Email address"
-                          value={email}
-                          // required
-                          onChange={(e) => setEmail(e.target.value)}
+                          {...register("email")}
                         ></input>
+                        <p className="error">
+                          {errors.email?.message || "\u00A0"}
+                        </p>
                       </div>
                       <div>
                         <label htmlFor="phoneNumber">Phone Number</label>
@@ -175,10 +259,11 @@ const UserProfile = () => {
                           type="tel"
                           id="phoneNumber"
                           placeholder="Phone Number"
-                          value={phoneNumber}
-                          // required
-                          onChange={(e) => setPhoneNumber(e.target.value)}
+                          {...register("phoneNumber")}
                         ></input>
+                        <p className="error">
+                          {errors.phoneNumber?.message || "\u00A0"}
+                        </p>
                       </div>
                     </div>
                     <div className="user-profile-btn">

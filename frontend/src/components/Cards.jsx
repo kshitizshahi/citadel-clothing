@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import "../styles/cards.scss";
-import { PUBLIC_URL } from "../utils/BaseUrl";
+import { BASE_URL } from "../utils/BaseUrl";
 import Rating from "./Rating";
 
 const Cards = ({ data }) => {
@@ -10,10 +10,11 @@ const Cards = ({ data }) => {
         <div key={index} className="card-items">
           <Link to={`/product/${prod._id}`}>
             <div className="img-div">
-              <img
+              {/* <img
                 src={`${PUBLIC_URL}/images/mens fashion.jpg`}
                 alt="Kid's Wear"
-              ></img>
+              ></img> */}
+              <img src={`${BASE_URL}/${prod.images[0]}`} alt={prod.name}></img>
               <p className={prod.discount > 0 ? "discount" : ""}>
                 {prod.discount > 0 && `${prod.discount}% OFF`}
               </p>

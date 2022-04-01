@@ -1,22 +1,22 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Edit_Product_Page } from "../../utils/PageTitle";
-import Button from "../../components/Button";
-import LoadingDots from "../../components/Loading";
-import SideBar from "../../components/Admin/SideBar";
+import { Edit_Product_Page } from "../../../utils/PageTitle";
+import Button from "../../../components/Button";
+import LoadingDots from "../../../components/Loading";
+import SideBar from "../../../components/Admin/SideBar";
 import { Icon } from "@iconify/react";
-import DropZone from "../../components/DropZone";
+import DropZone from "../../../components/DropZone";
 import { toast } from "react-toastify";
 import axios from "axios";
-import TextEditor from "../../components/TextEditor";
-import { getCategory } from "../../redux/thunkApi/categoryApi";
-import SelectBox from "../../components/SelectBox";
+import TextEditor from "../../../components/TextEditor";
+import { getCategory } from "../../../redux/thunkApi/categoryApi";
+import SelectBox from "../../../components/SelectBox";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { BASE_URL } from "../../utils/BaseUrl";
-import "../../styles/editProduct.scss";
+import { BASE_URL } from "../../../utils/BaseUrl";
+import "../../../styles/editProduct.scss";
 
 const editProductSchema = yup
   .object({
@@ -93,26 +93,29 @@ const EditProduct = () => {
       }
 
       if (imageRemove.length > 0) {
-        const response = await axios.put(`/api/products/delete/image/${id}`, {
-          removeDBImages: imageRemove,
-        });
+        try {
+          const response = await axios.put(`/api/products/delete/image/${id}`, {
+            removeDBImages: imageRemove,
+          });
+        } catch (error) {
+          toast.error(error.response.data.message);
+        }
       }
-
-      // dispatch();
-      //   updateUser({ firstName, lastName, email, phoneNumber, userImage })
 
       // if (editorRef.current) {
       //   formdata.append("description", editorRef.current.getContent());
       //   console.log(editorRef.current.getContent());
       // }
 
-      const res = await axios.put(`/api/products/update/${id}`, formdata);
-      // console.log(data);
+      try {
+        const res = await axios.put(`/api/products/update/${id}`, formdata);
+        toast.success(res.data.message);
 
-      toast.success(res.data.message);
-
-      if (res.data.message) {
-        navigate("/admin/product");
+        if (res.data.message) {
+          navigate("/admin/product");
+        }
+      } catch (error) {
+        toast.error(error.response.data.message);
       }
     }
   };
@@ -121,9 +124,13 @@ const EditProduct = () => {
     let mounted = true;
     document.title = Edit_Product_Page;
     (async function () {
-      const res = await axios.get(`/api/sellers/get/seller`);
-      if (mounted) {
-        setSellers(res.data.data);
+      try {
+        const res = await axios.get(`/api/sellers/get/seller`);
+        if (mounted) {
+          setSellers(res.data.data);
+        }
+      } catch (error) {
+        toast.error(error.response.data.message);
       }
     })();
 
@@ -134,20 +141,24 @@ const EditProduct = () => {
 
   useEffect(() => {
     (async function () {
-      const response = await axios.get(`/api/products/get/${id}`);
-      const product = response.data.product;
+      try {
+        const response = await axios.get(`/api/products/get/${id}`);
+        const product = response.data.product;
 
-      setProductDetails(product);
-      setValue("productName", product.name);
-      setValue("textEditor", product.description);
-      setValue("markPrice", product.markPrice);
-      setValue("discount", product.discount);
-      setValue("brand", product.brand);
-      setValue("stock", product.countInStock);
-      setValue("category", product.category?._id);
-      setValue("subCategory", product.subCategory?._id);
-      setValue("seller", product.seller?._id);
-      setImages(product.images);
+        setProductDetails(product);
+        setValue("productName", product.name);
+        setValue("textEditor", product.description);
+        setValue("markPrice", product.markPrice);
+        setValue("discount", product.discount);
+        setValue("brand", product.brand);
+        setValue("stock", product.countInStock);
+        setValue("category", product.category?._id);
+        setValue("subCategory", product.subCategory?._id);
+        setValue("seller", product.seller?._id);
+        setImages(product.images);
+      } catch (error) {
+        toast.error(error.response.data.message);
+      }
     })();
 
     return () => {
@@ -167,14 +178,18 @@ const EditProduct = () => {
     return () => {
       mounted = false;
     };
-  }, []);
+  }, [dispatch]);
 
   useEffect(async () => {
     if (getValues("category") !== undefined) {
-      const res = await axios.get(
-        `/api/sub-category/get/${getValues("category")}`
-      );
-      setSubCategories(res.data.data);
+      try {
+        const res = await axios.get(
+          `/api/sub-category/get/category/${getValues("category")}`
+        );
+        setSubCategories(res.data.data);
+      } catch (error) {
+        toast.error(error.response.data.message);
+      }
     }
   }, [getValues("category")]);
 
@@ -231,16 +246,6 @@ const EditProduct = () => {
     });
 
     setImageRemove([...imageRemove, image]);
-
-    // axios.post(
-    //   `${process.env.NEXT_PUBLIC_SERVER_API}/delete_image/${image.fileName}`,
-    //   { productId: productId },
-    //   {
-    //     headers: {
-    //       "auth-token": localStorage.getItem("admin-token"),
-    //     },
-    //   }
-    // );
     setImages(filterImage);
   };
 

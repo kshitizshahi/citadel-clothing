@@ -4,7 +4,6 @@ import { Link, useParams } from "react-router-dom";
 import Rating from "../components/Rating";
 import { useEffect, useState } from "react";
 import { Product_Page } from "../utils/PageTitle";
-import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { getSingleProduct } from "../redux/thunkApi/productApi";
 import LoadingDots from "../components/Loading";
@@ -31,9 +30,6 @@ const Product = () => {
 
   useEffect(() => {
     (async function () {
-      // const response = await axios.get(`/api/products/get/${id}`);
-      // setProduct(response.data.product);
-
       const response = await dispatch(getSingleProduct({ id }));
       setProduct(response.payload.product);
       setDesc(response.payload.product.description);
@@ -42,7 +38,7 @@ const Product = () => {
     return () => {
       setProduct({});
     };
-  }, []);
+  }, [dispatch]);
 
   const handleChange = (qty) => {
     if (qty > product.countInStock) {
@@ -103,7 +99,9 @@ const Product = () => {
               </div>
               <div className="description">
                 {/* {parse(`${product.description}`)} */}
-                {parse(`${desc.slice(0, 300)}`)}
+                {desc && desc.length > 300
+                  ? parse(`${desc.slice(0, 300)}...`)
+                  : parse(`${desc}`)}
               </div>
               <div className="product-quantity">
                 <label htmlFor="productQuantity">Quantity</label>

@@ -20,20 +20,21 @@ import {
 
 const router = express.Router();
 
+const adminMiddleWare = [verifyAccessTokenExpiry, isAuth, admin];
+
 router.get("/get/all-products", getAllProduct);
 router.get("/get/discount-products", getDiscountProduct);
 router.get("/get/:productId", getProduct);
-router.delete("/delete/:productId", deleteProduct);
-router.get(
-  "/search/:keywords",
-  verifyAccessTokenExpiry,
-  isAuth,
-  admin,
-  searchProduct
+router.delete("/delete/:productId", adminMiddleWare, deleteProduct);
+router.get("/search/:keywords", adminMiddleWare, searchProduct);
+router.put(
+  "/update/:productId",
+  adminMiddleWare,
+  upload.array("images"),
+  updateProduct
 );
-router.put("/update/:productId", upload.array("images"), updateProduct);
-router.put("/delete/image/:productId", deleteImage);
+router.put("/delete/image/:productId", adminMiddleWare, deleteImage);
 
-router.post("/create", upload.array("images"), createProduct);
+router.post("/create", upload.array("images"), adminMiddleWare, createProduct);
 
 export default router;

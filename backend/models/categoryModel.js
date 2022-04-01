@@ -16,6 +16,10 @@ const categorySchema = new mongoose.Schema(
       minLength: [3, "Category name should contain at least 3 characters"],
       trim: true,
     },
+    categoryImage: {
+      type: String,
+      default: `uploads\\profile\\default.png`,
+    },
   },
   {
     timestamps: true,

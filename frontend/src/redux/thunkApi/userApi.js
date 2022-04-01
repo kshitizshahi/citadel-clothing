@@ -2,14 +2,6 @@ import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { validateUser } from "./authApi";
 
-// const formdata = new FormData();
-// formdata.append("profileImage", userImage);
-
-// const { data } = await axios.put(
-//   `/api/users/change-profile/${userInfo.data._id}`,
-//   formdata
-// );
-
 export const updateUser = createAsyncThunk(
   "user/update",
   async (

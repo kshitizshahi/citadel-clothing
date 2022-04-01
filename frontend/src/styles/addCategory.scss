@@ -1,0 +1,175 @@
+@use "../styles/mixins" as *;
+
+.add-category-container {
+  display: flex;
+  background-color: var(--color-admin-dashboard-bg);
+
+  .side-bar {
+    flex: 18%;
+    max-width: 18%;
+    min-height: 70vh;
+    transition: all 0.6s ease;
+  }
+
+  .side-bar.hide {
+    flex: 0;
+    max-width: 0;
+    overflow: hidden;
+  }
+
+  .error {
+    color: var(--color-error);
+    font-size: 0.95rem;
+    margin-block: 0.4rem;
+  }
+
+  .form-container {
+    // flex: 82%;
+    // max-width: 82%;
+    flex-grow: 1;
+
+    .container {
+      width: 95%;
+      margin: auto;
+
+      .heading-container {
+        display: flex;
+        margin-top: 1.5rem;
+        align-items: center;
+        gap: 1rem;
+
+        .toggle-sidebar {
+          color: var(--color-text);
+          width: clamp(1.4rem, 1.5vw, 2.7rem);
+          height: clamp(1.4rem, 1.5vw, 2.7rem);
+          cursor: pointer;
+        }
+
+        .heading {
+          font-size: clamp(1.5rem, 1.5vw, 2.2rem);
+          color: var(--color-text);
+        }
+      }
+
+      .form-wrapper {
+        margin-block: 2rem 3rem;
+        background-color: var(--color-admin-dashboard-foreground);
+        border-radius: 1.5rem;
+        max-width: 99%;
+        // max-width: 70%;
+
+        .form-wrapper-container {
+          //   max-width: 70%;
+          padding: 2.5rem 3.5rem;
+          @include flexBox(row, space-between);
+
+          .category-image {
+            flex: 40%;
+            max-width: 40%;
+            padding-top: 1rem;
+            @include flexBox(column, null);
+            align-items: center;
+
+            .img {
+              @media screen and (max-width: 768px) {
+                width: 14rem;
+                height: 14rem;
+              }
+              @media screen and (max-width: 600px) {
+                width: 11rem;
+                height: 11rem;
+              }
+
+              @media screen and (min-width: 768px) {
+                width: 17rem;
+                height: 17rem;
+              }
+
+              @media screen and (min-width: 1024px) {
+                width: 15rem;
+                height: 15rem;
+              }
+              object-fit: cover;
+              border-radius: 50%;
+            }
+
+            .image-label {
+              margin-block: 1.5rem 0;
+            }
+
+            .category-image-input {
+              font-size: clamp(1rem, 1vw, 1.2rem);
+
+              color: var(--color-text);
+            }
+
+            input[type="file"] {
+              &::file-selector-button {
+                background-color: var(--color-image-input-btn);
+                font-size: clamp(1rem, 1vw, 1.3rem);
+                padding: 1rem 1.5rem;
+                border-radius: 0.2rem;
+                border: none;
+                cursor: pointer;
+                color: var(--color-text);
+              }
+            }
+          }
+
+          .category-name {
+            flex-grow: 1;
+
+            input {
+              @include inputBox();
+              margin-block: 1.2rem 0;
+              width: 85%;
+              // color: var(--color-text);
+            }
+
+            .add-category-button {
+              padding: 1.3rem 1rem;
+              background-color: var(--color-add-product-btn-bg);
+              border: none;
+              color: var(--color-add-product-btn-text);
+              font-size: 1.6rem;
+              border-radius: 0.3rem;
+              // width: 14rem;
+              max-width: 100%;
+              margin-block: 3.5rem 2.5rem;
+              cursor: pointer;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .add-category-container {
+    // flex-direction: column;
+
+    .side-bar {
+      //   flex-grow: 1;
+      //   max-width: 100%;
+      min-height: max-content;
+    }
+
+    // .form-container {
+    //   // flex-grow: 1;
+    //   // max-width: 100%;
+    //   .container {
+    //     .form-wrapper {
+    //       .form-wrapper-container {
+    //         flex-direction: column;
+
+    //         .first-container {
+    //           flex-grow: 1;
+    //           max-width: 100%;
+    //         }
+    //       }
+    //     }
+    //   }
+    // }
+  }
+}

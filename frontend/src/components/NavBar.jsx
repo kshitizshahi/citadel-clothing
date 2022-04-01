@@ -217,7 +217,7 @@ const NavBar = () => {
                 <img
                   className="profile-image"
                   src={`${BASE_URL}/${userInfo.profileImage}`}
-                  alt="Profile Picture"
+                  alt=""
                 />
                 {/* <p>{userInfo.firstName}</p> */}
               </div>

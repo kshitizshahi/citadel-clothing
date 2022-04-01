@@ -4,13 +4,11 @@ import Cards from "../components/Cards";
 import { Shop_Page_Title } from "../utils/PageTitle";
 import { getAllProduct } from "../redux/thunkApi/productApi";
 import "../styles/shop.scss";
+// import LoadingDots from "../components/Loading";
 
 const Shop = () => {
   const [products, setProducts] = useState([]);
 
-  const { loading, fetchSuccess, error, shopProduct } = useSelector(
-    (state) => state.Product
-  );
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -18,18 +16,29 @@ const Shop = () => {
   }, []);
 
   useEffect(() => {
-    if (!shopProduct) {
-      dispatch(getAllProduct({}));
-    } else {
-      setProducts(shopProduct.product);
-    }
-  }, [fetchSuccess]);
+    let mounted = true;
+
+    (async function () {
+      const response = await dispatch(getAllProduct({}));
+      if (mounted) {
+        setProducts(response.payload.product);
+      }
+    })();
+
+    return () => {
+      setProducts({});
+    };
+  }, [dispatch]);
+
+  // if (loading) {
+  //   return <LoadingDots />;
+  // }
   return (
     <div className="shop-container">
       <div className="container">
         <div className="products">
           <p className="heading">Products</p>
-          {shopProduct && <Cards data={products} />}
+          {products && <Cards data={products} />}
         </div>
       </div>
     </div>
