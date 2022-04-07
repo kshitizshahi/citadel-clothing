@@ -30,7 +30,7 @@ export const registerUser = createAsyncThunk(
 
       const { email, password } = data;
 
-      dispatch(loginUser({ email, password }));
+      // dispatch(loginUser({ email, password }));
 
       return res.data;
     } catch (err) {

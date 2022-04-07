@@ -30,7 +30,6 @@ app.use("/api/users", userRoute);
 app.use("/api/sellers", sellerRoute);
 app.use("/api/category", categoryRoute);
 app.use("/api/sub-category", subCategoryRoute);
-
 app.use("/api/products", productRoute);
 
 app.get("/", (req, res) => {

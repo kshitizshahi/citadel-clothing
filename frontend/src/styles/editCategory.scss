@@ -40,13 +40,14 @@
 
         .toggle-sidebar {
           color: var(--color-text);
-          width: clamp(1.4rem, 1.5vw, 2.7rem);
-          height: clamp(1.4rem, 1.5vw, 2.7rem);
+          width: clamp(2rem, 1.5vw, 2.7rem);
+          height: clamp(2rem, 1.5vw, 2.7rem);
           cursor: pointer;
+          user-select: none;
         }
 
         .heading {
-          font-size: clamp(1.5rem, 1.5vw, 2.2rem);
+          font-size: clamp(1.8rem, 1.5vw, 2.2rem);
           color: var(--color-text);
         }
       }
@@ -155,21 +156,20 @@
       min-height: max-content;
     }
 
-    // .form-container {
-    //   // flex-grow: 1;
-    //   // max-width: 100%;
-    //   .container {
-    //     .form-wrapper {
-    //       .form-wrapper-container {
-    //         flex-direction: column;
-
-    //         .first-container {
-    //           flex-grow: 1;
-    //           max-width: 100%;
-    //         }
-    //       }
-    //     }
-    //   }
-    // }
+    .form-container {
+      // flex-grow: 1;
+      // max-width: 100%;
+      .container {
+        .form-wrapper {
+          .form-wrapper-container {
+            .category-name {
+              input {
+                width: 100%;
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }

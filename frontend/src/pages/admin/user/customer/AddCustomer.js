@@ -22,13 +22,13 @@ const AddCustomer = () => {
 
   const addCustomerSchema = yup
     .object({
-      firstName: yup.string().required("Required"),
-      lastName: yup.string().required("Required"),
+      firstName: yup.string().required("This field is required."),
+      lastName: yup.string().required("This field is required."),
       email: yup
         .string()
-        .email("Invalid email")
-        .required("Required")
-        .test("existingEmail", "Email already exists", (value) => {
+        .email("Invalid email address.")
+        .required("This field is required.")
+        .test("existingEmail", "Email already in use.", (value) => {
           if (value && userEmailArray.includes(value)) {
             return false;
           } else {
@@ -36,39 +36,42 @@ const AddCustomer = () => {
           }
         }),
       phoneNumber: yup
-        .number()
-        .required("Required")
-        .test(
-          "checkPhoneLength",
-          "Phone number should be at least be 10 digits",
-          (value) => {
-            return value.toString().length >= 10;
-          }
-        )
-        .typeError("Please enter number"),
-      password: yup.string().required("Required"),
+        .string()
+        .required("This field is required.")
+        .matches(/^[1-9]+[0-9]*$/, "Invalid phone number")
+        .min(10, "Phone number should be at least 10 digits."),
+
+      password: yup
+        .string()
+        .required("This field is required.")
+        .min(8, "Password must be at least 8 characters."),
+
       confirmPassword: yup
         .string()
-        .required("Required")
+        .required("This field is required.")
         .test("checkPassword", "Password does not match", (value) => {
           return value === getValues("password");
         }),
 
       profileImage: yup
         .mixed()
-        .required("Image is required")
-        .test("required", "Required", (value) => {
+        .required("Image is required.")
+        .test("required", "Image is required.", (value) => {
           return value && value.length > 0;
         })
-        .test("fileType", "Images Only", (value) => {
-          if (value && value.length > 0) {
-            if (SUPPORTED_FORMATS.includes(value[0].type)) {
-              return true;
-            } else {
-              return false;
+        .test(
+          "fileType",
+          "Unsupported file format. Please upload Image.",
+          (value) => {
+            if (value && value.length > 0) {
+              if (SUPPORTED_FORMATS.includes(value[0].type)) {
+                return true;
+              } else {
+                return false;
+              }
             }
           }
-        }),
+        ),
     })
     .required();
 
@@ -88,6 +91,7 @@ const AddCustomer = () => {
   const navigate = useNavigate();
 
   const { loading } = useSelector((state) => state.Category);
+  const { mobileDevice } = useSelector((state) => state.Media);
 
   const watchImage = watch("profileImage", "");
 
@@ -141,15 +145,39 @@ const AddCustomer = () => {
     user.map((elem) => userEmailArray.push(elem.email));
   }
 
+  if (mobileDevice && hideSideBar) {
+    document.body.style.height = "100%";
+    document.body.style.overflow = "hidden";
+  } else {
+    document.body.style.height = "";
+    document.body.style.overflow = "";
+  }
+
   return (
     <div>
       {loading ? (
         <LoadingDots />
       ) : (
         <div className="add-customer-container">
-          <div className={hideSideBar ? "side-bar hide" : "side-bar"}>
-            <SideBar select="users" subSelect="customers" />
-          </div>
+          {!mobileDevice ? (
+            <div className={hideSideBar ? "side-bar hide" : "side-bar"}>
+              <SideBar select="users" subSelect="customers" />
+            </div>
+          ) : (
+            <div
+              className={hideSideBar ? "admin-side-bar" : "admin-side-bar none"}
+              style={{ width: hideSideBar ? "26rem" : "0" }}
+            >
+              <div className="close">
+                <Icon
+                  icon="ci:close-big"
+                  className="cancel-btn"
+                  onClick={toggleSideBar}
+                />
+              </div>
+              <SideBar select="users" subSelect="customers" />
+            </div>
+          )}
           <div className="form-container">
             <div className="container">
               <div className="heading-container">
@@ -255,7 +283,7 @@ const AddCustomer = () => {
                         <div>
                           <label htmlFor="password">Password</label>
                           <input
-                            type="text"
+                            type="password"
                             id="password"
                             placeholder="Password"
                             {...register("password")}
@@ -269,7 +297,7 @@ const AddCustomer = () => {
                             Confirm Password
                           </label>
                           <input
-                            type="text"
+                            type="password"
                             id="confirmPassword"
                             placeholder="Confirm Password"
                             {...register("confirmPassword")}

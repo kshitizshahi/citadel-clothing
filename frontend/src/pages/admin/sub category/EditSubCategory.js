@@ -18,6 +18,7 @@ import "../../../styles/addSubCategory.scss";
 const EditSubCategory = () => {
   const [categories, setCategories] = useState([]);
   const [subCategories, setSubCategories] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   let selectCategoryArray = [];
   let subCatNameArray = [];
@@ -27,7 +28,7 @@ const EditSubCategory = () => {
     .object({
       subCategoryName: yup
         .string()
-        .required("Required")
+        .required("This field is required.")
         .test("existingSubCategory", "Sub category already exists", (value) => {
           if (value && subCatNameArray.includes(value)) {
             return false;
@@ -35,7 +36,7 @@ const EditSubCategory = () => {
             return true;
           }
         }),
-      category: yup.string().required("Required"),
+      category: yup.string().required("This field is required."),
     })
     .required();
 
@@ -56,7 +57,8 @@ const EditSubCategory = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { loading } = useSelector((state) => state.Category);
+  // const { loading } = useSelector((state) => state.Category);
+  const { mobileDevice } = useSelector((state) => state.Media);
 
   const submitHandler = async (data) => {
     try {
@@ -79,6 +81,7 @@ const EditSubCategory = () => {
 
     (async function () {
       const response = await dispatch(getCategory({}));
+
       if (mounted) {
         setCategories(response.payload.category);
       }
@@ -112,7 +115,10 @@ const EditSubCategory = () => {
 
     (async function () {
       try {
+        setLoading(true);
         const response = await axios.get(`/api/sub-category/get/${id}`);
+        setLoading(false);
+
         if (mounted) {
           const subCategory = response.data.subCategory;
           setValue("subCategoryName", subCategory.name);
@@ -147,15 +153,39 @@ const EditSubCategory = () => {
     });
   }
 
+  if (mobileDevice && hideSideBar) {
+    document.body.style.height = "100%";
+    document.body.style.overflow = "hidden";
+  } else {
+    document.body.style.height = "";
+    document.body.style.overflow = "";
+  }
+
   return (
     <div>
       {loading ? (
         <LoadingDots />
       ) : (
         <div className="add-subCategory-container">
-          <div className={hideSideBar ? "side-bar hide" : "side-bar"}>
-            <SideBar select="sub-category" />
-          </div>
+          {!mobileDevice ? (
+            <div className={hideSideBar ? "side-bar hide" : "side-bar"}>
+              <SideBar select="sub-category" />
+            </div>
+          ) : (
+            <div
+              className={hideSideBar ? "admin-side-bar" : "admin-side-bar none"}
+              style={{ width: hideSideBar ? "26rem" : "0" }}
+            >
+              <div className="close">
+                <Icon
+                  icon="ci:close-big"
+                  className="cancel-btn"
+                  onClick={toggleSideBar}
+                />
+              </div>
+              <SideBar select="sub-category" />
+            </div>
+          )}
           <div className="form-container">
             <div className="container">
               <div className="heading-container">
@@ -165,7 +195,7 @@ const EditSubCategory = () => {
                   className="toggle-sidebar"
                 />
 
-                <p className="heading">Add Sub Category</p>
+                <p className="heading">Edit Sub Category</p>
               </div>
 
               <div className="form-wrapper">

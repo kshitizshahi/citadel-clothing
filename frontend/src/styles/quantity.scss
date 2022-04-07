@@ -1,0 +1,39 @@
+.quantity {
+  display: inline-block;
+  border-radius: 0.2rem;
+  border: 0.0625rem #a4a4a4 solid;
+  background-color: var(--color-quantity-bg);
+
+  span {
+    color: var(--color-text);
+    padding: 0.4rem 1rem;
+    cursor: pointer;
+    outline: none;
+    user-select: none;
+    // background-color: var(--color-text);
+    // color: var(--color-bg);
+
+    .subtract,
+    .add {
+      margin-block: auto;
+      height: 1.4rem;
+      width: 1.4rem;
+      padding-top: 0.2rem;
+    }
+  }
+
+  input {
+    max-width: 4rem;
+    padding: 0.4rem 0;
+    border-inline: 0.1rem #a4a4a4 solid;
+    border-block: none;
+    // border: none;
+    font-size: 1.4rem;
+    font-family: inherit;
+    outline: none;
+    text-align: center;
+    user-select: none;
+    color: var(--color-text);
+    background-color: var(--color-quantity-bg);
+  }
+}

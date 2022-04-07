@@ -26,7 +26,7 @@ const AddSubCategory = () => {
     .object({
       subCategoryName: yup
         .string()
-        .required("Required")
+        .required("This field is required.")
         .test("existingSubCategory", "Sub category already exists", (value) => {
           if (value && subCatNameArray.includes(value)) {
             return false;
@@ -34,7 +34,7 @@ const AddSubCategory = () => {
             return true;
           }
         }),
-      category: yup.string().required("Required"),
+      category: yup.string().required("This field is required."),
     })
     .required();
 
@@ -54,6 +54,7 @@ const AddSubCategory = () => {
   const navigate = useNavigate();
 
   const { loading } = useSelector((state) => state.Category);
+  const { mobileDevice } = useSelector((state) => state.Media);
 
   const submitHandler = async (data) => {
     try {
@@ -123,15 +124,39 @@ const AddSubCategory = () => {
     });
   }
 
+  if (mobileDevice && hideSideBar) {
+    document.body.style.height = "100%";
+    document.body.style.overflow = "hidden";
+  } else {
+    document.body.style.height = "";
+    document.body.style.overflow = "";
+  }
+
   return (
     <div>
       {loading ? (
         <LoadingDots />
       ) : (
         <div className="add-subCategory-container">
-          <div className={hideSideBar ? "side-bar hide" : "side-bar"}>
-            <SideBar select="sub-category" />
-          </div>
+          {!mobileDevice ? (
+            <div className={hideSideBar ? "side-bar hide" : "side-bar"}>
+              <SideBar select="sub-category" />
+            </div>
+          ) : (
+            <div
+              className={hideSideBar ? "admin-side-bar" : "admin-side-bar none"}
+              style={{ width: hideSideBar ? "26rem" : "0" }}
+            >
+              <div className="close">
+                <Icon
+                  icon="ci:close-big"
+                  className="cancel-btn"
+                  onClick={toggleSideBar}
+                />
+              </div>
+              <SideBar select="sub-category" />
+            </div>
+          )}
           <div className="form-container">
             <div className="container">
               <div className="heading-container">

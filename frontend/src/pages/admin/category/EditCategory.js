@@ -17,16 +17,17 @@ import { BASE_URL } from "../../../utils/BaseUrl";
 const EditCategory = () => {
   const [categories, setCategories] = useState([]);
   const [previewImage, setPreviewImage] = useState([]);
+  const [loading, setLoading] = useState(false);
   const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/png"];
 
   let catNameArray = [];
   let { id } = useParams();
 
-  const addCategorySchema = yup
+  const editCategorySchema = yup
     .object({
       categoryName: yup
         .string()
-        .required("Required")
+        .required("This field is required.")
         .test("existingCategory", "Category already exists", (value) => {
           if (value && catNameArray.includes(value)) {
             return false;
@@ -35,17 +36,23 @@ const EditCategory = () => {
           }
         }),
 
-      categoryImage: yup.mixed().test("fileType", "Images Only", (value) => {
-        if (value && value.length > 0) {
-          if (SUPPORTED_FORMATS.includes(value[0].type)) {
-            return true;
-          } else {
-            return false;
+      categoryImage: yup
+        .mixed()
+        .test(
+          "fileType",
+          "Unsupported file format. Please upload Image.",
+          (value) => {
+            if (value && value.length > 0) {
+              if (SUPPORTED_FORMATS.includes(value[0].type)) {
+                return true;
+              } else {
+                return false;
+              }
+            } else {
+              return true;
+            }
           }
-        } else {
-          return true;
-        }
-      }),
+        ),
     })
     .required();
 
@@ -58,14 +65,14 @@ const EditCategory = () => {
 
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(addCategorySchema),
+    resolver: yupResolver(editCategorySchema),
   });
 
   const [hideSideBar, setHideSideBar] = useState(false);
 
   const navigate = useNavigate();
 
-  const { loading } = useSelector((state) => state.Category);
+  const { mobileDevice } = useSelector((state) => state.Media);
 
   const watchImage = watch("categoryImage", "");
 
@@ -91,7 +98,9 @@ const EditCategory = () => {
 
     (async function () {
       try {
+        setLoading(true);
         const response = await axios.get(`/api/category/get/${id}`);
+        setLoading(false);
         if (mounted) {
           const category = response.data.category;
           setValue("categoryName", category.name);
@@ -138,15 +147,39 @@ const EditCategory = () => {
     });
   }
 
+  if (mobileDevice && hideSideBar) {
+    document.body.style.height = "100%";
+    document.body.style.overflow = "hidden";
+  } else {
+    document.body.style.height = "";
+    document.body.style.overflow = "";
+  }
+
   return (
     <div>
       {loading ? (
         <LoadingDots />
       ) : (
         <div className="edit-category-container">
-          <div className={hideSideBar ? "side-bar hide" : "side-bar"}>
-            <SideBar select="category" />
-          </div>
+          {!mobileDevice ? (
+            <div className={hideSideBar ? "side-bar hide" : "side-bar"}>
+              <SideBar select="category" />
+            </div>
+          ) : (
+            <div
+              className={hideSideBar ? "admin-side-bar" : "admin-side-bar none"}
+              style={{ width: hideSideBar ? "26rem" : "0" }}
+            >
+              <div className="close">
+                <Icon
+                  icon="ci:close-big"
+                  className="cancel-btn"
+                  onClick={toggleSideBar}
+                />
+              </div>
+              <SideBar select="category" />
+            </div>
+          )}
           <div className="form-container">
             <div className="container">
               <div className="heading-container">

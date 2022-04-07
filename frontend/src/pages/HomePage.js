@@ -48,7 +48,18 @@ const HomePage = () => {
     return () => {
       mounted = false;
     };
-  }, [currentRow, dispatch, productsPerRow]);
+  }, [dispatch]);
+
+  useEffect(() => {
+    let mounted = true;
+    if (mounted) {
+      setLastProductIndex(currentRow * productsPerRow);
+      // setFirstProductIndex(lastProductIndex - productsPerRow);
+    }
+    return () => {
+      mounted = false;
+    };
+  }, [currentRow, productsPerRow]);
 
   // const topProducts = () => {
   //   for (let i = 0; i < 4; i++) {
@@ -78,44 +89,47 @@ const HomePage = () => {
 
   return (
     <div className="home-page-container">
-      {loading && (
+      {loading ? (
         <>
           <ProgressBar />
           <LoadingDots />
         </>
-      )}
-      <Slider data={data} />
-      <div className="container">
-        <div className="category-container">
-          {category &&
-            category.map((elem, index) => (
-              <div key={index} className="category-items">
-                <Link to={`/category/${elem._id}`}>
-                  <img
-                    src={`${BASE_URL}/${elem.categoryImage}`}
-                    alt="Category Image"
-                  ></img>
-                  <p>{elem.name}</p>
-                </Link>
+      ) : (
+        <div>
+          <Slider data={data} />
+          <div className="container">
+            <div className="category-container">
+              {category &&
+                category.map((elem, index) => (
+                  <div key={index} className="category-items">
+                    <Link to={`/category/${elem._id}`}>
+                      <img
+                        src={`${BASE_URL}/${elem.categoryImage}`}
+                        alt="Category Image"
+                      ></img>
+                      <p>{elem.name}</p>
+                    </Link>
+                  </div>
+                ))}
+            </div>
+            <div className="top-products">
+              <div className="products">
+                <p className="heading">Top Products</p>
+                {topProducts && <Cards data={array} />}
+                {/* {homeProduct && currentProducts && <Cards data={currentProducts} />} */}
+                <div className="shop">
+                  <Button
+                    text="Load More"
+                    onClick={loadProducts}
+                    className="load-more"
+                    disabled={lastProductIndex >= topProducts.length}
+                  />
+                </div>
               </div>
-            ))}
-        </div>
-        <div className="top-products">
-          <div className="products">
-            <p className="heading">Top Products</p>
-            {topProducts && <Cards data={array} />}
-            {/* {homeProduct && currentProducts && <Cards data={currentProducts} />} */}
-            <div className="shop">
-              <Button
-                text="Load More"
-                onClick={loadProducts}
-                className="load-more"
-                disabled={lastProductIndex >= topProducts.length}
-              />
             </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

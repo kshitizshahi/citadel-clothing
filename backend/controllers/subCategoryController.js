@@ -90,7 +90,7 @@ const deleteSubCategory = asyncHandler(async (req, res) => {
   const subCategory = await SubCategory.findById(subCategoryId);
 
   if (subCategory) {
-    await subCategory.remove();
+    await SubCategory.deleteOne({ _id: subCategoryId });
     res.status(201).json({
       message: "Sub category deleted",
     });

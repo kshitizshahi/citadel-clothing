@@ -7,6 +7,8 @@ import {
 } from "../configs/generateToken.js";
 
 import fs from "fs";
+import { sendMail } from "../utils/emailSender.js";
+import jwt from "jsonwebtoken";
 
 const defaultResponse = (user) => {
   return {
@@ -63,10 +65,17 @@ const register = asyncHandler(async (req, res) => {
       profileImage: req.file?.path,
     });
     const createdUser = await user.save();
+
+    sendMail({
+      email: user.email,
+      path: req.headers.host,
+      user: user,
+    });
+
     const data = defaultResponse(createdUser);
     res.status(201).json({
-      data,
-      message: "User created successfully",
+      // data,
+      message: "Registered. Please verify your email",
     });
   }
 });
@@ -78,6 +87,11 @@ const login = asyncHandler(async (req, res) => {
 
   if (user) {
     if (bcrypt.compareSync(password, user.password)) {
+      if (!user.isEmailVerified) {
+        res.status(401).json({
+          message: "Please verify your email",
+        });
+      }
       const data = defaultResponse(user);
       const accessToken = generateAccessToken(user._id);
       const refreshToken = generateRefreshToken(user._id);
@@ -99,10 +113,6 @@ const login = asyncHandler(async (req, res) => {
 
       res.status(200).json({
         data,
-        // data: {
-        //   accessToken: accessToken,
-        //   refreshToken: refreshToken,
-        // },
         message: "User logged in",
       });
       return;
@@ -127,6 +137,34 @@ const updateUser = asyncHandler(async (req, res) => {
   const deleteImage = user.profileImage;
 
   if (user) {
+    const current_email = user.email;
+
+    const otherUser = await User.find({
+      email: { $ne: current_email },
+    });
+    let duplicate = false;
+
+    for (let i = 0; i < otherUser.length; i++) {
+      if (otherUser[i].email === email) {
+        duplicate = true;
+        break;
+      }
+    }
+
+    if (duplicate) {
+      if (req?.file) {
+        fs.unlink(req.file.path, (err) => {
+          if (err) {
+            return console.error(err);
+          }
+        });
+      }
+
+      res.status(500).json({
+        message: "Email already in use",
+      });
+    }
+
     if (newPassword || confirmNewPassword || oldPassword) {
       if (newPassword !== confirmNewPassword) {
         res.status(400).json({ message: "Password does not match" });
@@ -139,12 +177,14 @@ const updateUser = asyncHandler(async (req, res) => {
       }
     }
 
-    if (req?.file) {
-      fs.unlink(deleteImage, (err) => {
-        if (err) {
-          return console.error(err);
-        }
-      });
+    if (req?.file && !duplicate) {
+      if (deleteImage !== "uploads\\profile\\default.png") {
+        fs.unlink(deleteImage, (err) => {
+          if (err) {
+            return console.error(err);
+          }
+        });
+      }
     }
 
     user.firstName = firstName || user.firstName;
@@ -240,12 +280,14 @@ const deleteCustomer = asyncHandler(async (req, res) => {
   const customer = await User.findById(customerId);
 
   if (customer) {
-    fs.unlink(customer.profileImage, (err) => {
-      if (err) {
-        return console.error(err);
-      }
-    });
-    await customer.remove();
+    if (customer.profileImage !== "uploads\\profile\\default.png") {
+      fs.unlink(customer.profileImage, (err) => {
+        if (err) {
+          return console.error(err);
+        }
+      });
+    }
+    await User.deleteOne({ _id: customerId });
     res.status(200).json({
       message: "Customer deleted",
     });
@@ -335,11 +377,13 @@ const updateCustomer = asyncHandler(async (req, res) => {
     }
 
     if (req?.file) {
-      fs.unlink(deleteImage, (err) => {
-        if (err) {
-          return console.error(err);
-        }
-      });
+      if (deleteImage !== "uploads\\profile\\default.png") {
+        fs.unlink(deleteImage, (err) => {
+          if (err) {
+            return console.error(err);
+          }
+        });
+      }
     }
 
     user.firstName = firstName || user.firstName;
@@ -381,6 +425,40 @@ const checkOtherUsersEmail = asyncHandler(async (req, res) => {
   }
 });
 
+const emailTokenVerify = asyncHandler(async (req, res) => {
+  const { token } = req.params;
+  let payload;
+
+  try {
+    jwt.verify(
+      token,
+      process.env.EMAIL_SECRET,
+
+      async (err, decode) => {
+        if (err) {
+          payload = jwt.verify(token, process.env.EMAIL_SECRET, {
+            ignoreExpiration: true,
+          });
+          await User.deleteOne({ _id: payload.userId });
+          res.redirect(`${process.env.ORIGIN}/register`);
+        } else {
+          const user = await User.findById({ _id: decode.userId });
+
+          if (user) {
+            user.isEmailVerified = true;
+            await user.save();
+            res.redirect(`${process.env.ORIGIN}/login`);
+          }
+        }
+      }
+    );
+  } catch (e) {
+    console.log("error", e.message);
+    await User.deleteOne({ _id: payload.userId });
+    res.redirect(`${process.env.ORIGIN}/register`);
+  }
+});
+
 export {
   register,
   login,
@@ -396,4 +474,5 @@ export {
   getOtherUsersEmail,
   updateCustomer,
   checkOtherUsersEmail,
+  emailTokenVerify,
 };

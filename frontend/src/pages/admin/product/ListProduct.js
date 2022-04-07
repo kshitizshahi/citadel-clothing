@@ -23,6 +23,8 @@ const ListProduct = () => {
   const [keywords, setKeywords] = useState("");
 
   const { loading } = useSelector((state) => state.Product);
+  const { mobileDevice } = useSelector((state) => state.Media);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -54,6 +56,7 @@ const ListProduct = () => {
 
     return () => {
       mounted = false;
+      setProducts(null);
     };
   }, [deleteSuccess, keywords, dispatch]);
 
@@ -72,6 +75,14 @@ const ListProduct = () => {
   const editNavigate = (id) => {
     navigate(`/admin/edit-product/${id}`);
   };
+
+  if (mobileDevice && hideSideBar) {
+    document.body.style.height = "100%";
+    document.body.style.overflow = "hidden";
+  } else {
+    document.body.style.height = "";
+    document.body.style.overflow = "";
+  }
 
   const deleteProduct = async (prodId) => {
     // setOpenDeleteModal(true);
@@ -109,9 +120,26 @@ const ListProduct = () => {
         <LoadingDots />
       ) : (
         <div className="admin-product-container">
-          <div className={hideSideBar ? "side-bar hide" : "side-bar"}>
-            <SideBar select="product" />
-          </div>
+          {!mobileDevice ? (
+            <div className={hideSideBar ? "side-bar hide" : "side-bar"}>
+              <SideBar select="product" />
+            </div>
+          ) : (
+            <div
+              className={hideSideBar ? "admin-side-bar" : "admin-side-bar none"}
+              style={{ width: hideSideBar ? "26rem" : "0" }}
+            >
+              <div className="close">
+                <Icon
+                  icon="ci:close-big"
+                  className="cancel-btn"
+                  onClick={toggleSideBar}
+                />
+              </div>
+              <SideBar select="product" />
+            </div>
+          )}
+
           <div className="table-container">
             <div className="container">
               <div className="heading-container">

@@ -41,14 +41,14 @@
 
         .toggle-sidebar {
           color: var(--color-text);
-          width: clamp(1.4rem, 1.5vw, 2.7rem);
-          height: clamp(1.4rem, 1.5vw, 2.7rem);
+          width: clamp(2rem, 1.5vw, 2.7rem);
+          height: clamp(2rem, 1.5vw, 2.7rem);
           cursor: pointer;
+          user-select: none;
         }
 
         .heading {
-          font-size: clamp(1.5rem, 1.5vw, 2.2rem);
-
+          font-size: clamp(1.8rem, 1.5vw, 2.2rem);
           color: var(--color-text);
         }
       }
@@ -91,7 +91,6 @@
               margin-bottom: 2rem;
 
               @media screen and (max-width: 768px) {
-                max-width: 90%;
                 padding-left: 1.5rem;
               }
             }
@@ -220,11 +219,59 @@
   }
 }
 
-@media screen and (max-width: 768px) {
-  .admin-product-container {
-    .side-bar {
-      flex: 40%;
-      max-width: 40%;
+@media screen and (max-width: 1000px) {
+  .admin-side-bar {
+    position: fixed;
+    left: 0;
+    height: 100%;
+    overflow-y: scroll;
+    width: 0;
+    background-color: var(--color-swal-bg);
+    color: var(--color-text);
+    z-index: 2;
+    transition: width 0.6s ease;
+
+    box-shadow: 0 0 0 100rem rgba(128, 128, 128, 0.1);
+
+    .close {
+      position: relative;
+      margin-bottom: 2rem;
+
+      .cancel-btn {
+        position: absolute;
+        top: 1rem;
+        right: 2rem;
+        height: 2rem;
+        width: 2rem;
+        cursor: pointer;
+      }
+    }
+    &::-webkit-scrollbar {
+      width: 0.5rem;
+    }
+    &::-webkit-scrollbar-track {
+      background: gainsboro;
+    }
+
+    /* Handle */
+    &::-webkit-scrollbar-thumb {
+      background-color: #888;
+    }
+
+    /* Handle on hover */
+    &::-webkit-scrollbar-thumb:hover {
+      background: #555;
     }
   }
+
+  .admin-side-bar.none {
+    box-shadow: none;
+    overflow: hidden;
+  }
 }
+
+// @media screen and (max-width: 768px) {
+//   .admin-side-bar {
+//     width: 5rem;
+//   }
+// }

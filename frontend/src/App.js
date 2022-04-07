@@ -9,7 +9,7 @@ import PageNotFound from "./pages/PageNotFound";
 import UserRoute from "./routes/UserRoute";
 
 import { validateUser } from "./redux/thunkApi/authApi";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import LoadingDots from "./components/Loading";
 
 import HomePage from "./pages/HomePage";
@@ -34,15 +34,28 @@ import AddSeller from "./pages/admin/user/seller/AddSeller";
 import EditSeller from "./pages/admin/user/seller/EditSeller";
 import ListSeller from "./pages/admin/user/seller/ListSeller";
 import ChangeSellerCode from "./pages/admin/user/seller/ChangeSellerCode";
+import { setMedia } from "./redux/slice/mediaSlice";
+import UserPageLayout from "./pages/UserPageLayout";
+import Cart from "./pages/Cart";
 
 function App() {
   const { loading } = useSelector((state) => state.authUser);
-
-  // const { isLoggedIn } = user;
-
-  // let { id } = useParams();
+  const [matches, setMatches] = useState(
+    window.matchMedia("(max-width: 1000px)").matches
+  );
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    window.matchMedia("(max-width: 1000px)").addEventListener("change", (e) => {
+      dispatch(setMedia({ mobileDevice: e.matches }));
+    });
+
+    return () => {
+      setMatches({});
+      window.removeEventListener("change", null);
+    };
+  }, []);
 
   useEffect(() => {
     dispatch(validateUser({}));
@@ -55,6 +68,7 @@ function App() {
   //     }
   //   });
   // }, []);
+
   if (loading) {
     <LoadingDots />;
   }
@@ -72,9 +86,14 @@ function App() {
             <Route path="/product/:id" element={<Product />} />
             <Route path="/login" element={<LogIn />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/" element={<UserPageLayout />}>
+              <Route path="/cart" element={<Cart />} />
+            </Route>
 
             <Route element={<UserRoute />}>
-              <Route path="/profile" element={<UserProfile />} />
+              <Route path="/" element={<UserPageLayout />}>
+                <Route path="/profile" element={<UserProfile />} />
+              </Route>
             </Route>
             <Route element={<AdminRoute />}>
               <Route path="/admin/dashboard" element={<Dashboard />} />
@@ -96,17 +115,20 @@ function App() {
                 path="/admin/edit-subcategory/:id"
                 element={<EditSubCategory />}
               />
+              <Route path="/admin/customer" element={<ListCustomer />} />
+              <Route path="/admin/add-customer" element={<AddCustomer />} />
+              <Route
+                path="/admin/edit-customer/:id"
+                element={<EditCustomer />}
+              />
+              <Route path="/admin/seller" element={<ListSeller />} />
+              <Route path="/admin/add-seller" element={<AddSeller />} />
+              <Route path="/admin/edit-seller/:id" element={<EditSeller />} />
+              <Route
+                path="/admin/change/seller-code/"
+                element={<ChangeSellerCode />}
+              />
             </Route>
-            <Route path="/admin/customer" element={<ListCustomer />} />
-            <Route path="/admin/add-customer" element={<AddCustomer />} />
-            <Route path="/admin/edit-customer/:id" element={<EditCustomer />} />
-            <Route path="/admin/seller" element={<ListSeller />} />
-            <Route path="/admin/add-seller" element={<AddSeller />} />
-            <Route path="/admin/edit-seller/:id" element={<EditSeller />} />
-            <Route
-              path="/admin/change/seller-code/"
-              element={<ChangeSellerCode />}
-            />
 
             <Route path="*" element={<PageNotFound />} />
           </Routes>

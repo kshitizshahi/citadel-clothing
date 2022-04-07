@@ -25,8 +25,8 @@ const AddCategory = () => {
     .object({
       categoryName: yup
         .string()
-        .required("Required")
-        .test("existingCategory", "Category already exists", (value) => {
+        .required("This field is required.")
+        .test("existingCategory", "Category already exists.", (value) => {
           if (value && catNameArray.includes(value)) {
             return false;
           } else {
@@ -35,19 +35,23 @@ const AddCategory = () => {
         }),
       categoryImage: yup
         .mixed()
-        .required("Image is required")
-        .test("required", "Required", (value) => {
+        .required("Image is required.")
+        .test("required", "Image is required.", (value) => {
           return value && value.length > 0;
         })
-        .test("fileType", "Images Only", (value) => {
-          if (value && value.length > 0) {
-            if (SUPPORTED_FORMATS.includes(value[0].type)) {
-              return true;
-            } else {
-              return false;
+        .test(
+          "fileType",
+          "Unsupported file format. Please upload Image.",
+          (value) => {
+            if (value && value.length > 0) {
+              if (SUPPORTED_FORMATS.includes(value[0].type)) {
+                return true;
+              } else {
+                return false;
+              }
             }
           }
-        }),
+        ),
     })
     .required();
 
@@ -67,7 +71,8 @@ const AddCategory = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { loading } = useSelector((state) => state.Category);
+  // const { loading } = useSelector((state) => state.Category);
+  const { mobileDevice } = useSelector((state) => state.Media);
 
   const watchImage = watch("categoryImage", "");
 
@@ -78,6 +83,7 @@ const AddCategory = () => {
 
     try {
       const res = await axios.post(`/api/category/create`, formdata);
+
       toast.success(res.data.message);
       if (res.data.message) {
         navigate("/admin/category");
@@ -113,94 +119,116 @@ const AddCategory = () => {
     });
   }
 
+  if (mobileDevice && hideSideBar) {
+    document.body.style.height = "100%";
+    document.body.style.overflow = "hidden";
+  } else {
+    document.body.style.height = "";
+    document.body.style.overflow = "";
+  }
+
   return (
     <div>
-      {loading ? (
+      {/* {loading ? (
         <LoadingDots />
-      ) : (
-        <div className="add-category-container">
+      ) : ( */}
+      <div className="add-category-container">
+        {!mobileDevice ? (
           <div className={hideSideBar ? "side-bar hide" : "side-bar"}>
             <SideBar select="category" />
           </div>
-          <div className="form-container">
-            <div className="container">
-              <div className="heading-container">
-                <Icon
-                  icon="charm:menu-hamburger"
-                  onClick={toggleSideBar}
-                  className="toggle-sidebar"
-                />
+        ) : (
+          <div
+            className={hideSideBar ? "admin-side-bar" : "admin-side-bar none"}
+            style={{ width: hideSideBar ? "26rem" : "0" }}
+          >
+            <div className="close">
+              <Icon
+                icon="ci:close-big"
+                className="cancel-btn"
+                onClick={toggleSideBar}
+              />
+            </div>
+            <SideBar select="category" />
+          </div>
+        )}
+        <div className="form-container">
+          <div className="container">
+            <div className="heading-container">
+              <Icon
+                icon="charm:menu-hamburger"
+                onClick={toggleSideBar}
+                className="toggle-sidebar"
+              />
 
-                <p className="heading">Add Category</p>
-              </div>
+              <p className="heading">Add Category</p>
+            </div>
 
-              <div className="form-wrapper">
-                <form
-                  onSubmit={handleSubmit(submitHandler)}
-                  encType="multipart/form-data"
-                >
-                  <div className="form-wrapper-container">
-                    <div className="category-image">
-                      {getValues("categoryImage") &&
-                      getValues("categoryImage").length > 0 ? (
-                        <img
-                          src={URL.createObjectURL(
-                            getValues("categoryImage")[0]
-                          )}
-                          alt=""
-                          className="img"
-                        />
-                      ) : (
-                        <img
-                          src={`${PUBLIC_URL}/images/default-profile.png`}
-                          alt=""
-                          className="img"
-                        />
-                      )}
+            <div className="form-wrapper">
+              <form
+                onSubmit={handleSubmit(submitHandler)}
+                encType="multipart/form-data"
+              >
+                <div className="form-wrapper-container">
+                  <div className="category-image">
+                    {getValues("categoryImage") &&
+                    getValues("categoryImage").length > 0 ? (
+                      <img
+                        src={URL.createObjectURL(getValues("categoryImage")[0])}
+                        alt=""
+                        className="img"
+                      />
+                    ) : (
+                      <img
+                        src={`${PUBLIC_URL}/images/default-profile.png`}
+                        alt=""
+                        className="img"
+                      />
+                    )}
 
-                      <label htmlFor="imageChange" className="image-label">
-                        Category Image
-                      </label>
-                      <p className="error">
-                        {errors.categoryImage?.message || "\u00A0"}
-                      </p>
-                      <input
-                        type="file"
-                        id="imageChange"
-                        accept=".png, .jpg, .jpeg"
-                        className="category-image-input"
-                        {...register("categoryImage")}
-                      ></input>
-                    </div>
+                    <label htmlFor="imageChange" className="image-label">
+                      Category Image
+                    </label>
+                    <p className="error">
+                      {errors.categoryImage?.message || "\u00A0"}
+                    </p>
+                    <input
+                      type="file"
+                      id="imageChange"
+                      accept=".png, .jpg, .jpeg"
+                      className="category-image-input"
+                      {...register("categoryImage")}
+                    ></input>
+                  </div>
 
-                    <div className="category-name">
-                      <label htmlFor="categoryName">Category Name</label>
-                      <input
-                        type="text"
-                        id="categoryName"
-                        placeholder="Category Name"
-                        // required
-                        {...register("categoryName")}
-                      ></input>
+                  <div className="category-name">
+                    <label htmlFor="categoryName">Category Name</label>
+                    <input
+                      type="text"
+                      id="categoryName"
+                      placeholder="Category Name"
+                      // required
+                      {...register("categoryName")}
+                    ></input>
 
-                      <p className="error">
-                        {errors.categoryName?.message || "\u00A0"}
-                      </p>
+                    <p className="error">
+                      {errors.categoryName?.message || "\u00A0"}
+                    </p>
 
-                      <div className="btn-container">
-                        <Button
-                          className="add-category-button"
-                          text="Add Category"
-                        />
-                      </div>
+                    <div className="btn-container">
+                      <Button
+                        className="add-category-button"
+                        text="Add Category"
+                      />
                     </div>
                   </div>
-                </form>
-              </div>
+                </div>
+              </form>
             </div>
           </div>
         </div>
-      )}
+      </div>
+      {/* )} */}
     </div>
   );
 };

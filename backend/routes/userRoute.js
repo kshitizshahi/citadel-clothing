@@ -14,6 +14,7 @@ import {
   getOtherUsersEmail,
   updateCustomer,
   checkOtherUsersEmail,
+  emailTokenVerify,
 } from "../controllers/userController.js";
 import {
   admin,
@@ -63,4 +64,5 @@ router.get(
   checkOtherUsersEmail
 );
 
+router.get("/confirmation/:token", emailTokenVerify);
 export default router;

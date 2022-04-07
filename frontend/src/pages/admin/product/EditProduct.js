@@ -20,15 +20,25 @@ import "../../../styles/editProduct.scss";
 
 const editProductSchema = yup
   .object({
-    productName: yup.string().required("Required"),
-    markPrice: yup.number().required("Required"),
-    category: yup.string().required("Required"),
-    subCategory: yup.string().required("Required"),
-    seller: yup.string().required("Required"),
-    discount: yup.number().required("Required"),
-    brand: yup.string().required("Required"),
-    stock: yup.string().required("Required"),
-    textEditor: yup.string().required("Required"),
+    productName: yup.string().required("This field is required."),
+    markPrice: yup.number().required("This field is required."),
+    category: yup.string().required("This field is required."),
+    subCategory: yup.string().required("This field is required."),
+    seller: yup.string().required("This field is required."),
+    discount: yup
+      .number()
+      .min(0, "Discount must be greater than or equal to 0")
+      .max(100, "Discount must be less than or equal to 100")
+      .required("This field is required.")
+      .typeError("This field is required."),
+    brand: yup.string().required("This field is required."),
+    stock: yup
+      .number()
+      .min(1, "Stock must be greater than or equal to 1")
+      .max(100, "Stock must be less than or equal to 100")
+      .required("This field is required.")
+      .typeError("This field is required."),
+    textEditor: yup.string().required("This field is required."),
   })
   .required();
 
@@ -41,6 +51,7 @@ const EditProduct = () => {
   const [sellers, setSellers] = useState([]);
   const [imageRemove, setImageRemove] = useState([]);
   const childDropZoneRef = useRef();
+  const [loading, setLoading] = useState(false);
 
   let { id } = useParams();
 
@@ -69,7 +80,7 @@ const EditProduct = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { loading } = useSelector((state) => state.Category);
+  const { mobileDevice } = useSelector((state) => state.Media);
 
   const submitHandler = async (data) => {
     if (images.length + productImage.length > 4) {
@@ -142,7 +153,9 @@ const EditProduct = () => {
   useEffect(() => {
     (async function () {
       try {
+        setLoading(true);
         const response = await axios.get(`/api/products/get/${id}`);
+        setLoading(false);
         const product = response.data.product;
 
         setProductDetails(product);
@@ -228,6 +241,14 @@ const EditProduct = () => {
     });
   }
 
+  if (mobileDevice && hideSideBar) {
+    document.body.style.height = "100%";
+    document.body.style.overflow = "hidden";
+  } else {
+    document.body.style.height = "";
+    document.body.style.overflow = "";
+  }
+
   const previewImages = productImage.map((previewFile, index) => (
     <div key={index} className="preview-single-image">
       <img src={URL.createObjectURL(previewFile)} className="image-style" />
@@ -256,9 +277,28 @@ const EditProduct = () => {
           <LoadingDots />
         ) : (
           <div className="edit-product-container">
-            <div className={hideSideBar ? "side-bar hide" : "side-bar"}>
-              <SideBar select="product" />
-            </div>
+            {!mobileDevice ? (
+              <div className={hideSideBar ? "side-bar hide" : "side-bar"}>
+                <SideBar select="product" />
+              </div>
+            ) : (
+              <div
+                className={
+                  hideSideBar ? "admin-side-bar" : "admin-side-bar none"
+                }
+                style={{ width: hideSideBar ? "26rem" : "0" }}
+              >
+                <div className="close">
+                  <Icon
+                    icon="ci:close-big"
+                    className="cancel-btn"
+                    onClick={toggleSideBar}
+                  />
+                </div>
+                <SideBar select="product" />
+              </div>
+            )}
+
             <div className="form-container">
               <div className="container">
                 <div className="heading-container">
@@ -445,8 +485,8 @@ const EditProduct = () => {
                             <input
                               type="number"
                               id="discount"
-                              min="0"
-                              max="100"
+                              // min="0"
+                              // max="100"
                               placeholder="0"
                               {...register("discount")}
                             ></input>

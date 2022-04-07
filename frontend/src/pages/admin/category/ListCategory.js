@@ -19,7 +19,9 @@ const ListCategory = () => {
   const [deleteSuccess, setDeleteSuccess] = useState(false);
   const [keywords, setKeywords] = useState("");
 
-  const { loading } = useSelector((state) => state.Product);
+  const { loading } = useSelector((state) => state.Category);
+  const { mobileDevice } = useSelector((state) => state.Media);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -99,15 +101,39 @@ const ListCategory = () => {
     });
   };
 
+  if (mobileDevice && hideSideBar) {
+    document.body.style.height = "100%";
+    document.body.style.overflow = "hidden";
+  } else {
+    document.body.style.height = "";
+    document.body.style.overflow = "";
+  }
+
   return (
     <div>
       {loading ? (
         <LoadingDots />
       ) : (
         <div className="admin-category-container">
-          <div className={hideSideBar ? "side-bar hide" : "side-bar"}>
-            <SideBar select="category" />
-          </div>
+          {!mobileDevice ? (
+            <div className={hideSideBar ? "side-bar hide" : "side-bar"}>
+              <SideBar select="category" />
+            </div>
+          ) : (
+            <div
+              className={hideSideBar ? "admin-side-bar" : "admin-side-bar none"}
+              style={{ width: hideSideBar ? "26rem" : "0" }}
+            >
+              <div className="close">
+                <Icon
+                  icon="ci:close-big"
+                  className="cancel-btn"
+                  onClick={toggleSideBar}
+                />
+              </div>
+              <SideBar select="category" />
+            </div>
+          )}
           <div className="table-container">
             <div className="container">
               <div className="heading-container">

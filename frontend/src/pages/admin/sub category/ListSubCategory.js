@@ -17,8 +17,10 @@ const ListSubCategory = () => {
   const [hideSideBar, setHideSideBar] = useState(false);
   const [deleteSuccess, setDeleteSuccess] = useState(false);
   const [keywords, setKeywords] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const { loading } = useSelector((state) => state.Product);
+  const { mobileDevice } = useSelector((state) => state.Media);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -43,7 +45,9 @@ const ListSubCategory = () => {
     } else {
       (async function () {
         try {
+          setLoading(true);
           const response = await axios.get(`/api/sub-category/get/all`);
+          setLoading(false);
           if (mounted) {
             setSubCategory(response.data.subCategory);
           }
@@ -104,15 +108,39 @@ const ListSubCategory = () => {
     });
   };
 
+  if (mobileDevice && hideSideBar) {
+    document.body.style.height = "100%";
+    document.body.style.overflow = "hidden";
+  } else {
+    document.body.style.height = "";
+    document.body.style.overflow = "";
+  }
+
   return (
     <div>
       {loading ? (
         <LoadingDots />
       ) : (
         <div className="admin-category-container">
-          <div className={hideSideBar ? "side-bar hide" : "side-bar"}>
-            <SideBar select="sub-category" />
-          </div>
+          {!mobileDevice ? (
+            <div className={hideSideBar ? "side-bar hide" : "side-bar"}>
+              <SideBar select="sub-category" />
+            </div>
+          ) : (
+            <div
+              className={hideSideBar ? "admin-side-bar" : "admin-side-bar none"}
+              style={{ width: hideSideBar ? "26rem" : "0" }}
+            >
+              <div className="close">
+                <Icon
+                  icon="ci:close-big"
+                  className="cancel-btn"
+                  onClick={toggleSideBar}
+                />
+              </div>
+              <SideBar select="sub-category" />
+            </div>
+          )}
           <div className="table-container">
             <div className="container">
               <div className="heading-container">

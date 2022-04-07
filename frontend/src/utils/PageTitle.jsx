@@ -21,3 +21,4 @@ export const Seller_Page_Details = "Seller Details";
 export const Add_Seller_Page = "Add Seller";
 export const Edit_Seller_Page = "Edit Seller";
 export const Change_Seller_Code = "Change Seller Code";
+export const Cart_Page_Title = "Cart";

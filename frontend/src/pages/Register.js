@@ -8,51 +8,80 @@ import { useNavigate } from "react-router-dom";
 import { registerUser } from "../redux/thunkApi/authApi";
 import { PUBLIC_URL } from "../utils/BaseUrl";
 import { toast } from "react-toastify";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 
 const Register = () => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const registerSchema = yup
+    .object({
+      firstName: yup.string().required("This field is required."),
+      lastName: yup.string().required("This field is required."),
+      email: yup
+        .string()
+        .email("Invalid email address.")
+        .required("This field is required."),
+
+      phoneNumber: yup
+        .string()
+        .required("This field is required.")
+        .matches(/^[1-9]+[0-9]*$/, "Invalid phone number")
+        .min(10, "Phone number should be at least 10 digits."),
+
+      password: yup
+        .string()
+        .required("This field is required.")
+        .min(8, "Password must be at least 8 characters."),
+
+      confirmPassword: yup
+        .string()
+        .required("This field is required.")
+        .test("checkPassword", "Password does not match", (value) => {
+          return value === getValues("password");
+        }),
+    })
+    .required();
+
+  const {
+    register,
+    handleSubmit,
+    getValues,
+
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(registerSchema),
+  });
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { error, isRegistered, isLoggedIn, message } = useSelector(
-    (state) => state.authUser
-  );
+  const { isLoggedIn } = useSelector((state) => state.authUser);
 
-  const submitHandler = (e) => {
-    e.preventDefault();
+  const submitHandler = (data) => {
+    (async function () {
+      const response = await dispatch(
+        registerUser({
+          firstName: data.firstName,
+          lastName: data.lastName,
+          email: data.email,
+          phoneNumber: data.phoneNumber,
+          password: data.password,
+          confirmPassword: data.confirmPassword,
+        })
+      );
 
-    dispatch(
-      registerUser({
-        firstName,
-        lastName,
-        email,
-        phoneNumber,
-        password,
-        confirmPassword,
-      })
-    );
+      if (response.payload.message) {
+        console.log(response);
+        navigate("/login");
+      }
+    })();
   };
   useEffect(() => {
     document.title = Register_Page_Title;
     if (isLoggedIn) {
       navigate("/");
-    } else if (isRegistered) {
-      toast.success(message, {
-        position: toast.POSITION.TOP_RIGHT,
-      });
-      setTimeout(() => navigate("/"), 2000);
-    } else if (error) {
-      toast.error(error.message, {
-        position: toast.POSITION.TOP_RIGHT,
-      });
     }
-  }, [isLoggedIn, isRegistered, error]);
+  }, [isLoggedIn]);
   return (
     <div className="register-container">
       <div className="image-container">
@@ -63,7 +92,7 @@ const Register = () => {
         />
       </div>
       <div className="register-form-container">
-        <form className="form" onSubmit={submitHandler}>
+        <form className="form" onSubmit={handleSubmit(submitHandler)}>
           <div className="heading">
             <h1>Create Account</h1>
           </div>
@@ -75,9 +104,9 @@ const Register = () => {
                   type="text"
                   id="firstName"
                   placeholder="First Name"
-                  required
-                  onChange={(e) => setFirstName(e.target.value)}
+                  {...register("firstName")}
                 ></input>
+                <p className="error">{errors.firstName?.message || "\u00A0"}</p>
               </div>
               <div className="last-name-container">
                 <label htmlFor="lastName">Last Name</label>
@@ -85,9 +114,9 @@ const Register = () => {
                   type="text"
                   id="lastName"
                   placeholder="Last Name"
-                  required
-                  onChange={(e) => setLastName(e.target.value)}
+                  {...register("lastName")}
                 ></input>
+                <p className="error">{errors.lastName?.message || "\u00A0"}</p>
               </div>
             </div>
             <div className="form-fields">
@@ -97,9 +126,9 @@ const Register = () => {
                   type="email"
                   id="emailAddress"
                   placeholder="Email address"
-                  required
-                  onChange={(e) => setEmail(e.target.value)}
+                  {...register("email")}
                 ></input>
+                <p className="error">{errors.email?.message || "\u00A0"}</p>
               </div>
               <div>
                 <label htmlFor="phoneNumber">Phone Number</label>
@@ -107,10 +136,12 @@ const Register = () => {
                   type="text"
                   id="phoneNumber"
                   placeholder="Phone Number"
-                  pattern="\d{10}$"
-                  required
-                  onChange={(e) => setPhoneNumber(e.target.value)}
+                  // pattern="\d{10}$"
+                  {...register("phoneNumber")}
                 ></input>
+                <p className="error">
+                  {errors.phoneNumber?.message || "\u00A0"}
+                </p>
               </div>
               <div>
                 <label htmlFor="password">Password</label>
@@ -118,9 +149,9 @@ const Register = () => {
                   type="password"
                   id="password"
                   placeholder="Enter password"
-                  required
-                  onChange={(e) => setPassword(e.target.value)}
+                  {...register("password")}
                 ></input>
+                <p className="error">{errors.password?.message || "\u00A0"}</p>
               </div>
               <div>
                 <label htmlFor="confirmPassword">Confirm Password</label>
@@ -128,9 +159,11 @@ const Register = () => {
                   type="password"
                   id="confirmPassword"
                   placeholder="Re-enter password"
-                  required
-                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  {...register("confirmPassword")}
                 ></input>
+                <p className="error">
+                  {errors.confirmPassword?.message || "\u00A0"}
+                </p>
               </div>
             </div>
             <div>
@@ -144,11 +177,6 @@ const Register = () => {
                 </Link>
               </p>
             </div>
-            {/* {error && (
-              <div>
-                <label>{error.message}</label>
-              </div>
-            )} */}
           </div>
         </form>
       </div>

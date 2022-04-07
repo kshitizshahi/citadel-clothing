@@ -45,3 +45,32 @@ export const getSingleProduct = createAsyncThunk(
     }
   }
 );
+
+export const addToCart = createAsyncThunk(
+  "product/addCart",
+  async ({ id, quantity }, { rejectWithValue, dispatch }) => {
+    try {
+      const res = await axios.get(`/api/products/get/${id}`);
+
+      const data = res.data.product;
+
+      return {
+        productId: data._id,
+        name: data.name,
+        image: data.images[0],
+        markPrice: data.markPrice,
+        price: data.price,
+        discount: data.discount,
+        countInStock: data.countInStock,
+        brand: data.brand,
+        subCategory: data.subCategory.name,
+        quantity: quantity,
+      };
+    } catch (err) {
+      if (!err.response) {
+        return err.message;
+      }
+      return rejectWithValue(err.response.data);
+    }
+  }
+);

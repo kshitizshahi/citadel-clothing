@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Login_Page_Title } from "../utils/PageTitle";
 import { loginUser } from "../redux/thunkApi/authApi";
@@ -14,8 +14,11 @@ import "../styles/login.scss";
 
 const loginSchema = yup
   .object({
-    email: yup.string().email("Invalid email").required("Required"),
-    password: yup.string().required("Required"),
+    email: yup
+      .string()
+      .email("Invalid email address.")
+      .required("This field is required."),
+    password: yup.string().required("This field is required."),
   })
   .required();
 
@@ -31,10 +34,11 @@ const LogIn = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const { error, loading, message, isLoggedIn } = useSelector(
-    (state) => state.authUser
-  );
+  const { isLoggedIn } = useSelector((state) => state.authUser);
+
+  const redirect = location.search ? location.search.split("=")[1] : "/";
 
   const submitHandler = (data) => {
     dispatch(loginUser({ email: data.email, password: data.password }));
@@ -43,19 +47,10 @@ const LogIn = () => {
   useEffect(() => {
     document.title = Login_Page_Title;
     if (isLoggedIn) {
-      toast.success(message, {
-        position: toast.POSITION.TOP_RIGHT,
-      });
-      navigate("/");
+      navigate(redirect);
       // setTimeout(() => navigate("/"), 2000);
     }
-
-    if (error) {
-      toast.error(error.message, {
-        position: toast.POSITION.TOP_RIGHT,
-      });
-    }
-  }, [isLoggedIn, error]);
+  }, [isLoggedIn, redirect]);
 
   return (
     <div>

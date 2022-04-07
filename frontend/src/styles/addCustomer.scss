@@ -40,13 +40,14 @@
 
         .toggle-sidebar {
           color: var(--color-text);
-          width: clamp(1.4rem, 1.5vw, 2.7rem);
-          height: clamp(1.4rem, 1.5vw, 2.7rem);
+          width: clamp(2rem, 1.5vw, 2.7rem);
+          height: clamp(2rem, 1.5vw, 2.7rem);
           cursor: pointer;
+          user-select: none;
         }
 
         .heading {
-          font-size: clamp(1.5rem, 1.5vw, 2.2rem);
+          font-size: clamp(1.8rem, 1.5vw, 2.2rem);
           color: var(--color-text);
         }
       }
@@ -70,12 +71,12 @@
 
             .img {
               @media screen and (max-width: 768px) {
-                width: 14rem;
-                height: 14rem;
+                width: 17rem;
+                height: 17rem;
               }
               @media screen and (max-width: 600px) {
-                width: 11rem;
-                height: 11rem;
+                width: 15rem;
+                height: 15rem;
               }
 
               @media screen and (min-width: 768px) {
@@ -97,7 +98,6 @@
 
             .profile-image-input {
               font-size: clamp(1rem, 1vw, 1.2rem);
-
               color: var(--color-text);
             }
 
@@ -174,6 +174,13 @@
       .container {
         .form-wrapper {
           .form-wrapper-container {
+            padding: 2.5rem 1rem;
+            @include flexBox(column, null);
+
+            .profile-image {
+              flex-grow: 1;
+              max-width: 100%;
+            }
             .input-field-container {
               .flex-container {
                 @include flexBox(column, null);
@@ -182,6 +189,9 @@
                   max-width: 100%;
                 }
               }
+            }
+            .add-category-button {
+              width: 100%;
             }
           }
         }

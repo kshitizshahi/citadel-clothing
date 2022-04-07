@@ -57,7 +57,7 @@ const deleteCategory = asyncHandler(async (req, res) => {
         return console.error(err);
       }
     });
-    await category.remove();
+    await Category.deleteOne({ _id: categoryId });
     res.status(200).json({
       message: "Category deleted",
     });

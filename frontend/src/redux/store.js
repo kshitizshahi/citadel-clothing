@@ -3,6 +3,7 @@ import userSlice from "./slice/userSlice";
 import authSlice from "./slice/authSlice";
 import productSlice from "./slice/productSlice";
 import categorySlice from "./slice/categorySlice";
+import mediaSlice from "./slice/mediaSlice";
 
 export default configureStore({
   reducer: {
@@ -12,5 +13,6 @@ export default configureStore({
     User: userSlice,
     Product: productSlice,
     Category: categorySlice,
+    Media: mediaSlice,
   },
 });

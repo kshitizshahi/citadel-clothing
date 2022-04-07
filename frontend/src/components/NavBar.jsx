@@ -43,6 +43,14 @@ const NavBar = () => {
     setOpenNav(!openNav);
   };
 
+  if (matches && openNav) {
+    document.body.style.height = "100%";
+    document.body.style.overflow = "hidden";
+  } else {
+    document.body.style.height = "";
+    document.body.style.overflow = "";
+  }
+
   return (
     <div className="navigation-bar">
       <div className="logo">
@@ -113,36 +121,59 @@ const NavBar = () => {
               </li>
               <li>
                 <NavLink
-                  to="/profile"
-                  className={({ isActive }) => (isActive ? "active" : "")}
-                >
-                  Profile
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/admin/dashboard"
-                  className={({ isActive }) => (isActive ? "active" : "")}
-                >
-                  Dashboard
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
                   to="/cart"
                   className={({ isActive }) => (isActive ? "active" : "")}
                 >
                   Cart
                 </NavLink>
               </li>
-              <li>
-                <NavLink
-                  to="/logout"
-                  className={({ isActive }) => (isActive ? "active" : "")}
-                >
-                  Logout
-                </NavLink>
-              </li>
+              {isLoggedIn ? (
+                <>
+                  <li>
+                    <NavLink
+                      to="/profile"
+                      className={({ isActive }) => (isActive ? "active" : "")}
+                    >
+                      Profile
+                    </NavLink>
+                  </li>
+
+                  {isAdmin && (
+                    <li>
+                      <NavLink
+                        to="/admin/dashboard"
+                        className={({ isActive }) => (isActive ? "active" : "")}
+                      >
+                        Dashboard
+                      </NavLink>
+                    </li>
+                  )}
+                  <li>
+                    <Link to="#" onClick={logoutHandler}>
+                      Logout
+                    </Link>
+                  </li>
+                </>
+              ) : (
+                <>
+                  <li>
+                    <NavLink
+                      to="/login"
+                      className={({ isActive }) => (isActive ? "active" : "")}
+                    >
+                      Login
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to="/register"
+                      className={({ isActive }) => (isActive ? "active" : "")}
+                    >
+                      Register
+                    </NavLink>
+                  </li>
+                </>
+              )}
             </ul>
           </div>
         )}

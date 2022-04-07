@@ -43,6 +43,10 @@ const authSlice = createSlice({
       state.userInfo = action.payload.data;
       state.fetchSuccess = true;
       state.isAdmin = action.payload.data.isAdmin;
+      state.error = null;
+
+      toast.success(action.payload.message);
+
       localStorage.setItem("isAdmin", JSON.stringify(state.isAdmin));
       localStorage.setItem("userLogin", JSON.stringify(state.isLoggedIn));
       state.loading = false;
@@ -50,6 +54,8 @@ const authSlice = createSlice({
     [loginUser.rejected]: (state, action) => {
       state.loading = false;
       state.error = action.payload;
+      toast.error(action.payload.message);
+
       localStorage.setItem("userLogin", JSON.stringify(state.isLoggedIn));
     },
     [registerUser.pending]: (state) => {
@@ -60,10 +66,13 @@ const authSlice = createSlice({
       state.message = action.payload.message;
       state.isRegistered = true;
       state.loading = false;
+      toast.success(action.payload.message);
     },
     [registerUser.rejected]: (state, action) => {
       state.loading = false;
       state.error = action.payload;
+
+      toast.error(action.payload.message);
     },
     [logoutUser.pending]: (state) => {
       state.loading = true;

@@ -19,25 +19,28 @@ import "../../../styles/addProduct.scss";
 
 const addProductSchema = yup
   .object({
-    productName: yup.string().required("Required"),
-    markPrice: yup.number().required("Required").typeError("Required"),
-    category: yup.string().required("Required"),
-    subCategory: yup.string().required("Required"),
-    seller: yup.string().required("Required"),
+    productName: yup.string().required("This field is required."),
+    markPrice: yup
+      .number()
+      .required("This field is required.")
+      .typeError("This field is required."),
+    category: yup.string().required("This field is required."),
+    subCategory: yup.string().required("This field is required."),
+    seller: yup.string().required("This field is required."),
     discount: yup
       .number()
-      .min(0)
-      .max(100)
-      .required("Required")
-      .typeError("Required"),
-    brand: yup.string().required("Required"),
+      .min(0, "Discount must be greater than or equal to 0")
+      .max(100, "Discount must be less than or equal to 100")
+      .required("This field is required.")
+      .typeError("This field is required."),
+    brand: yup.string().required("This field is required."),
     stock: yup
       .number()
-      .min(1)
-      .max(100)
-      .required("Required")
-      .typeError("Required"),
-    textEditor: yup.string().required("Required"),
+      .min(1, "Stock must be greater than or equal to 1")
+      .max(100, "Stock must be less than or equal to 100")
+      .required("This field is required.")
+      .typeError("This field is required."),
+    textEditor: yup.string().required("This field is required."),
   })
   .required();
 
@@ -73,6 +76,7 @@ const AddProduct = () => {
   const navigate = useNavigate();
 
   const { loading } = useSelector((state) => state.Category);
+  const { mobileDevice } = useSelector((state) => state.Media);
 
   const submitHandler = async (data) => {
     if (productImage.length > 4) {
@@ -194,15 +198,40 @@ const AddProduct = () => {
     });
   }
 
+  if (mobileDevice && hideSideBar) {
+    document.body.style.height = "100%";
+    document.body.style.overflow = "hidden";
+  } else {
+    document.body.style.height = "";
+    document.body.style.overflow = "";
+  }
+
   return (
     <div>
       {loading ? (
         <LoadingDots />
       ) : (
         <div className="add-product-container">
-          <div className={hideSideBar ? "side-bar hide" : "side-bar"}>
-            <SideBar select="product" />
-          </div>
+          {!mobileDevice ? (
+            <div className={hideSideBar ? "side-bar hide" : "side-bar"}>
+              <SideBar select="product" />
+            </div>
+          ) : (
+            <div
+              className={hideSideBar ? "admin-side-bar" : "admin-side-bar none"}
+              style={{ width: hideSideBar ? "26rem" : "0" }}
+            >
+              <div className="close">
+                <Icon
+                  icon="ci:close-big"
+                  className="cancel-btn"
+                  onClick={toggleSideBar}
+                />
+              </div>
+              <SideBar select="product" />
+            </div>
+          )}
+
           <div className="form-container">
             <div className="container">
               <div className="heading-container">

@@ -13,7 +13,7 @@ export const isAuth = (req, res, next) => {
         process.env.ACCESS_TOKEN_SECRET,
         (err, decode) => {
           if (err) {
-            res.status(403).json({ message: "Invalid token" });
+            res.status(403).json({ error: "Invalid token" });
           } else {
             return decode;
           }
@@ -24,7 +24,7 @@ export const isAuth = (req, res, next) => {
     } else if (req.accessToken) {
       next();
     } else {
-      res.status(401).json({ message: "Not authorized, please login" });
+      res.status(401).json({ error: "Not authorized, please login" });
     }
   } catch (error) {
     console.log(error);
@@ -52,7 +52,7 @@ export const verifyAccessTokenExpiry = asyncHandler(async (req, res, next) => {
         process.env.REFRESH_TOKEN_SECRET,
         (err, decode) => {
           if (err) {
-            res.status(403).json({ message: "Invalid refresh token" });
+            res.status(403).json({ error: "Invalid refresh token" });
           } else {
             return decode;
           }
@@ -82,7 +82,7 @@ export const verifyAccessTokenExpiry = asyncHandler(async (req, res, next) => {
     } else if (token && !refToken) {
       next();
     } else {
-      res.status(401).json({ message: "Not authorized, please login" });
+      res.status(401).json({ error: "Not authorized, please login" });
     }
   } catch (error) {
     console.log(error);

@@ -1,8 +1,10 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import "../../styles/sideBar.scss";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { logoutUser } from "../../redux/thunkApi/authApi";
 
 const SideBar = ({ select, subSelect }) => {
   const [openProduct, setOpenProduct] = useState(false);
@@ -11,6 +13,14 @@ const SideBar = ({ select, subSelect }) => {
   const [openUsers, setOpenUsers] = useState(false);
   const [openCustomer, setOpenCustomer] = useState(false);
   const [openSeller, setOpenSeller] = useState(false);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const logoutHandler = (e) => {
+    dispatch(logoutUser({}));
+    navigate("/");
+  };
 
   return (
     <div className="admin-sidebar-container">
@@ -287,10 +297,10 @@ const SideBar = ({ select, subSelect }) => {
           </li>
 
           <li>
-            <NavLink to="/logout">
+            <Link to="#" onClick={logoutHandler}>
               <Icon icon="clarity:sign-out-line" className="logout-icon" />
               <p>Logout</p>
-            </NavLink>
+            </Link>
           </li>
         </ul>
       </div>

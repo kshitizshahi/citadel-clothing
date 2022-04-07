@@ -203,7 +203,7 @@ const deleteProduct = asyncHandler(async (req, res) => {
       });
     });
 
-    await product.remove();
+    await Product.deleteOne({ _id: productId });
     res.status(200).json({
       message: "Product deleted",
     });

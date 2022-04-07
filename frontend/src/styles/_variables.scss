@@ -37,7 +37,7 @@
   --color-admin-dashboard-foreground: rgb(255, 255, 255, 0.95);
   --color-admin-dashboard-border: #dadce0;
   --color-admin-table-head: #b0d8d8;
-  --color-add-product-btn-bg: #00ab55;
+  --color-add-product-btn-bg: #2ea067;
   --color-add-product-btn-text: #ffffff;
   --color-dropzone-border: #2c2c2a;
   --color-swal: #545454;
@@ -45,6 +45,8 @@
   --color-quantity-bg: rgb(255, 255, 255, 0.8);
   --color-error: #ff0033;
   --color-link: #007185;
+  --color-line: #dad5d5;
+  --color-cart-line: #ccc;
 }
 
 html[theme="dark"] {
@@ -84,4 +86,6 @@ html[theme="dark"] {
   --color-quantity-bg: #212121;
   --color-error: #e4e6eb;
   --color-link: gray;
+  --color-line: #282727;
+  --color-cart-line: #323131;
 }

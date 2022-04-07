@@ -1,4 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
+import { logoutUser } from "../thunkApi/authApi";
 
 import { updateUser } from "../thunkApi/userApi";
 
@@ -6,9 +8,9 @@ const userSlice = createSlice({
   name: "user",
   initialState: {
     error: null,
-    isValid: true,
     success: false,
     userUpdate: null,
+    isValid: true,
   },
   reducers: {
     clearError: (state) => {
@@ -29,12 +31,15 @@ const userSlice = createSlice({
       state.userUpdate = action.payload;
       state.loading = false;
       state.success = !state.success;
+
+      toast.success(action.payload.message);
     },
     [updateUser.rejected]: (state, action) => {
       state.loading = false;
       state.userUpdate = null;
       state.error = action.payload;
       state.isValid = !state.isValid;
+      toast.error(action.payload.message);
     },
   },
 });

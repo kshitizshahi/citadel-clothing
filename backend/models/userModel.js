@@ -36,6 +36,7 @@ const userSchema = new mongoose.Schema(
       minLength: [8, "Password should be 8 characters or longer"],
     },
     isAdmin: { type: Boolean, default: false },
+    isEmailVerified: { type: Boolean, default: false },
     // isSeller: { type: Boolean, default: false, required: true },
     profileImage: {
       type: String,

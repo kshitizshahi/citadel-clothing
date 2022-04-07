@@ -17,7 +17,7 @@ html {
 body {
   // min-height: 100vh;
   font-size: 1.45rem;
-  font-family: Poppins, "Segoe UI", Helvetica, Arial, sans-serif;
+  font-family: Poppins, Open Sans, "Segoe UI", Helvetica, Arial, sans-serif;
 
   .swal2-popup {
     font-size: 1.2rem;
@@ -46,7 +46,7 @@ body {
 label {
   display: block;
   // font-family: Roboto;
-  font-size: clamp(1.1rem, 2vw, 1.35rem);
+  font-size: clamp(1.3rem, 2vw, 1.35rem);
   color: var(--color-text);
 }
 
@@ -357,6 +357,7 @@ li {
       height: 2.5rem;
       width: 2.5rem;
       cursor: pointer;
+      user-select: none;
     }
   }
 }

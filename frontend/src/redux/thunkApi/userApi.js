@@ -5,14 +5,14 @@ import { validateUser } from "./authApi";
 export const updateUser = createAsyncThunk(
   "user/update",
   async (
-    { firstName, lastName, email, phoneNumber, userImage },
+    { firstName, lastName, phoneNumber, userImage },
     { rejectWithValue, dispatch }
   ) => {
     try {
       const formdata = new FormData();
       formdata.append("firstName", firstName);
       formdata.append("lastName", lastName);
-      formdata.append("email", email);
+      // formdata.append("email", email);
       formdata.append("phoneNumber", phoneNumber);
 
       formdata.append("profileImage", userImage);

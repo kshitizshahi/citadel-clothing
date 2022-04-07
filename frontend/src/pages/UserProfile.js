@@ -15,53 +15,52 @@ import LoadingDots from "../components/Loading";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import axios from "axios";
 
 const UserProfile = () => {
   const [image, setImage] = useState([]);
-  const [user, setUser] = useState([]);
+  // const [user, setUser] = useState([]);
   const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/png"];
 
   let userEmailArray = [];
 
   const updateUserSchema = yup
     .object({
-      firstName: yup.string().required("Required"),
-      lastName: yup.string().required("Required"),
-      email: yup
-        .string()
-        .email("Invalid email")
-        .required("Required")
-        .test("existingEmail", "Email already exists", (value) => {
-          if (value && userEmailArray.includes(value)) {
-            return false;
-          } else {
-            return true;
-          }
-        }),
+      firstName: yup.string().required("This field is required."),
+      lastName: yup.string().required("This field is required."),
+      // email: yup
+      //   .string()
+      //   .email("Invalid email address.")
+      //   .required("This field is required."),
+      // .test("existingEmail", "Email already in use.", (value) => {
+      //   if (value && userEmailArray.includes(value)) {
+      //     return false;
+      //   } else {
+      //     return true;
+      //   }
+      // }),
       phoneNumber: yup
-        .number()
-        .required("Required")
-        .test(
-          "checkPhoneLength",
-          "Phone number should be at least be 10 digits",
-          (value) => {
-            return value.toString().length >= 10;
-          }
-        )
-        .typeError("Please enter number"),
+        .string()
+        .required("This field is required.")
+        .matches(/^[1-9]+[0-9]*$/, "Invalid phone number")
+        .min(10, "Phone number should be at least 10 digits."),
 
-      userImage: yup.mixed().test("fileType", "Images Only", (value) => {
-        if (value && value.length > 0) {
-          if (SUPPORTED_FORMATS.includes(value[0].type)) {
-            return true;
-          } else {
-            return false;
+      userImage: yup
+        .mixed()
+        .test(
+          "fileType",
+          "Unsupported file format. Please upload Image.",
+          (value) => {
+            if (value && value.length > 0) {
+              if (SUPPORTED_FORMATS.includes(value[0].type)) {
+                return true;
+              } else {
+                return false;
+              }
+            } else {
+              return true;
+            }
           }
-        } else {
-          return true;
-        }
-      }),
+        ),
     })
     .required();
 
@@ -87,7 +86,7 @@ const UserProfile = () => {
   const {
     userInfo,
     fetchSuccess,
-    loading: loadingUser,
+    error: authError,
   } = useSelector((state) => state.authUser);
 
   const submitHandler = async (data) => {
@@ -95,7 +94,7 @@ const UserProfile = () => {
       updateUser({
         firstName: data.firstName,
         lastName: data.lastName,
-        email: data.email,
+        // email: data.email,
         phoneNumber: data.phoneNumber,
         userImage: data.userImage[0],
       })
@@ -110,15 +109,6 @@ const UserProfile = () => {
   useEffect(() => {
     document.title = Profile_Page_Title;
 
-    if (error && error.message) {
-      dispatch(logoutUser({}));
-      dispatch(clearError());
-    } else if (userUpdate && userUpdate.data) {
-      toast.success(userUpdate.message, {
-        position: toast.POSITION.TOP_RIGHT,
-      });
-      dispatch(clearuserUpdate());
-    }
     if (userInfo && fetchSuccess) {
       setValue("firstName", userInfo.firstName);
       setValue("lastName", userInfo.lastName);
@@ -126,30 +116,40 @@ const UserProfile = () => {
       setValue("phoneNumber", userInfo.phoneNumber);
       setImage(userInfo.profileImage);
     }
-  }, [isValid, fetchSuccess, dispatch]);
+  }, [fetchSuccess, dispatch]);
 
   useEffect(() => {
-    let mounted = true;
+    if (error?.error) {
+      toast.error(error.error);
+      setTimeout(() => {
+        dispatch(logoutUser({}));
+        dispatch(clearError());
+      }, 1000);
+    }
+  }, [isValid]);
 
-    (async function () {
-      try {
-        const response = await axios.get(`/api/users/check/others/email/`);
-        if (mounted) {
-          setUser(response.data.otherUsers);
-        }
-      } catch (error) {
-        toast.error(error.response.data.message);
-      }
-    })();
+  // useEffect(() => {
+  //   let mounted = true;
 
-    return () => {
-      mounted = false;
-    };
-  }, []);
+  //   (async function () {
+  //     try {
+  //       const response = await axios.get(`/api/users/check/others/email/`);
+  //       if (mounted) {
+  //         setUser(response.data.otherUsers);
+  //       }
+  //     } catch (error) {
+  //       toast.error(error.response.data.message);
+  //     }
+  //   })();
 
-  if (user && user.length > 0) {
-    user.map((elem) => userEmailArray.push(elem.email));
-  }
+  //   return () => {
+  //     mounted = false;
+  //   };
+  // }, []);
+
+  // if (user && user.length > 0) {
+  //   user.map((elem) => userEmailArray.push(elem.email));
+  // }
 
   return (
     <div>
@@ -157,9 +157,6 @@ const UserProfile = () => {
         <LoadingDots />
       ) : (
         <div className="user-profile-container">
-          <div className="user-profile-nav">
-            <UserNav />
-          </div>
           <div className="form-container">
             <div className="user-address-container">
               <form
@@ -182,21 +179,6 @@ const UserProfile = () => {
                         className="img"
                       />
                     )}
-                    {/* {userInfo && (
-                      <img
-                        src={`${BASE_URL}/${userInfo.profileImage}`}
-                        alt="Profile Picture"
-                        className="img"
-                      />
-                      <div
-                        className="img"
-                        style={{
-                          backgroundImage: `url(${BASE_URL}/${userInfo.profileImage})
-                          `,
-
-                        }}
-                      ></div> 
-                    )} */}
 
                     <label htmlFor="imageChange" className="image-change">
                       Change Image
@@ -246,6 +228,8 @@ const UserProfile = () => {
                         <input
                           type="email"
                           id="emailAddress"
+                          readOnly="readOnly"
+                          // disabled="disabled"
                           placeholder="Email address"
                           {...register("email")}
                         ></input>
