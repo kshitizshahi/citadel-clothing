@@ -7,13 +7,12 @@ import Register from "./pages/Register";
 import UserProfile from "./pages/UserProfile";
 import PageNotFound from "./pages/PageNotFound";
 import UserRoute from "./routes/UserRoute";
-
 import { validateUser } from "./redux/thunkApi/authApi";
 import { useEffect, useState } from "react";
 import LoadingDots from "./components/Loading";
 
 import HomePage from "./pages/HomePage";
-import Mens from "./pages/Mens";
+import Men from "./pages/Men";
 import Shop from "./pages/Shop";
 import Dashboard from "./pages/admin/Dashboard";
 import ListProduct from "./pages/admin/product/ListProduct";
@@ -37,6 +36,12 @@ import ChangeSellerCode from "./pages/admin/user/seller/ChangeSellerCode";
 import { setMedia } from "./redux/slice/mediaSlice";
 import UserPageLayout from "./pages/UserPageLayout";
 import Cart from "./pages/Cart";
+import PlaceOrder from "./pages/PlaceOrder";
+import Category from "./pages/Category";
+import Women from "./pages/Women";
+import Kid from "./pages/Kid";
+import Order from "./pages/Order";
+import OrderDetails from "./pages/OrderDetails";
 
 function App() {
   const { loading } = useSelector((state) => state.authUser);
@@ -63,7 +68,7 @@ function App() {
 
   // useEffect(() => {
   //   window.addEventListener("resize", () => {
-  //     if (window.innerWidth < 768) {
+  //     if (erWidth < 768) {
   //       console.log("mobile");
   //     }
   //   });
@@ -81,11 +86,16 @@ function App() {
         <div>
           <Routes>
             <Route path="/" element={<HomePage />} exact />
-            <Route path="/mens" element={<Mens />} />
+            <Route path="/men" element={<Men />} />
+            <Route path="/women" element={<Women />} />
+            <Route path="/kid" element={<Kid />} />
+
             <Route path="/shop" element={<Shop />} />
             <Route path="/product/:id" element={<Product />} />
             <Route path="/login" element={<LogIn />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/category/:name" element={<Category />} />
+
             <Route path="/" element={<UserPageLayout />}>
               <Route path="/cart" element={<Cart />} />
             </Route>
@@ -93,7 +103,10 @@ function App() {
             <Route element={<UserRoute />}>
               <Route path="/" element={<UserPageLayout />}>
                 <Route path="/profile" element={<UserProfile />} />
+                <Route path="/order/:id" element={<OrderDetails />} />
+                <Route path="/orders" element={<Order />} />
               </Route>
+              <Route path="/place-order" element={<PlaceOrder />} />
             </Route>
             <Route element={<AdminRoute />}>
               <Route path="/admin/dashboard" element={<Dashboard />} />

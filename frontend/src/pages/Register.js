@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import "../styles/register.scss";
 import { Register_Page_Title } from "../utils/PageTitle";
@@ -54,6 +54,7 @@ const Register = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const { isLoggedIn } = useSelector((state) => state.authUser);
 
@@ -82,6 +83,13 @@ const Register = () => {
       navigate("/");
     }
   }, [isLoggedIn]);
+
+  useEffect(() => {
+    if (location.search && location.search.includes("error")) {
+      const message = decodeURI(location.search.split("=")[1]);
+      toast.error(message);
+    }
+  }, []);
   return (
     <div className="register-container">
       <div className="image-container">

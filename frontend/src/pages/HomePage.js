@@ -102,7 +102,17 @@ const HomePage = () => {
               {category &&
                 category.map((elem, index) => (
                   <div key={index} className="category-items">
-                    <Link to={`/category/${elem._id}`}>
+                    <Link
+                      to={
+                        elem.name.match(/women/i)
+                          ? "/women"
+                          : elem.name.match(/men/i)
+                          ? "/men"
+                          : elem.name.match(/kid/i)
+                          ? "kid"
+                          : `/category/${elem.name}`
+                      }
+                    >
                       <img
                         src={`${BASE_URL}/${elem.categoryImage}`}
                         alt="Category Image"

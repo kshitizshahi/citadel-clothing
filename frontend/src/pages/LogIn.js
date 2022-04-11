@@ -32,13 +32,21 @@ const LogIn = () => {
     resolver: yupResolver(loginSchema),
   });
 
+  let redirect;
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
 
   const { isLoggedIn } = useSelector((state) => state.authUser);
 
-  const redirect = location.search ? location.search.split("=")[1] : "/";
+  if (location.search && location.search.includes("redirect")) {
+    redirect = location.search.split("=")[1];
+  } else {
+    redirect = "/";
+  }
+
+  // const redirect = location.search ? location.search.split("=")[1] : "/";
 
   const submitHandler = (data) => {
     dispatch(loginUser({ email: data.email, password: data.password }));
@@ -51,6 +59,13 @@ const LogIn = () => {
       // setTimeout(() => navigate("/"), 2000);
     }
   }, [isLoggedIn, redirect]);
+
+  useEffect(() => {
+    if (location.search && location.search.includes("success")) {
+      const message = decodeURI(location.search.split("=")[1]);
+      toast.success(message);
+    }
+  }, []);
 
   return (
     <div>

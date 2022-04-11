@@ -2,11 +2,6 @@ import mongoose from "mongoose";
 
 const subCategorySchema = new mongoose.Schema(
   {
-    admin: {
-      type: mongoose.Schema.Types.ObjectId,
-      // required: true,
-      ref: "User",
-    },
     category: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,

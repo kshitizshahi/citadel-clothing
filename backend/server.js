@@ -7,6 +7,8 @@ import sellerRoute from "./routes/sellerRoute.js";
 import categoryRoute from "./routes/categoryRoute.js";
 import productRoute from "./routes/productRoute.js";
 import subCategoryRoute from "./routes/subCategoryRoute.js";
+import paymentRoute from "./routes/paymentRoute.js";
+import orderRoute from "./routes/orderRoute.js";
 
 import path from "path";
 import createUploadFolder from "./configs/upload.js";
@@ -31,6 +33,9 @@ app.use("/api/sellers", sellerRoute);
 app.use("/api/category", categoryRoute);
 app.use("/api/sub-category", subCategoryRoute);
 app.use("/api/products", productRoute);
+app.use("/api/orders", orderRoute);
+
+app.use("/api/payment", paymentRoute);
 
 app.get("/", (req, res) => {
   res.status(200).json({ message: "Database configured" });

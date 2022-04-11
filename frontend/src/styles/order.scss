@@ -1,0 +1,152 @@
+.order-container {
+  background-color: var(--color-user-nav-bg);
+  border-radius: 0.4rem;
+  padding: 2rem 4rem;
+  font-family: Open Sans;
+
+  p {
+    color: var(--color-text);
+  }
+
+  .heading {
+    p {
+      font-size: 1.8rem;
+      font-family: Open Sans;
+    }
+
+    .line {
+      margin-inline: auto;
+      width: 100%;
+      border: none;
+      height: 0.16rem;
+      background-color: rgb(114, 111, 111);
+      color: rgb(114, 111, 111);
+      margin-block: 1rem 2rem;
+    }
+  }
+
+  .empty-cart {
+    font-size: 1.55rem;
+
+    .navigate-shop {
+      color: var(--color-link);
+    }
+  }
+
+  .order-items-wrapper {
+    .individual-order {
+      .order-details-container {
+        margin-bottom: 2.5rem;
+
+        .order-info {
+          display: flex;
+          .title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            flex: 45%;
+            max-width: 45%;
+          }
+          .delivery,
+          .payment {
+            flex: 23%;
+            max-width: 23%;
+            display: flex;
+            gap: 0.5rem;
+            font-size: 1.35rem;
+            padding-inline: 1rem;
+
+            .status {
+              color: green;
+              font-size: 1.35rem;
+            }
+            .status.error {
+              color: var(--color-error);
+            }
+          }
+
+          .button-container {
+            color: var(--color-text);
+
+            .edit-btn {
+              height: 1.9rem;
+              width: 1.9rem;
+              margin-right: 0.7rem;
+              cursor: pointer;
+            }
+            .cancel-btn {
+              height: 1.9rem;
+              width: 1.9rem;
+              cursor: pointer;
+            }
+          }
+        }
+
+        .order-sub-details {
+          margin-top: 0.3rem;
+          display: flex;
+          font-size: 1.35rem;
+          align-items: center;
+          gap: 1rem;
+
+          .date {
+            color: gray;
+          }
+
+          .cancelled {
+            border: 0.0625rem solid var(--color-text);
+            padding: 0.2rem;
+            font-size: 1.2rem;
+          }
+        }
+      }
+
+      .order-items {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+
+        .individual-item {
+          display: flex;
+
+          .product-image {
+            img {
+              height: 8rem;
+              width: 8rem;
+              object-fit: cover;
+            }
+          }
+
+          .product-details {
+            flex-grow: 1;
+            font-size: 1.55rem;
+            padding-left: 1rem;
+
+            // .name {
+            //   margin-bottom: 0.2rem;
+            // }
+
+            .other-details {
+              display: flex;
+              gap: 1rem;
+
+              p {
+                margin-block: 0.4rem;
+                color: gray;
+                font-size: 1.25rem;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .cart-line {
+      margin-inline: auto;
+      width: 100%;
+      border: none;
+      height: 0.15rem;
+      background-color: var(--color-cart-line);
+      margin-block: 2.5rem;
+    }
+  }
+}

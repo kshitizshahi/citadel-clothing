@@ -440,14 +440,22 @@ const emailTokenVerify = asyncHandler(async (req, res) => {
             ignoreExpiration: true,
           });
           await User.deleteOne({ _id: payload.userId });
-          res.redirect(`${process.env.ORIGIN}/register`);
+          res.redirect(
+            `${process.env.ORIGIN}/register?error=${encodeURIComponent(
+              "Link expired. Register again"
+            )}`
+          );
         } else {
           const user = await User.findById({ _id: decode.userId });
 
           if (user) {
             user.isEmailVerified = true;
             await user.save();
-            res.redirect(`${process.env.ORIGIN}/login`);
+            res.redirect(
+              `${process.env.ORIGIN}/login?success=${encodeURIComponent(
+                "Email Verified. Please Login"
+              )}`
+            );
           }
         }
       }
@@ -455,7 +463,11 @@ const emailTokenVerify = asyncHandler(async (req, res) => {
   } catch (e) {
     console.log("error", e.message);
     await User.deleteOne({ _id: payload.userId });
-    res.redirect(`${process.env.ORIGIN}/register`);
+    res.redirect(
+      `${process.env.ORIGIN}/register?error=${encodeURIComponent(
+        "Link expired. Register again"
+      )}`
+    );
   }
 });
 

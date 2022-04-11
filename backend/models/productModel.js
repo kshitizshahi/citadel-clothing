@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const productSchema = new mongoose.Schema(
   {
-    admin: {
+    user: {
       type: mongoose.Schema.Types.ObjectId,
       // required: true,
       ref: "User",

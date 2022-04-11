@@ -2,11 +2,6 @@ import mongoose from "mongoose";
 
 const categorySchema = new mongoose.Schema(
   {
-    admin: {
-      type: mongoose.Schema.Types.ObjectId,
-      // required: true,
-      ref: "User",
-    },
     name: {
       type: String,
       required: true,

@@ -98,19 +98,26 @@ const Product = () => {
                 </div>
                 <div className="product-quantity">
                   <label htmlFor="productQuantity">Quantity</label>
-                  <PlusMinusCart
-                    countInStock={product.countInStock}
-                    changeQuantity={handleChange}
-                    qty={1}
-                  />
+                  {product.countInStock >= 1 ? (
+                    <PlusMinusCart
+                      countInStock={product.countInStock}
+                      changeQuantity={handleChange}
+                      qty={1}
+                    />
+                  ) : (
+                    <p className="out-of-stock">Product is out of stock</p>
+                  )}
+
                   <div>
-                    <Tooltip label="Add to Cart" color="gray" withArrow>
-                      <Icon
-                        icon="fa-solid:cart-plus"
-                        className="add-cart"
-                        onClick={navigateToCart}
-                      />
-                    </Tooltip>
+                    {product.countInStock >= 1 && (
+                      <Tooltip label="Add to Cart" color="gray" withArrow>
+                        <Icon
+                          icon="fa-solid:cart-plus"
+                          className="add-cart"
+                          onClick={navigateToCart}
+                        />
+                      </Tooltip>
+                    )}
                   </div>
                 </div>
                 <hr className="line" />

@@ -49,7 +49,7 @@ const Cart = () => {
   };
 
   const checkoutHandler = () => {
-    navigate("/login?redirect=/shipping");
+    navigate("/login?redirect=/place-order");
   };
 
   return (

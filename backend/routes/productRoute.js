@@ -4,6 +4,7 @@ import {
   deleteImage,
   deleteProduct,
   getAllProduct,
+  getCategoryProduct,
   getDiscountProduct,
   getProduct,
   searchProduct,
@@ -24,6 +25,8 @@ const adminMiddleWare = [verifyAccessTokenExpiry, isAuth, admin];
 
 router.get("/get/all-products", getAllProduct);
 router.get("/get/discount-products", getDiscountProduct);
+router.get("/get/category/products/:keywords", getCategoryProduct);
+
 router.get("/get/:productId", getProduct);
 router.delete("/delete/:productId", adminMiddleWare, deleteProduct);
 router.get("/search/:keywords", adminMiddleWare, searchProduct);

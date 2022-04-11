@@ -1,6 +1,7 @@
 import Product from "../models/ProductModel.js";
 import asyncHandler from "express-async-handler";
 import fs from "fs";
+import Category from "../models/CategoryModel.js";
 
 const defaultResponse = (Product) => {
   return {
@@ -128,6 +129,32 @@ const getDiscountProduct = asyncHandler(async (req, res) => {
     res.status(200).json({
       product,
       message: "Product fetched",
+    });
+  }
+});
+
+const getCategoryProduct = asyncHandler(async (req, res) => {
+  const { keywords } = req.params;
+
+  const category = await Category.findOne({
+    name: { $regex: keywords, $options: "i" },
+  });
+
+  console.log(category);
+
+  if (category) {
+    console.log(category._id);
+    const product = await Product.find({ category: category._id }).populate(
+      "category",
+      "_id name"
+    );
+    res.status(200).json({
+      product,
+      message: "Product found",
+    });
+  } else {
+    res.status(404).json({
+      message: "Product not found",
     });
   }
 });
@@ -281,4 +308,5 @@ export {
   deleteProduct,
   searchProduct,
   deleteImage,
+  getCategoryProduct,
 };

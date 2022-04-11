@@ -6,7 +6,7 @@ export const sendMail = ({ email, path, user }) => {
     { userId: user._id },
     process.env.EMAIL_SECRET,
     {
-      expiresIn: "7d",
+      expiresIn: "5s",
     },
     (err, emailToken) => {
       const url = `http://${path}/api/users/confirmation/${emailToken}`;

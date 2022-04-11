@@ -44,7 +44,7 @@ const PlusMinusCart = ({ countInStock, changeQuantity, qty, prodId }) => {
         type="text"
         id="productQuantity"
         required
-        pattern="[0-9]"
+        // pattern="[0-9]"
         value={quantity}
         onChange={(e) => {
           updateQuantity(e);

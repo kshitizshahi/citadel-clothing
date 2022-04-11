@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import "../styles/userProfile.scss";
 import { Profile_Page_Title } from "../utils/PageTitle";
-import UserNav from "../components/UserNav";
 import Button from "../components/Button";
 import { toast } from "react-toastify";
 import { updateUser } from "../redux/thunkApi/userApi";
