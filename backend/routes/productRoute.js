@@ -14,30 +14,32 @@ import {
 import upload from "../middleware/productImageUploader.js";
 
 import {
-  admin,
   isAuth,
+  seller,
+  sellerAdmin,
   verifyAccessTokenExpiry,
 } from "../middleware/authorization.js";
 
 const router = express.Router();
 
-const adminMiddleWare = [verifyAccessTokenExpiry, isAuth, admin];
+const adminSellerMiddleWare = [verifyAccessTokenExpiry, isAuth, sellerAdmin];
+const sellerMiddleWare = [verifyAccessTokenExpiry, isAuth, seller];
 
 router.get("/get/all-products", getAllProduct);
 router.get("/get/discount-products", getDiscountProduct);
 router.get("/get/category/products/:keywords", getCategoryProduct);
 
 router.get("/get/:productId", getProduct);
-router.delete("/delete/:productId", adminMiddleWare, deleteProduct);
-router.get("/search/:keywords", adminMiddleWare, searchProduct);
+router.delete("/delete/:productId", adminSellerMiddleWare, deleteProduct);
+router.get("/search/:keywords", adminSellerMiddleWare, searchProduct);
 router.put(
   "/update/:productId",
-  adminMiddleWare,
+  adminSellerMiddleWare,
   upload.array("images"),
   updateProduct
 );
-router.put("/delete/image/:productId", adminMiddleWare, deleteImage);
+router.put("/delete/image/:productId", adminSellerMiddleWare, deleteImage);
 
-router.post("/create", upload.array("images"), adminMiddleWare, createProduct);
+router.post("/create", upload.array("images"), sellerMiddleWare, createProduct);
 
 export default router;

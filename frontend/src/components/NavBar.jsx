@@ -10,7 +10,7 @@ import "../styles/main.scss";
 import { useEffect, useState } from "react";
 
 const NavBar = () => {
-  const { isLoggedIn, userInfo, isAdmin } = useSelector(
+  const { isLoggedIn, userInfo, isAdmin, isSeller } = useSelector(
     (state) => state.authUser
   );
 
@@ -148,6 +148,16 @@ const NavBar = () => {
                       </NavLink>
                     </li>
                   )}
+                  {isSeller && (
+                    <li>
+                      <NavLink
+                        to="/seller/dashboard"
+                        className={({ isActive }) => (isActive ? "active" : "")}
+                      >
+                        Dashboard
+                      </NavLink>
+                    </li>
+                  )}
                   <li>
                     <Link to="#" onClick={logoutHandler}>
                       Logout
@@ -265,6 +275,11 @@ const NavBar = () => {
                     </Link>
                     {isAdmin && (
                       <Link to="/admin/dashboard">
+                        <li>Dashboard</li>
+                      </Link>
+                    )}
+                    {isSeller && (
+                      <Link to="/seller/dashboard">
                         <li>Dashboard</li>
                       </Link>
                     )}

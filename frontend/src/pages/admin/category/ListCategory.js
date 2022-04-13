@@ -65,10 +65,6 @@ const ListCategory = () => {
     setHideSideBar(!hideSideBar);
   };
 
-  const addCategoryNavigator = () => {
-    navigate("/admin/add-category");
-  };
-
   const editNavigate = (id) => {
     navigate(`/admin/edit-category/${id}`);
   };
@@ -151,18 +147,6 @@ const ListCategory = () => {
                     placeholder="Search category..."
                     onChange={keywordsChange}
                   />
-                  <div>
-                    <button
-                      className="add-category"
-                      onClick={addCategoryNavigator}
-                    >
-                      <Icon
-                        icon="ant-design:plus-outlined"
-                        className="add-icon"
-                      />
-                      New Category
-                    </button>
-                  </div>
                 </div>
                 <table>
                   <thead>

@@ -1,29 +1,30 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Customer_Page_Details } from "../../../../utils/PageTitle";
-import SearchBar from "../../../../components/SearchBar";
+import { SubCategory_Page_Details } from "../../../utils/PageTitle";
+import SearchBar from "../../../components/SearchBar";
 import { useNavigate } from "react-router-dom";
 import { Tooltip } from "@mantine/core";
-import LoadingDots from "../../../../components/Loading";
-import SideBar from "../../../../components/Admin/SideBar";
-import "../../../../styles/listCategory.scss";
+import LoadingDots from "../../../components/Loading";
+import SideBar from "../../../components/Seller/SideBar";
+import "../../../styles/listCategory.scss";
 import { Icon } from "@iconify/react";
 import Swal from "sweetalert2";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const ListSeller = () => {
-  const [sellers, setSellers] = useState([]);
+const ListSellerSubCategory = () => {
+  const [subCategory, setSubCategory] = useState([]);
   const [hideSideBar, setHideSideBar] = useState(false);
   const [deleteSuccess, setDeleteSuccess] = useState(false);
   const [keywords, setKeywords] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const { loading } = useSelector((state) => state.Product);
   const { mobileDevice } = useSelector((state) => state.Media);
+
   const navigate = useNavigate();
 
   useEffect(() => {
-    document.title = Customer_Page_Details;
+    document.title = SubCategory_Page_Details;
   }, []);
 
   useEffect(() => {
@@ -31,9 +32,11 @@ const ListSeller = () => {
     if (keywords.length > 0) {
       (async function () {
         try {
-          const response = await axios.get(`/api/users/search/${keywords}`);
+          const response = await axios.get(
+            `/api/sub-category/search/${keywords}`
+          );
           if (mounted) {
-            setSellers(response.data.sellers);
+            setSubCategory(response.data.subCategory);
           }
         } catch (error) {
           toast.error(error.response.data.message);
@@ -42,9 +45,11 @@ const ListSeller = () => {
     } else {
       (async function () {
         try {
-          const response = await axios.get(`/api/sellers/get/seller`);
+          setLoading(true);
+          const response = await axios.get(`/api/sub-category/get/all`);
+          setLoading(false);
           if (mounted) {
-            setSellers(response.data.data);
+            setSubCategory(response.data.subCategory);
           }
         } catch (error) {
           toast.error(error.response.data.message);
@@ -65,17 +70,17 @@ const ListSeller = () => {
     setHideSideBar(!hideSideBar);
   };
 
-  const addCustomerNavigator = () => {
-    navigate("/admin/add-customer");
+  const addSubCategoryNavigator = () => {
+    navigate("/seller/add-subcategory");
   };
 
   const editNavigate = (id) => {
-    navigate(`/admin/edit-customer/${id}`);
+    navigate(`/seller/edit-subcategory/${id}`);
   };
 
-  const deleteCustomer = async (cusId) => {
+  const deleteCategory = async (subCatId) => {
     Swal.fire({
-      title: "Are you sure you want to delete the customer?",
+      title: "Are you sure you want to delete the sub category?",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#d33",
@@ -91,7 +96,9 @@ const ListSeller = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const res = await axios.delete(`/api/users/delete/${cusId}`);
+          const res = await axios.delete(
+            `/api/sub-category/delete/${subCatId}`
+          );
           toast.success(res.data.message);
           setDeleteSuccess(!deleteSuccess);
         } catch (error) {
@@ -108,6 +115,7 @@ const ListSeller = () => {
     document.body.style.height = "";
     document.body.style.overflow = "";
   }
+
   return (
     <div>
       {loading ? (
@@ -116,7 +124,7 @@ const ListSeller = () => {
         <div className="admin-category-container">
           {!mobileDevice ? (
             <div className={hideSideBar ? "side-bar hide" : "side-bar"}>
-              <SideBar select="users" subSelect="sellers" />
+              <SideBar select="sub-category" />
             </div>
           ) : (
             <div
@@ -130,7 +138,7 @@ const ListSeller = () => {
                   onClick={toggleSideBar}
                 />
               </div>
-              <SideBar select="users" subSelect="sellers" />
+              <SideBar select="sub-category" />
             </div>
           )}
           <div className="table-container">
@@ -142,24 +150,24 @@ const ListSeller = () => {
                   className="toggle-sidebar"
                 />
 
-                <p className="heading">Sellers</p>
+                <p className="heading">Sub Category</p>
               </div>
               <div className="table">
                 <div className="search-div">
                   <SearchBar
-                    placeholder="Search customer..."
+                    placeholder="Search sub category..."
                     onChange={keywordsChange}
                   />
                   <div>
                     <button
                       className="add-category"
-                      onClick={addCustomerNavigator}
+                      onClick={addSubCategoryNavigator}
                     >
                       <Icon
                         icon="ant-design:plus-outlined"
                         className="add-icon"
                       />
-                      New Customer
+                      New Sub Category
                     </button>
                   </div>
                 </div>
@@ -167,29 +175,25 @@ const ListSeller = () => {
                   <thead>
                     <tr>
                       <th>Sn</th>
-                      <th>Full Name</th>
-                      <th>Email</th>
-                      <th>Phone Number</th>
-                      <th>Verifed</th>
+                      <th>Category</th>
+                      <th>Sub Category</th>
                       <th>Actions</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {sellers &&
-                      sellers.map((elem, index) => (
+                    {subCategory &&
+                      subCategory.map((cat, index) => (
                         <tr key={index}>
                           <td>{index + 1}</td>
-                          <td>{elem.fullName}</td>
-                          <td>{elem.email}</td>
-                          <td>{elem.phoneNumber}</td>
-                          <td>{}</td>
+                          <td>{cat?.category?.name}</td>
+                          <td>{cat.name}</td>
 
                           <td className="button-container">
                             <Tooltip label="Edit" color="green" withArrow>
                               <Icon
                                 icon="bx:edit"
                                 className="edit-btn"
-                                onClick={(e) => editNavigate(elem._id)}
+                                onClick={(e) => editNavigate(cat._id)}
                               />
                             </Tooltip>
 
@@ -197,7 +201,7 @@ const ListSeller = () => {
                               <Icon
                                 icon="ant-design:delete-filled"
                                 className="delete-btn"
-                                onClick={(e) => deleteCustomer(elem._id)}
+                                onClick={(e) => deleteCategory(cat._id)}
                               />
                             </Tooltip>
                           </td>
@@ -214,4 +218,4 @@ const ListSeller = () => {
   );
 };
 
-export default ListSeller;
+export default ListSellerSubCategory;

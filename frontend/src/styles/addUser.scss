@@ -1,6 +1,6 @@
 @use "../styles/mixins" as *;
 
-.add-customer-container {
+.add-user-container {
   display: flex;
   background-color: var(--color-admin-dashboard-bg);
 
@@ -133,9 +133,20 @@
             }
 
             .other-form-fields {
-              input {
-                @include inputBox();
-                margin-block: 0.8rem 0;
+              .input-fields {
+                input {
+                  @include inputBox();
+                  margin-block: 0.8rem 0;
+                }
+              }
+
+              .switch {
+                margin-block: 1rem 1.5rem;
+                label {
+                  color: var(--color-text);
+                  font-size: 1.45rem;
+                  font-family: inherit;
+                }
               }
             }
           }
@@ -159,7 +170,7 @@
 }
 
 @media screen and (max-width: 768px) {
-  .add-customer-container {
+  .add-user-container {
     // flex-direction: column;
 
     .side-bar {

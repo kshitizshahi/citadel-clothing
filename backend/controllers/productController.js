@@ -31,7 +31,7 @@ const query = [
   },
   {
     path: "seller",
-    select: "_id fullName",
+    select: "_id firstName lastName",
   },
 ];
 
@@ -48,7 +48,6 @@ const createProduct = asyncHandler(async (req, res) => {
     subCategory,
     name,
     brand,
-    seller,
     markPrice,
     description,
     discount,
@@ -62,7 +61,7 @@ const createProduct = asyncHandler(async (req, res) => {
     subCategory,
     name,
     brand,
-    seller,
+    seller: req.user,
     markPrice,
     countInStock,
     price:
@@ -178,7 +177,6 @@ const updateProduct = asyncHandler(async (req, res) => {
     category,
     subCategory,
     brand,
-    seller,
     markPrice,
     discount,
   } = req.body;
@@ -197,7 +195,6 @@ const updateProduct = asyncHandler(async (req, res) => {
     product.category = category || product.category;
     product.subCategory = subCategory || product.subCategory;
     product.brand = brand || product.brand;
-    product.seller = seller || product.seller;
     product.markPrice = markPrice || product.markPrice;
     product.discount = discount || product.discount;
     product.price =

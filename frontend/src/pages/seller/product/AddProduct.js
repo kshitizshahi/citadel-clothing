@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Add_Product_Page } from "../../../utils/PageTitle";
 import Button from "../../../components/Button";
 import LoadingDots from "../../../components/Loading";
-import SideBar from "../../../components/Admin/SideBar";
+import SideBar from "../../../components/Seller/SideBar";
 import { Icon } from "@iconify/react";
 import DropZone from "../../../components/DropZone";
 import { toast } from "react-toastify";
@@ -26,7 +26,6 @@ const addProductSchema = yup
       .typeError("This field is required."),
     category: yup.string().required("This field is required."),
     subCategory: yup.string().required("This field is required."),
-    seller: yup.string().required("This field is required."),
     discount: yup
       .number()
       .min(0, "Discount must be greater than or equal to 0")
@@ -44,18 +43,16 @@ const addProductSchema = yup
   })
   .required();
 
-const AddProduct = () => {
+const AddSellerProduct = () => {
   const [productImage, setProductImage] = useState([]);
   const [categories, setCategories] = useState([]);
   const [subCategories, setSubCategories] = useState([]);
-  const [sellers, setSellers] = useState([]);
 
   const {
     register,
     handleSubmit,
     getValues,
     watch,
-    reset,
     setValue,
     control,
     formState: { errors },
@@ -70,7 +67,6 @@ const AddProduct = () => {
 
   let selectCatArray = [];
   let selectSubCatArray = [];
-  let selectSellerArray = [];
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -91,7 +87,6 @@ const AddProduct = () => {
       formdata.append("brand", data.brand);
       formdata.append("countInStock", data.stock);
       formdata.append("category", data.category);
-      formdata.append("seller", data.seller);
       formdata.append("subCategory", data.subCategory);
       formdata.append("description", data.textEditor);
 
@@ -109,7 +104,7 @@ const AddProduct = () => {
         toast.success(res.data.message);
 
         if (res.data.message) {
-          navigate("/admin/product");
+          navigate("/seller/product");
         }
       } catch (error) {
         toast.error(error.response.data.message);
@@ -120,16 +115,6 @@ const AddProduct = () => {
   useEffect(() => {
     let mounted = true;
     document.title = Add_Product_Page;
-    (async function () {
-      try {
-        const res = await axios.get(`/api/sellers/get/seller`);
-        if (mounted) {
-          setSellers(res.data.data);
-        }
-      } catch (error) {
-        toast.error(error.response.data.message);
-      }
-    })();
 
     return () => {
       mounted = false;
@@ -185,15 +170,6 @@ const AddProduct = () => {
       selectSubCatArray.push({
         value: elem._id,
         label: elem.name,
-      });
-    });
-  }
-
-  if (sellers && sellers.length > 0) {
-    sellers.map((elem, index) => {
-      selectSellerArray.push({
-        value: elem._id,
-        label: elem.fullName,
       });
     });
   }
@@ -337,25 +313,7 @@ const AddProduct = () => {
                             </p>
                           </span>
                         </div>
-                        <div>
-                          <label htmlFor="seller">Seller</label>
-                          <span className="select">
-                            <Controller
-                              control={control}
-                              name="seller"
-                              render={({ field }) => (
-                                <SelectBox
-                                  placeholder="Select seller"
-                                  data={selectSellerArray}
-                                  {...field}
-                                />
-                              )}
-                            />
-                            <p className="error">
-                              {errors?.seller?.message || "\u00A0"}
-                            </p>
-                          </span>
-                        </div>
+
                         <div>
                           <label htmlFor="markPrice">Mark Price</label>
                           <input
@@ -430,4 +388,4 @@ const AddProduct = () => {
   );
 };
 
-export default AddProduct;
+export default AddSellerProduct;

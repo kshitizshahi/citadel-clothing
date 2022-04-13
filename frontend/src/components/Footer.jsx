@@ -46,7 +46,7 @@ const Footer = () => {
           <div className="quick-links">
             <p className="links-heading">Quick Links</p>
             <ul>
-              <Link to="/sell">
+              <Link to="/register">
                 <li>Sell</li>
               </Link>
               <Link to="/contact">
@@ -57,7 +57,7 @@ const Footer = () => {
           <div className="account">
             <p className="account-heading">Account</p>
             <ul>
-              <Link to="/account">
+              <Link to="/profile">
                 <li>My account</li>
               </Link>
             </ul>
@@ -65,13 +65,13 @@ const Footer = () => {
           <div className="products">
             <p className="product-heading">Products</p>
             <ul>
-              <Link to="/women-fashion">
+              <Link to="/women">
                 <li>Women's Fashion</li>
               </Link>
-              <Link to="/men-fashion">
+              <Link to="/men">
                 <li>Men's Fashion</li>
               </Link>
-              <Link to="/kid-fashion">
+              <Link to="/kid">
                 <li>Kid's Fashion</li>
               </Link>
             </ul>

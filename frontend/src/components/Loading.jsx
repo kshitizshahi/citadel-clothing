@@ -7,6 +7,7 @@ const LoadingDots = () => {
     // width: "25px",
     height: "70px",
     width: "70px",
+    color: "var(--color-text)",
   };
   return (
     <div

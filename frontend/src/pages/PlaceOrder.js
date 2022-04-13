@@ -24,7 +24,6 @@ import Khalti from "../components/Khalti";
 
 const PlaceOrder = () => {
   const [loading, setLoading] = useState(false);
-  const [isPaid, setIsPaid] = useState(false);
   const [paymentResult, setPaymentResult] = useState(false);
 
   let subTotalPrice, totalItems, shippingPrice, totalPrice;
@@ -61,6 +60,8 @@ const PlaceOrder = () => {
   const { cart, shippingAddress, paymentMethod } = useSelector(
     (state) => state.Product
   );
+
+  const { userInfo } = useSelector((state) => state.authUser);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -104,6 +105,57 @@ const PlaceOrder = () => {
     await dispatch(savePaymentMethod(value));
   };
 
+  useEffect(() => {
+    let isMounted = true;
+    console.log("paymentResult", paymentResult);
+    if (paymentResult) {
+      if (isMounted) {
+        console.log("hey");
+        (async function () {
+          dispatch(
+            saveShippingAddress({
+              address: getValues("address"),
+              city: getValues("city"),
+              postalCode: getValues("postalCode"),
+              country: getValues("country"),
+            })
+          );
+
+          const orderData = {
+            orderItems: cart,
+            paymentMethod: getValues("paymentMethod"),
+            shippingAddress: {
+              address: getValues("address"),
+              city: getValues("city"),
+              postalCode: getValues("postalCode"),
+              country: getValues("country"),
+            },
+            shippingPrice: shippingPrice,
+            totalPrice: totalPrice,
+            isPaid: true,
+            paymentResult: paymentResult,
+          };
+
+          try {
+            setLoading(true);
+            const res = await axios.post(`/api/orders/place-order`, orderData);
+            setLoading(false);
+            toast.success(res.data.message);
+            navigate(`/order/${res.data.createdOrder._id}`);
+            dispatch(clearCart());
+          } catch (error) {
+            setLoading(false);
+            toast.error(error.response.data.message);
+          }
+        })();
+      }
+    }
+    return () => {
+      setPaymentResult(false);
+      isMounted = false;
+    };
+  }, [paymentResult]);
+
   const submitHandler = async (data) => {
     dispatch(
       saveShippingAddress({
@@ -125,26 +177,18 @@ const PlaceOrder = () => {
       },
       shippingPrice: shippingPrice,
       totalPrice: totalPrice,
-      isPaid: isPaid,
+      isPaid: false,
       paymentResult: paymentResult,
     };
 
-    if (cart.length === 0) {
+    if (userInfo.isAdmin) {
+      toast.error("Admin cannot place order");
+    } else if (userInfo.isSeller) {
+      toast.error("Seller cannot place order");
+    } else if (cart.length === 0) {
       toast.error("Cart is empty");
     } else if (data.paymentMethod === "Khalti") {
-      if (isPaid) {
-        try {
-          setLoading(true);
-          const res = await axios.post(`/api/orders/place-order`, orderData);
-          setLoading(false);
-          toast.success(res.data.message);
-          navigate(`/order/${res.data.createdOrder._id}`);
-          dispatch(clearCart());
-        } catch (error) {
-          setLoading(false);
-          toast.error(error.response.data.message);
-        }
-      } else {
+      if (!paymentResult) {
         toast.error("Please pay first");
       }
     } else {
@@ -153,9 +197,7 @@ const PlaceOrder = () => {
         const res = await axios.post(`/api/orders/place-order`, orderData);
         setLoading(false);
         toast.success(res.data.message);
-
         navigate(`/order/${res.data.createdOrder._id}`);
-
         dispatch(clearCart());
       } catch (error) {
         setLoading(false);
@@ -292,8 +334,8 @@ const PlaceOrder = () => {
                             prodId={cart[0].productId}
                             prodName={cart[0].name}
                             totalAmount={totalPrice}
-                            successPayment={setIsPaid}
                             paymentResult={setPaymentResult}
+                            placeOrder={handleSubmit(submitHandler)}
                           />
                         </div>
                       )}

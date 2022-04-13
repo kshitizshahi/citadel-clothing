@@ -10,35 +10,37 @@ import {
 } from "../controllers/categoryController.js";
 
 import {
-  admin,
   isAuth,
+  seller,
+  sellerAdmin,
   verifyAccessTokenExpiry,
 } from "../middleware/authorization.js";
 import upload from "../middleware/productImageUploader.js";
 
 const router = express.Router();
 
-const adminMiddleWare = [verifyAccessTokenExpiry, isAuth, admin];
+const adminSellerMiddleWare = [verifyAccessTokenExpiry, isAuth, sellerAdmin];
+const sellerMiddleWare = [verifyAccessTokenExpiry, isAuth, seller];
 
 router.get("/get/category", getCategory);
 router.get("/get/:categoryId", getSingleCategory);
 
 router.post(
   "/create",
-  adminMiddleWare,
+  sellerMiddleWare,
   upload.single("categoryImage"),
   createCategory
 );
-router.delete("/delete/:categoryId", adminMiddleWare, deleteCategory);
+router.delete("/delete/:categoryId", adminSellerMiddleWare, deleteCategory);
 router.put(
   "/update/:categoryId",
-  adminMiddleWare,
+  adminSellerMiddleWare,
   upload.single("categoryImage"),
   updateCategory
 );
 
 router.get("/get/others/:categoryId", otherCategory);
 
-router.get("/search/:keywords", adminMiddleWare, searchCategory);
+router.get("/search/:keywords", adminSellerMiddleWare, searchCategory);
 
 export default router;

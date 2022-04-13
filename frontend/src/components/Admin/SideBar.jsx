@@ -3,16 +3,11 @@ import { Icon } from "@iconify/react";
 import "../../styles/sideBar.scss";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../redux/thunkApi/authApi";
 
-const SideBar = ({ select, subSelect }) => {
-  const [openProduct, setOpenProduct] = useState(false);
-  const [openCategory, setOpenCategory] = useState(false);
-  const [openSubCategory, setOpenSubCategory] = useState(false);
+const SideBar = ({ select }) => {
   const [openUsers, setOpenUsers] = useState(false);
-  const [openCustomer, setOpenCustomer] = useState(false);
-  const [openSeller, setOpenSeller] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -39,133 +34,43 @@ const SideBar = ({ select, subSelect }) => {
           </li>
 
           <li>
-            <Link
-              to="#"
-              onClick={(e) => setOpenCategory(!openCategory)}
-              className={
-                select === "category" ? "dropdown current-tab" : "dropdown"
-              }
+            <NavLink
+              to="/admin/category"
+              className={({ isActive }) => (isActive ? "current-tab" : "")}
             >
-              <Icon
-                icon="akar-icons:chevron-right"
-                className={openCategory ? "caret rotate" : "caret"}
-              />
-
               <Icon
                 icon="mdi:format-list-bulleted-type"
                 className="category-icon"
               />
               <p>Category</p>
-            </Link>
-
-            <ul className={openCategory ? "nested" : "nested hide"}>
-              <NavLink
-                to="/admin/category"
-                className={({ isActive }) => (isActive ? "sub-category" : "")}
-              >
-                <Icon icon="bi:dot" className="product-icon" />
-                <p>List Category</p>
-              </NavLink>
-              <li>
-                <NavLink
-                  to="/admin/add-category"
-                  className={({ isActive }) => (isActive ? "sub-category" : "")}
-                >
-                  <Icon icon="bi:dot" className="product-icon" />
-                  <p>Add Category</p>
-                </NavLink>
-              </li>
-            </ul>
+            </NavLink>
           </li>
           <li>
-            <Link
-              to="#"
-              onClick={(e) => setOpenSubCategory(!openSubCategory)}
-              className={
-                select === "sub-category" ? "dropdown current-tab" : "dropdown"
-              }
+            <NavLink
+              to="/admin/sub-category"
+              className={({ isActive }) => (isActive ? "current-tab" : "")}
             >
-              <Icon
-                icon="akar-icons:chevron-right"
-                className={openSubCategory ? "caret rotate" : "caret"}
-              />
-
               <Icon
                 icon="icon-park-outline:difference-set"
                 className="sub-category-icon"
               />
               <p>Sub Category</p>
-            </Link>
-
-            <ul className={openSubCategory ? "nested" : "nested hide"}>
-              <NavLink
-                to="/admin/sub-category"
-                className={({ isActive }) => (isActive ? "sub-category" : "")}
-              >
-                <Icon icon="bi:dot" className="product-icon" />
-                <p>List Sub Category</p>
-              </NavLink>
-              <li>
-                <NavLink
-                  to="/admin/add-subcategory"
-                  className={({ isActive }) => (isActive ? "sub-category" : "")}
-                >
-                  <Icon icon="bi:dot" className="product-icon" />
-                  <p>Add Sub Category</p>
-                </NavLink>
-              </li>
-            </ul>
+            </NavLink>
           </li>
 
           <li>
-            <Link
-              to="#"
-              onClick={(e) => setOpenProduct(!openProduct)}
-              className={
-                select === "product" ? "dropdown current-tab" : "dropdown"
-              }
+            <NavLink
+              to="/admin/product"
+              className={({ isActive }) => (isActive ? "current-tab" : "")}
             >
-              <Icon
-                icon="akar-icons:chevron-right"
-                className={openProduct ? "caret rotate" : "caret"}
-              />
-
               <Icon
                 icon="icon-park-outline:ad-product"
                 className="product-icon"
               />
               <p>Products</p>
-            </Link>
-
-            <ul className={openProduct ? "nested" : "nested hide"}>
-              <NavLink
-                to="/admin/product"
-                className={({ isActive }) => (isActive ? "sub-category" : "")}
-              >
-                <Icon icon="bi:dot" className="product-icon" />
-                <p>List Products</p>
-              </NavLink>
-
-              <li>
-                <NavLink
-                  to="/admin/add-product"
-                  className={({ isActive }) => (isActive ? "sub-category" : "")}
-                >
-                  <Icon icon="bi:dot" className="product-icon" />
-                  <p>Add Product</p>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/admin/edit-product"
-                  className={({ isActive }) => (isActive ? "sub-category" : "")}
-                >
-                  <Icon icon="bi:dot" className="product-icon" />
-                  <p>Edit Product</p>
-                </NavLink>
-              </li>
-            </ul>
+            </NavLink>
           </li>
+
           <li>
             <Link
               to="#"
@@ -184,104 +89,22 @@ const SideBar = ({ select, subSelect }) => {
             </Link>
 
             <ul className={openUsers ? "nested" : "nested hide"}>
+              <NavLink
+                to="/admin/users"
+                className={({ isActive }) => (isActive ? "sub-category" : "")}
+              >
+                <Icon icon="bi:dot" className="product-icon" />
+                <p>List Users</p>
+              </NavLink>
+
               <li>
                 <NavLink
-                  to="#"
-                  onClick={(e) => setOpenCustomer(!openCustomer)}
-                  className={
-                    subSelect === "customers"
-                      ? "dropdown sub-category"
-                      : "dropdown"
-                  }
+                  to="/admin/add-user"
+                  className={({ isActive }) => (isActive ? "sub-category" : "")}
                 >
-                  <Icon
-                    icon="akar-icons:chevron-right"
-                    className={openCustomer ? "caret rotate" : "caret"}
-                  />
-
-                  <Icon icon="bi:dot" className="user-icon" />
-                  <p>Customers</p>
+                  <Icon icon="bi:dot" className="product-icon" />
+                  <p>Add User</p>
                 </NavLink>
-
-                <ul className={openCustomer ? "sub-nested" : "sub-nested hide"}>
-                  <li>
-                    <NavLink
-                      to="/admin/customer"
-                      className={({ isActive }) =>
-                        isActive ? "sub-category" : ""
-                      }
-                    >
-                      <Icon icon="bi:dot" className="product-icon" />
-                      <p>List Customer</p>
-                    </NavLink>
-                  </li>
-                  <li>
-                    <NavLink
-                      to="/admin/add-customer"
-                      className={({ isActive }) =>
-                        isActive ? "sub-category" : ""
-                      }
-                    >
-                      <Icon icon="bi:dot" className="product-icon" />
-                      <p>Add Customer</p>
-                    </NavLink>
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <NavLink
-                  to="#"
-                  onClick={(e) => setOpenSeller(!openSeller)}
-                  className={
-                    subSelect === "seller"
-                      ? "dropdown sub-category"
-                      : "dropdown"
-                  }
-                >
-                  <Icon
-                    icon="akar-icons:chevron-right"
-                    className={openSeller ? "caret rotate" : "caret"}
-                  />
-
-                  <Icon icon="bi:dot" className="user-icon" />
-                  <p>Sellers</p>
-                </NavLink>
-
-                <ul className={openSeller ? "sub-nested" : "sub-nested hide"}>
-                  <li>
-                    <NavLink
-                      to="/admin/seller"
-                      className={({ isActive }) =>
-                        isActive ? "sub-category" : ""
-                      }
-                    >
-                      <Icon icon="bi:dot" className="product-icon" />
-                      <p>List Seller</p>
-                    </NavLink>
-                  </li>
-                  <li>
-                    <NavLink
-                      to="/admin/add-seller"
-                      className={({ isActive }) =>
-                        isActive ? "sub-category" : ""
-                      }
-                    >
-                      <Icon icon="bi:dot" className="product-icon" />
-                      <p>Add Seller</p>
-                    </NavLink>
-                  </li>
-                  <li>
-                    <NavLink
-                      to="/admin/change/seller-code"
-                      className={({ isActive }) =>
-                        isActive ? "sub-category" : ""
-                      }
-                    >
-                      <Icon icon="bi:dot" className="product-icon" />
-                      <p>Edit Seller Code</p>
-                    </NavLink>
-                  </li>
-                </ul>
               </li>
             </ul>
           </li>

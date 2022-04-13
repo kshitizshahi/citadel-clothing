@@ -1,4 +1,3 @@
-import { Icon } from "@iconify/react";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Button from "../components/Button";
@@ -11,18 +10,22 @@ import LoadingDots from "../components/Loading";
 
 import { toast } from "react-toastify";
 import axios from "axios";
-import Khalti from "../components/Khalti";
 import Swal from "sweetalert2";
+import { useSelector } from "react-redux";
 
 const OrderDetails = () => {
   const [loading, setLoading] = useState(false);
   const [order, setOrder] = useState(false);
   const [orderCancel, setOrderCancel] = useState(false);
+  const [orderUpdate, setOrderUpdate] = useState(false);
 
   let options = {
     dateStyle: "long",
     timeStyle: "medium",
   };
+
+  const { userInfo } = useSelector((state) => state.authUser);
+  const { isSeller } = useSelector((state) => state.authUser);
 
   const navigate = useNavigate();
   const { id } = useParams();
@@ -47,7 +50,7 @@ const OrderDetails = () => {
     return () => {
       mounted = false;
     };
-  }, [orderCancel]);
+  }, [orderCancel, orderUpdate]);
 
   const cancelOrder = async (id) => {
     Swal.fire({
@@ -76,6 +79,21 @@ const OrderDetails = () => {
     });
   };
 
+  const updateOrder = async (id) => {
+    try {
+      setLoading(true);
+      const res = await axios.put(`/api/orders/edit/order/${id}`);
+      setLoading(false);
+      toast.success(res.data.message);
+      if (res.data) {
+        setOrderCancel(!orderCancel);
+      }
+    } catch (error) {
+      setLoading(false);
+      toast.error(error.response.data.message);
+    }
+  };
+
   return (
     <div>
       {loading ? (
@@ -95,7 +113,7 @@ const OrderDetails = () => {
                         options
                       )}
                     </p>
-                    {order.isCancelled && (
+                    {order?.isCancelled && (
                       <p className="cancelled">Cancelled</p>
                     )}
                   </div>
@@ -128,18 +146,28 @@ const OrderDetails = () => {
 
                   <div className="payment-method">
                     <p className="title">PAYMENT</p>
-                    <p className="method">Method: {order.paymentMethod}</p>
+                    <p className="method">Method: {order?.paymentMethod}</p>
                     <div className="payment-status">
                       <p>Status: </p>
-                      <p className={order.isPaid ? "status" : "status error"}>
-                        {order.isPaid
+                      <p className={order?.isPaid ? "status" : "status error"}>
+                        {order?.isPaid
                           ? `Paid at ${new Date(
-                              order.paymentResult.paidAt
+                              order?.paymentResult?.paidAt
                             ).toLocaleString("en-US", options)}`
                           : "Not Paid"}
                       </p>
                     </div>
                   </div>
+                  {isSeller && !order?.isCancelled && (
+                    <div>
+                      <Button
+                        className="mark-deliver-btn"
+                        text="MARK AS DELIVERED"
+                        disabled={order?.isDelivered}
+                        onClick={(e) => updateOrder(order._id)}
+                      />
+                    </div>
+                  )}
                 </div>
               </div>
               <div className="order-details-container">
@@ -173,16 +201,32 @@ const OrderDetails = () => {
                     <p className="total-price">Rs. {order.totalPrice}</p>
                   </div>
                 </div>
+                <div className="user-details-container">
+                  <div className="user-container">
+                    <div className="heading">
+                      <p>USER</p>
+                    </div>
+                    <hr className="line" />
+
+                    <p className="fullname">
+                      Name: {order?.user?.firstName} {""}{" "}
+                      {order?.user?.lastName}
+                    </p>
+                    <p className="email">Email: {order?.user?.email}</p>
+                  </div>
+                </div>
                 <div className="shipping-address-container">
                   <div className="ship-container">
                     <div className="heading">
                       <p>SHIPPING</p>
                     </div>
+                    <hr className="line" />
+
                     <p className="address">
-                      Address: {order.shippingAddress.address},{" "}
-                      {order.shippingAddress.city}{" "}
-                      {order.shippingAddress.postalCode},{" "}
-                      {order.shippingAddress.country}
+                      Address: {order?.shippingAddress?.address},{" "}
+                      {order?.shippingAddress?.city}{" "}
+                      {order?.shippingAddress?.postalCode},{" "}
+                      {order?.shippingAddress?.country}
                     </p>
 
                     <div className="shipping-status">
@@ -200,14 +244,16 @@ const OrderDetails = () => {
                       </p>
                     </div>
 
-                    <div>
-                      <Button
-                        className="cancel-order-btn"
-                        text="CANCEL ORDER"
-                        disabled={order.isCancelled}
-                        onClick={(e) => cancelOrder(order._id)}
-                      />
-                    </div>
+                    {order?.user?.email === userInfo.email && (
+                      <div>
+                        <Button
+                          className="cancel-order-btn"
+                          text="CANCEL ORDER"
+                          disabled={order.isCancelled}
+                          onClick={(e) => cancelOrder(order._id)}
+                        />
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>

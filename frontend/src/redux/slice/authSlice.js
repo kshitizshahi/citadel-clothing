@@ -16,6 +16,11 @@ const authSlice = createSlice({
       : {
           isAdmin: false,
         },
+    isSeller: localStorage.getItem("isSeller")
+      ? JSON.parse(localStorage.getItem("isSeller"))
+      : {
+          isSeller: false,
+        },
     isLoggedIn: localStorage.getItem("userLogin")
       ? JSON.parse(localStorage.getItem("userLogin"))
       : {
@@ -43,11 +48,14 @@ const authSlice = createSlice({
       state.userInfo = action.payload.data;
       state.fetchSuccess = true;
       state.isAdmin = action.payload.data.isAdmin;
+      state.isSeller = action.payload.data.isSeller;
+
       state.error = null;
 
       toast.success(action.payload.message);
 
       localStorage.setItem("isAdmin", JSON.stringify(state.isAdmin));
+      localStorage.setItem("isSeller", JSON.stringify(state.isSeller));
       localStorage.setItem("userLogin", JSON.stringify(state.isLoggedIn));
       state.loading = false;
     },
@@ -85,8 +93,10 @@ const authSlice = createSlice({
       state.loading = false;
       state.userInfo = null;
       state.isAdmin = false;
+      state.isSeller = false;
       localStorage.setItem("userLogin", JSON.stringify(state.isLoggedIn));
       localStorage.setItem("isAdmin", JSON.stringify(state.isAdmin));
+      localStorage.setItem("isSeller", JSON.stringify(state.isSeller));
 
       toast.success(action.payload.message);
     },
@@ -104,10 +114,12 @@ const authSlice = createSlice({
       state.isLoggedIn = true;
       state.userInfo = action.payload.data;
       state.isAdmin = action.payload.data.isAdmin;
+      state.isSeller = action.payload.data.isSeller;
       state.error = null;
       state.fetchSuccess = true;
       localStorage.setItem("userLogin", JSON.stringify(state.isLoggedIn));
       localStorage.setItem("isAdmin", JSON.stringify(state.isAdmin));
+      localStorage.setItem("isSeller", JSON.stringify(state.isSeller));
     },
     [validateUser.rejected]: (state, action) => {
       state.loading = false;

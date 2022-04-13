@@ -53,24 +53,24 @@ const UserNav = () => {
           </NavLink>
         </li>
         {isLoggedIn && (
-          <li>
-            <NavLink
-              to="/reviews"
-              className={({ isActive }) => (isActive ? "current-tab" : "")}
-            >
-              <Icon icon="codicon:star-half" className="review-icon" />
-              <p>My Reviews</p>
-            </NavLink>
-          </li>
-        )}
+          <>
+            <li>
+              <NavLink
+                to="/reviews"
+                className={({ isActive }) => (isActive ? "current-tab" : "")}
+              >
+                <Icon icon="codicon:star-half" className="review-icon" />
+                <p>My Reviews</p>
+              </NavLink>
+            </li>
 
-        {isLoggedIn && (
-          <li>
-            <Link to="/#" onClick={logoutHandler}>
-              <Icon icon="clarity:sign-out-line" className="logout-icon" />
-              <p>Logout</p>
-            </Link>
-          </li>
+            <li>
+              <Link to="/#" onClick={logoutHandler}>
+                <Icon icon="clarity:sign-out-line" className="logout-icon" />
+                <p>Logout</p>
+              </Link>
+            </li>
+          </>
         )}
       </ul>
     </div>

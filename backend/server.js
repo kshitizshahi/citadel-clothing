@@ -3,12 +3,12 @@ import dotenv from "dotenv";
 import connectDatabase from "./configs/database.js";
 import cors from "cors";
 import userRoute from "./routes/userRoute.js";
-import sellerRoute from "./routes/sellerRoute.js";
 import categoryRoute from "./routes/categoryRoute.js";
 import productRoute from "./routes/productRoute.js";
 import subCategoryRoute from "./routes/subCategoryRoute.js";
 import paymentRoute from "./routes/paymentRoute.js";
 import orderRoute from "./routes/orderRoute.js";
+import reviewRoute from "./routes/reviewRoute.js";
 
 import path from "path";
 import createUploadFolder from "./configs/upload.js";
@@ -29,11 +29,11 @@ const __dirname = path.resolve();
 app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
 
 app.use("/api/users", userRoute);
-app.use("/api/sellers", sellerRoute);
 app.use("/api/category", categoryRoute);
 app.use("/api/sub-category", subCategoryRoute);
 app.use("/api/products", productRoute);
 app.use("/api/orders", orderRoute);
+app.use("/api/reviews", reviewRoute);
 
 app.use("/api/payment", paymentRoute);
 

@@ -9,11 +9,11 @@ import { updateUser } from "../redux/thunkApi/userApi";
 import { logoutUser, validateUser } from "../redux/thunkApi/authApi";
 import { BASE_URL } from "../utils/BaseUrl";
 import { clearError, clearuserUpdate } from "../redux/slice/userSlice";
-// import { resetSuccess } from "../redux/slice/authSlice";
 import LoadingDots from "../components/Loading";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { saveShippingAddress } from "../redux/slice/productSlice";
 
 const UserProfile = () => {
   const [image, setImage] = useState([]);
@@ -60,6 +60,18 @@ const UserProfile = () => {
             }
           }
         ),
+      address: yup.string().required("This field is required."),
+      city: yup.string().required("This field is required."),
+      country: yup.string().required("This field is required."),
+      postalCode: yup
+        .string()
+        .required("This field is required.")
+        .matches(/^[1-9]+[0-9]*$/, "Invalid postal code.")
+        .test(
+          "length",
+          "Postal Code must be 5 digits.",
+          (value) => value.length === 5
+        ),
     })
     .required();
 
@@ -87,6 +99,17 @@ const UserProfile = () => {
     fetchSuccess,
     error: authError,
   } = useSelector((state) => state.authUser);
+
+  const saveShipping = () => {
+    dispatch(
+      saveShippingAddress({
+        address: getValues("address"),
+        city: getValues("city"),
+        postalCode: getValues("postalCode"),
+        country: getValues("country"),
+      })
+    );
+  };
 
   const submitHandler = async (data) => {
     dispatch(
@@ -263,6 +286,70 @@ const UserProfile = () => {
               <div className="user-address">
                 <hr className="line" />
                 <h3> My Address Book</h3>
+                <div className="shipping-address-container">
+                  <div className="ship-container">
+                    <div className="heading">
+                      <p>SHIPPING ADDRESS</p>
+                    </div>
+                    <form onSubmit={handleSubmit(saveShipping)}>
+                      <div>
+                        <label htmlFor="address">Addresss</label>
+                        <input
+                          type="text"
+                          id="address"
+                          placeholder="Your Street Name or Address"
+                          {...register("address")}
+                        ></input>
+                        <p className="error">
+                          {errors.address?.message || "\u00A0"}
+                        </p>
+                      </div>
+                      <div>
+                        <label htmlFor="city">City</label>
+                        <input
+                          type="text"
+                          id="city"
+                          placeholder="Your City"
+                          {...register("city")}
+                        ></input>
+                        <p className="error">
+                          {errors.city?.message || "\u00A0"}
+                        </p>
+                      </div>
+                      <div>
+                        <label htmlFor="postalCode">Postal Code</label>
+                        <input
+                          type="text"
+                          id="postalCode"
+                          placeholder="Your Postal Code"
+                          {...register("postalCode")}
+                        ></input>
+                        <p className="error">
+                          {errors.postalCode?.message || "\u00A0"}
+                        </p>
+                      </div>
+                      <div>
+                        <label htmlFor="country">Country</label>
+                        <input
+                          type="text"
+                          id="country"
+                          placeholder="Your Country"
+                          {...register("country")}
+                        ></input>
+                        <p className="error">
+                          {errors.country?.message || "\u00A0"}
+                        </p>
+                      </div>
+                      <div>
+                        <Button
+                          className="place-order-btn"
+                          text="PLACE ORDER"
+                          onClick={saveShipping}
+                        />
+                      </div>
+                    </form>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

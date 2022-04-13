@@ -1,29 +1,35 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { Customer_Page_Details } from "../../../../utils/PageTitle";
-import SearchBar from "../../../../components/SearchBar";
+import { useDispatch, useSelector } from "react-redux";
+import { Product_Page_Details } from "../../../utils/PageTitle";
+import SearchBar from "../../../components/SearchBar";
 import { useNavigate } from "react-router-dom";
 import { Tooltip } from "@mantine/core";
-import LoadingDots from "../../../../components/Loading";
-import SideBar from "../../../../components/Admin/SideBar";
-import "../../../../styles/listCategory.scss";
+import LoadingDots from "../../../components/Loading";
+import SideBar from "../../../components/Seller/SideBar";
+import "../../../styles/listProduct.scss";
+import { getAllProduct } from "../../../redux/thunkApi/productApi";
 import { Icon } from "@iconify/react";
+// import { Modal } from "@mantine/core";
+// import Button from "../../../components/Button";
 import Swal from "sweetalert2";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const ListCustomer = () => {
-  const [customers, setCustomers] = useState([]);
+const ListSellerProduct = () => {
+  const [products, setProducts] = useState([]);
   const [hideSideBar, setHideSideBar] = useState(false);
+  // const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [deleteSuccess, setDeleteSuccess] = useState(false);
   const [keywords, setKeywords] = useState("");
-  const [loading, setLoading] = useState(false);
 
+  const { loading } = useSelector((state) => state.Product);
   const { mobileDevice } = useSelector((state) => state.Media);
+
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
-    document.title = Customer_Page_Details;
+    document.title = Product_Page_Details;
   }, []);
 
   useEffect(() => {
@@ -31,9 +37,9 @@ const ListCustomer = () => {
     if (keywords.length > 0) {
       (async function () {
         try {
-          const response = await axios.get(`/api/users/search/${keywords}`);
+          const response = await axios.get(`/api/products/search/${keywords}`);
           if (mounted) {
-            setCustomers(response.data.customers);
+            setProducts(response.data.product);
           }
         } catch (error) {
           toast.error(error.response.data.message);
@@ -41,24 +47,18 @@ const ListCustomer = () => {
       })();
     } else {
       (async function () {
-        try {
-          setLoading(true);
-          const response = await axios.get(`/api/users/get/all-customers`);
-          setLoading(false);
-
-          if (mounted) {
-            setCustomers(response.data.customers);
-          }
-        } catch (error) {
-          toast.error(error.response.data.message);
+        const response = await dispatch(getAllProduct({}));
+        if (mounted) {
+          setProducts(response.payload.product);
         }
       })();
     }
 
     return () => {
       mounted = false;
+      setProducts(null);
     };
-  }, [deleteSuccess, keywords]);
+  }, [deleteSuccess, keywords, dispatch]);
 
   const keywordsChange = (e) => {
     setKeywords(e.target.value);
@@ -68,17 +68,27 @@ const ListCustomer = () => {
     setHideSideBar(!hideSideBar);
   };
 
-  const addCustomerNavigator = () => {
-    navigate("/admin/add-customer");
+  const addProductNavigator = () => {
+    navigate("/seller/add-product");
   };
 
   const editNavigate = (id) => {
-    navigate(`/admin/edit-customer/${id}`);
+    navigate(`/seller/edit-product/${id}`);
   };
 
-  const deleteCustomer = async (cusId) => {
+  if (mobileDevice && hideSideBar) {
+    document.body.style.height = "100%";
+    document.body.style.overflow = "hidden";
+  } else {
+    document.body.style.height = "";
+    document.body.style.overflow = "";
+  }
+
+  const deleteProduct = async (prodId) => {
+    // setOpenDeleteModal(true);
+
     Swal.fire({
-      title: "Are you sure you want to delete the customer?",
+      title: "Are you sure you want to delete the product?",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#d33",
@@ -94,7 +104,7 @@ const ListCustomer = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const res = await axios.delete(`/api/users/delete/${cusId}`);
+          const res = await axios.delete(`/api/products/delete/${prodId}`);
           toast.success(res.data.message);
           setDeleteSuccess(!deleteSuccess);
         } catch (error) {
@@ -104,22 +114,15 @@ const ListCustomer = () => {
     });
   };
 
-  if (mobileDevice && hideSideBar) {
-    document.body.style.height = "100%";
-    document.body.style.overflow = "hidden";
-  } else {
-    document.body.style.height = "";
-    document.body.style.overflow = "";
-  }
   return (
     <div>
       {loading ? (
         <LoadingDots />
       ) : (
-        <div className="admin-category-container">
+        <div className="admin-product-container">
           {!mobileDevice ? (
             <div className={hideSideBar ? "side-bar hide" : "side-bar"}>
-              <SideBar select="users" subSelect="customers" />
+              <SideBar select="product" />
             </div>
           ) : (
             <div
@@ -133,9 +136,10 @@ const ListCustomer = () => {
                   onClick={toggleSideBar}
                 />
               </div>
-              <SideBar select="users" subSelect="customers" />
+              <SideBar select="product" />
             </div>
           )}
+
           <div className="table-container">
             <div className="container">
               <div className="heading-container">
@@ -145,24 +149,24 @@ const ListCustomer = () => {
                   className="toggle-sidebar"
                 />
 
-                <p className="heading">Customers</p>
+                <p className="heading">Products</p>
               </div>
               <div className="table">
                 <div className="search-div">
                   <SearchBar
-                    placeholder="Search customer..."
+                    placeholder="Search product..."
                     onChange={keywordsChange}
                   />
                   <div>
                     <button
-                      className="add-category"
-                      onClick={addCustomerNavigator}
+                      className="add-product"
+                      onClick={addProductNavigator}
                     >
                       <Icon
                         icon="ant-design:plus-outlined"
                         className="add-icon"
                       />
-                      New Customer
+                      New Product
                     </button>
                   </div>
                 </div>
@@ -170,29 +174,40 @@ const ListCustomer = () => {
                   <thead>
                     <tr>
                       <th>Sn</th>
-                      <th>First Name</th>
-                      <th>Last Name</th>
-                      <th>Email</th>
-                      <th>Phone Number</th>
+                      <th>Name</th>
+                      <th>Category</th>
+                      <th>Sub Category</th>
+                      <th>Mark Price</th>
+                      <th>Discount</th>
+                      <th>Price</th>
+                      <th>Verified</th>
+                      <th>Stock</th>
                       <th>Actions</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {customers &&
-                      customers.map((elem, index) => (
+                    {products &&
+                      products.map((prod, index) => (
                         <tr key={index}>
                           <td>{index + 1}</td>
-                          <td>{elem.firstName}</td>
-                          <td>{elem.lastName}</td>
-                          <td>{elem.email}</td>
-                          <td>{elem.phoneNumber}</td>
-
+                          <td>{prod.name}</td>
+                          <td>
+                            {prod.category ? prod.category.name : "dummy"}
+                          </td>
+                          <td>
+                            {prod.subCategory ? prod.subCategory.name : "dummy"}
+                          </td>
+                          <td>Rs. {prod.markPrice}</td>
+                          <td>{prod.discount}%</td>
+                          <td>Rs. {prod.price}</td>
+                          <td>{prod.isVerified ? "True" : "False"}</td>
+                          <td>{prod.countInStock}</td>
                           <td className="button-container">
                             <Tooltip label="Edit" color="green" withArrow>
                               <Icon
                                 icon="bx:edit"
                                 className="edit-btn"
-                                onClick={(e) => editNavigate(elem._id)}
+                                onClick={(e) => editNavigate(prod._id)}
                               />
                             </Tooltip>
 
@@ -200,7 +215,7 @@ const ListCustomer = () => {
                               <Icon
                                 icon="ant-design:delete-filled"
                                 className="delete-btn"
-                                onClick={(e) => deleteCustomer(elem._id)}
+                                onClick={(e) => deleteProduct(prod._id)}
                               />
                             </Tooltip>
                           </td>
@@ -211,10 +226,40 @@ const ListCustomer = () => {
               </div>
             </div>
           </div>
+          {/* {openDeleteModal && (
+            <>
+              <Modal
+                styles={{
+                  root: { color: "red" },
+                  inner: { color: "red" },
+                  // modal: { color: "red", backgroundColor: "black" },
+                  header: { color: "red" },
+                  overlay: { color: "red" },
+                  title: {
+                    color: "red",
+                    fontFamily: "Poppins",
+                    fontWeight: "550",
+                    fontSize: "24px",
+                    textAlign: "center",
+                  },
+                  body: { color: "red" },
+                  close: { color: "red" },
+                }}
+                size="md"
+                opened={openDeleteModal}
+                onClose={() => setOpenDeleteModal(false)}
+                title="Are you sure you want to delete the product?"
+                centered
+              >
+                <Button text="Delete" />
+                <Button text="Cancel" />
+              </Modal>
+            </>
+          )} */}
         </div>
       )}
     </div>
   );
 };
 
-export default ListCustomer;
+export default ListSellerProduct;

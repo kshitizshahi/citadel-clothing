@@ -1,30 +1,34 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { SubCategory_Page_Details } from "../../../utils/PageTitle";
-import SearchBar from "../../../components/SearchBar";
+import { Order_Details_Page_Title } from "../../utils/PageTitle";
+import SearchBar from "../../components/SearchBar";
 import { useNavigate } from "react-router-dom";
-import { Tooltip } from "@mantine/core";
-import LoadingDots from "../../../components/Loading";
-import SideBar from "../../../components/Admin/SideBar";
-import "../../../styles/listCategory.scss";
+import { Center, Tooltip } from "@mantine/core";
+import LoadingDots from "../../components/Loading";
+import SideBar from "../../components/Seller/SideBar";
+import "../../styles/listCategory.scss";
 import { Icon } from "@iconify/react";
 import Swal from "sweetalert2";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const ListSubCategory = () => {
-  const [subCategory, setSubCategory] = useState([]);
+const ListSellerOrder = () => {
+  const [order, setOrder] = useState([]);
   const [hideSideBar, setHideSideBar] = useState(false);
   const [deleteSuccess, setDeleteSuccess] = useState(false);
   const [keywords, setKeywords] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const { mobileDevice } = useSelector((state) => state.Media);
+  let options = {
+    dateStyle: "long",
+    timeStyle: "medium",
+  };
 
+  const { mobileDevice } = useSelector((state) => state.Media);
   const navigate = useNavigate();
 
   useEffect(() => {
-    document.title = SubCategory_Page_Details;
+    document.title = Order_Details_Page_Title;
   }, []);
 
   useEffect(() => {
@@ -32,11 +36,9 @@ const ListSubCategory = () => {
     if (keywords.length > 0) {
       (async function () {
         try {
-          const response = await axios.get(
-            `/api/sub-category/search/${keywords}`
-          );
+          const response = await axios.get(`/api/orders/search/${keywords}`);
           if (mounted) {
-            setSubCategory(response.data.subCategory);
+            setOrder(response.data.order);
           }
         } catch (error) {
           toast.error(error.response.data.message);
@@ -46,12 +48,14 @@ const ListSubCategory = () => {
       (async function () {
         try {
           setLoading(true);
-          const response = await axios.get(`/api/sub-category/get/all`);
+          const response = await axios.get(`/api/orders/get/all`);
           setLoading(false);
+
           if (mounted) {
-            setSubCategory(response.data.subCategory);
+            setOrder(response.data.order);
           }
         } catch (error) {
+          setLoading(false);
           toast.error(error.response.data.message);
         }
       })();
@@ -70,38 +74,8 @@ const ListSubCategory = () => {
     setHideSideBar(!hideSideBar);
   };
 
-  const editNavigate = (id) => {
-    navigate(`/admin/edit-subcategory/${id}`);
-  };
-
-  const deleteCategory = async (subCatId) => {
-    Swal.fire({
-      title: "Are you sure you want to delete the sub category?",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#d33",
-      cancelButtonColor: "#3085d6",
-      confirmButtonText: "Delete",
-      // showClass: {
-      //   popup: "", // disable popup animation
-      //   icon: "",
-      // },
-      // hideClass: {
-      //   popup: "swal2-hide",
-      // },
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        try {
-          const res = await axios.delete(
-            `/api/sub-category/delete/${subCatId}`
-          );
-          toast.success(res.data.message);
-          setDeleteSuccess(!deleteSuccess);
-        } catch (error) {
-          toast.error(error.response.data.message);
-        }
-      }
-    });
+  const editOrder = (id) => {
+    navigate(`/order/${id}`);
   };
 
   if (mobileDevice && hideSideBar) {
@@ -111,7 +85,6 @@ const ListSubCategory = () => {
     document.body.style.height = "";
     document.body.style.overflow = "";
   }
-
   return (
     <div>
       {loading ? (
@@ -120,7 +93,7 @@ const ListSubCategory = () => {
         <div className="admin-category-container">
           {!mobileDevice ? (
             <div className={hideSideBar ? "side-bar hide" : "side-bar"}>
-              <SideBar select="sub-category" />
+              <SideBar select="order" />
             </div>
           ) : (
             <div
@@ -134,7 +107,7 @@ const ListSubCategory = () => {
                   onClick={toggleSideBar}
                 />
               </div>
-              <SideBar select="sub-category" />
+              <SideBar select="order" subSelect="order" />
             </div>
           )}
           <div className="table-container">
@@ -146,12 +119,12 @@ const ListSubCategory = () => {
                   className="toggle-sidebar"
                 />
 
-                <p className="heading">Sub Category</p>
+                <p className="heading">Order</p>
               </div>
               <div className="table">
                 <div className="search-div">
                   <SearchBar
-                    placeholder="Search sub category..."
+                    placeholder="Search order..."
                     onChange={keywordsChange}
                   />
                 </div>
@@ -159,33 +132,53 @@ const ListSubCategory = () => {
                   <thead>
                     <tr>
                       <th>Sn</th>
-                      <th>Category</th>
-                      <th>Sub Category</th>
+                      <th>Order Id</th>
+                      <th>User</th>
+                      <th>Placed Date</th>
+                      <th>Total</th>
+                      <th>Paid</th>
+                      <th>Delivered</th>
                       <th>Actions</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {subCategory &&
-                      subCategory.map((cat, index) => (
+                    {order &&
+                      order.map((elem, index) => (
                         <tr key={index}>
                           <td>{index + 1}</td>
-                          <td>{cat?.category?.name}</td>
-                          <td>{cat.name}</td>
+                          <td>{elem._id}</td>
 
-                          <td className="button-container">
-                            <Tooltip label="Edit" color="green" withArrow>
+                          <td>
+                            {elem?.user?.firstName} {""}
+                            {elem?.user?.lastName}
+                          </td>
+                          <td>{elem.createdAt.substring(0, 10)}</td>
+                          <td>Rs. {elem?.totalPrice}</td>
+                          <td>
+                            {elem?.isPaid
+                              ? new Date(
+                                  elem?.paymentResult.paidAt
+                                ).toLocaleString("en-US", options)
+                              : "Not Paid"}
+                          </td>
+                          <td>
+                            {elem?.isDelivered
+                              ? new Date(elem?.deliveredAt).toLocaleString(
+                                  "en-US",
+                                  options
+                                )
+                              : "Not Delivered"}
+                          </td>
+
+                          <td
+                            className="button-container"
+                            style={{ justifyContent: "center" }}
+                          >
+                            <Tooltip label="Edit Order" withArrow>
                               <Icon
                                 icon="bx:edit"
                                 className="edit-btn"
-                                onClick={(e) => editNavigate(cat._id)}
-                              />
-                            </Tooltip>
-
-                            <Tooltip label="Delete" color="red" withArrow>
-                              <Icon
-                                icon="ant-design:delete-filled"
-                                className="delete-btn"
-                                onClick={(e) => deleteCategory(cat._id)}
+                                onClick={(e) => editOrder(elem._id)}
                               />
                             </Tooltip>
                           </td>
@@ -202,4 +195,4 @@ const ListSubCategory = () => {
   );
 };
 
-export default ListSubCategory;
+export default ListSellerOrder;

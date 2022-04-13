@@ -12,11 +12,14 @@ import {
 } from "../controllers/subCategoryController.js";
 
 import {
-  admin,
   isAuth,
+  seller,
+  sellerAdmin,
   verifyAccessTokenExpiry,
 } from "../middleware/authorization.js";
-const adminMiddleWare = [verifyAccessTokenExpiry, isAuth, admin];
+
+const adminSellerMiddleWare = [verifyAccessTokenExpiry, isAuth, sellerAdmin];
+const sellerMiddleWare = [verifyAccessTokenExpiry, isAuth, seller];
 
 const router = express.Router();
 
@@ -24,10 +27,18 @@ router.get("/get/all", getSubCategory);
 
 router.get("/get/:subCategoryId", getSingleSubCategory);
 router.get("/get/category/:categoryId", getCategorySubCategory);
-router.delete("/delete/:subCategoryId", adminMiddleWare, deleteSubCategory);
-router.put("/update/:subCategoryId", adminMiddleWare, updateSubCategory);
-router.post("/create", adminMiddleWare, createSubCategory);
-router.get("/search/:keywords", adminMiddleWare, searchSubCategory);
-router.get("/get/others/:subCategoryId", adminMiddleWare, otherSubCategory);
+router.delete(
+  "/delete/:subCategoryId",
+  adminSellerMiddleWare,
+  deleteSubCategory
+);
+router.put("/update/:subCategoryId", adminSellerMiddleWare, updateSubCategory);
+router.post("/create", sellerMiddleWare, createSubCategory);
+router.get("/search/:keywords", adminSellerMiddleWare, searchSubCategory);
+router.get(
+  "/get/others/:subCategoryId",
+  adminSellerMiddleWare,
+  otherSubCategory
+);
 
 export default router;

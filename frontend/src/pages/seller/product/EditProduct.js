@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Edit_Product_Page } from "../../../utils/PageTitle";
 import Button from "../../../components/Button";
 import LoadingDots from "../../../components/Loading";
-import SideBar from "../../../components/Admin/SideBar";
+import SideBar from "../../../components/Seller/SideBar";
 import { Icon } from "@iconify/react";
 import DropZone from "../../../components/DropZone";
 import { toast } from "react-toastify";
@@ -41,7 +41,7 @@ const editProductSchema = yup
   })
   .required();
 
-const EditProduct = () => {
+const EditSellerProduct = () => {
   const [productImage, setProductImage] = useState([]);
   const [categories, setCategories] = useState([]);
   const [subCategories, setSubCategories] = useState([]);
@@ -119,7 +119,7 @@ const EditProduct = () => {
         toast.success(res.data.message);
 
         if (res.data.message) {
-          navigate("/admin/product");
+          navigate("/seller/product");
         }
       } catch (error) {
         toast.error(error.response.data.message);
@@ -498,4 +498,4 @@ const EditProduct = () => {
   );
 };
 
-export default EditProduct;
+export default EditSellerProduct;

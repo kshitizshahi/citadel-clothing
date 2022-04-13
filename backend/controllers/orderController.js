@@ -2,6 +2,13 @@ import Order from "../models/orderModel.js";
 import asyncHandler from "express-async-handler";
 import Product from "../models/ProductModel.js";
 
+const query = [
+  {
+    path: "user",
+    select: "_id firstName lastName email",
+  },
+];
+
 const placeOrder = asyncHandler(async (req, res) => {
   const {
     orderItems,
@@ -26,7 +33,14 @@ const placeOrder = asyncHandler(async (req, res) => {
       shippingPrice,
       totalPrice,
       isPaid,
-      paymentResult: isPaid ? paymentResult : null,
+      paymentResult: isPaid
+        ? {
+            id: paymentResult.id,
+            token: paymentResult.token,
+            isVerified: paymentResult.isVerified,
+            paidAt: new Date(paymentResult.paidOn),
+          }
+        : null,
     });
 
     const createdOrder = await order.save();
@@ -48,7 +62,7 @@ const placeOrder = asyncHandler(async (req, res) => {
 });
 
 const getAllOrders = asyncHandler(async (req, res) => {
-  const order = await Order.find();
+  const order = await Order.find().populate(query);
   if (order) {
     res.status(200).json({
       order,
@@ -70,7 +84,7 @@ const getUserOrders = asyncHandler(async (req, res) => {
 const getOrder = asyncHandler(async (req, res) => {
   const { orderId } = req.params;
 
-  const order = await Order.findById(orderId);
+  const order = await Order.findById(orderId).populate(query);
 
   if (order) {
     // const data = defaultResponse(Order);
@@ -115,4 +129,53 @@ const cancelOrder = asyncHandler(async (req, res) => {
   }
 });
 
-export { placeOrder, getAllOrders, getOrder, cancelOrder, getUserOrders };
+const searchOrder = asyncHandler(async (req, res) => {
+  const { keywords } = req.params;
+
+  const order = await Order.find({
+    paymentMethod: { $regex: keywords, $options: "i" },
+  })
+    .populate(query)
+    .lean();
+
+  if (order) {
+    res.status(200).json({
+      order,
+      message: "Order found",
+    });
+  } else {
+    res.status(404).json({
+      message: "Order not found",
+    });
+  }
+});
+
+const updateOrderToDelivered = asyncHandler(async (req, res) => {
+  const { orderId } = req.params;
+
+  const order = await Order.findById(orderId);
+
+  if (order) {
+    order.isDelivered = true;
+    order.deliveredAt = Date.now();
+    await order.save();
+
+    res.status(200).json({
+      message: "Order updated",
+    });
+  } else {
+    res.status(404).json({
+      message: "Order not found",
+    });
+  }
+});
+
+export {
+  placeOrder,
+  getAllOrders,
+  getOrder,
+  cancelOrder,
+  getUserOrders,
+  searchOrder,
+  updateOrderToDelivered,
+};

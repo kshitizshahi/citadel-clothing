@@ -3,8 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Add_Category_Page } from "../../../utils/PageTitle";
 import Button from "../../../components/Button";
-import LoadingDots from "../../../components/Loading";
-import SideBar from "../../../components/Admin/SideBar";
+import SideBar from "../../../components/Seller/SideBar";
 import { Icon } from "@iconify/react";
 import { toast } from "react-toastify";
 import axios from "axios";
@@ -15,7 +14,7 @@ import * as yup from "yup";
 import "../../../styles/addCategory.scss";
 import { PUBLIC_URL } from "../../../utils/BaseUrl";
 
-const AddCategory = () => {
+const AddSellerCategory = () => {
   const [categories, setCategories] = useState([]);
   const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/png"];
 
@@ -86,7 +85,7 @@ const AddCategory = () => {
 
       toast.success(res.data.message);
       if (res.data.message) {
-        navigate("/admin/category");
+        navigate("/seller/category");
       }
     } catch (error) {
       toast.error(error.response.data.message);
@@ -233,4 +232,4 @@ const AddCategory = () => {
   );
 };
 
-export default AddCategory;
+export default AddSellerCategory;

@@ -6,9 +6,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import LoadingDots from "../components/Loading";
+import { ORDER } from "../data/PageConfig";
 import "../styles/order.scss";
 import { BASE_URL } from "../utils/BaseUrl";
-import { Order_Page_Title } from "../utils/PageTitle";
+
 const Order = () => {
   const [loading, setLoading] = useState(false);
   const [orders, setOrders] = useState(false);
@@ -22,7 +23,7 @@ const Order = () => {
 
   useEffect(() => {
     let mounted = true;
-    document.title = Order_Page_Title;
+    document.title = ORDER.title;
     (async function () {
       try {
         setLoading(true);

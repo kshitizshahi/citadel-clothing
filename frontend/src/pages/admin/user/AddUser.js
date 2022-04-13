@@ -1,26 +1,29 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Add_Customer_Page } from "../../../../utils/PageTitle";
-import Button from "../../../../components/Button";
-import LoadingDots from "../../../../components/Loading";
-import SideBar from "../../../../components/Admin/SideBar";
+import { Add_User_Page } from "../../../utils/PageTitle";
+import Button from "../../../components/Button";
+import LoadingDots from "../../../components/Loading";
+import SideBar from "../../../components/Admin/SideBar";
 import { Icon } from "@iconify/react";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import "../../../../styles/addCustomer.scss";
-import { PUBLIC_URL } from "../../../../utils/BaseUrl";
+import "../../../styles/addUser.scss";
+import { PUBLIC_URL } from "../../../utils/BaseUrl";
+import { Switch } from "@mantine/core";
 
-const AddCustomer = () => {
+const AddUser = () => {
   const [user, setUser] = useState([]);
+  const [isSeller, setIsSeller] = useState(false);
+
   const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/png"];
 
   let userEmailArray = [];
 
-  const addCustomerSchema = yup
+  const addUserSchema = yup
     .object({
       firstName: yup.string().required("This field is required."),
       lastName: yup.string().required("This field is required."),
@@ -83,7 +86,7 @@ const AddCustomer = () => {
 
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(addCustomerSchema),
+    resolver: yupResolver(addUserSchema),
   });
 
   const [hideSideBar, setHideSideBar] = useState(false);
@@ -103,14 +106,15 @@ const AddCustomer = () => {
     formdata.append("phoneNumber", data.phoneNumber);
     formdata.append("password", data.password);
     formdata.append("confirmPassword", data.confirmPassword);
-
     formdata.append("profileImage", data.profileImage[0]);
+    formdata.append("isSeller", isSeller);
+    formdata.append("isAccountVerified", true);
 
     try {
       const res = await axios.post(`/api/users/register`, formdata);
       toast.success(res.data.message);
       if (res.data.message) {
-        navigate("/admin/customer");
+        navigate("/admin/users");
       }
     } catch (error) {
       toast.error(error.response.data.message);
@@ -119,7 +123,7 @@ const AddCustomer = () => {
 
   useEffect(() => {
     let mounted = true;
-    document.title = Add_Customer_Page;
+    document.title = Add_User_Page;
 
     (async function () {
       try {
@@ -158,10 +162,10 @@ const AddCustomer = () => {
       {loading ? (
         <LoadingDots />
       ) : (
-        <div className="add-customer-container">
+        <div className="add-user-container">
           {!mobileDevice ? (
             <div className={hideSideBar ? "side-bar hide" : "side-bar"}>
-              <SideBar select="users" subSelect="customers" />
+              <SideBar select="users" />
             </div>
           ) : (
             <div
@@ -175,7 +179,7 @@ const AddCustomer = () => {
                   onClick={toggleSideBar}
                 />
               </div>
-              <SideBar select="users" subSelect="customers" />
+              <SideBar select="users" />
             </div>
           )}
           <div className="form-container">
@@ -187,7 +191,7 @@ const AddCustomer = () => {
                   className="toggle-sidebar"
                 />
 
-                <p className="heading">Add Customer</p>
+                <p className="heading">Add User</p>
               </div>
 
               <div className="form-wrapper">
@@ -256,61 +260,74 @@ const AddCustomer = () => {
                         </div>
                       </div>
                       <div className="other-form-fields">
-                        <div>
-                          <label htmlFor="emailAddress">Email Addresss</label>
-                          <input
-                            type="email"
-                            id="emailAddress"
-                            placeholder="Email address"
-                            {...register("email")}
-                          ></input>
-                          <p className="error">
-                            {errors.email?.message || "\u00A0"}
-                          </p>
+                        <div className="input-fields">
+                          <div>
+                            <label htmlFor="emailAddress">Email Addresss</label>
+                            <input
+                              type="email"
+                              id="emailAddress"
+                              placeholder="Email address"
+                              {...register("email")}
+                            ></input>
+                            <p className="error">
+                              {errors.email?.message || "\u00A0"}
+                            </p>
+                          </div>
+                          <div>
+                            <label htmlFor="phoneNumber">Phone Number</label>
+                            <input
+                              type="text"
+                              id="phoneNumber"
+                              placeholder="Phone Number"
+                              {...register("phoneNumber")}
+                            ></input>
+                            <p className="error">
+                              {errors.phoneNumber?.message || "\u00A0"}
+                            </p>
+                          </div>
+                          <div>
+                            <label htmlFor="password">Password</label>
+                            <input
+                              type="password"
+                              id="password"
+                              placeholder="Password"
+                              {...register("password")}
+                            ></input>
+                            <p className="error">
+                              {errors.password?.message || "\u00A0"}
+                            </p>
+                          </div>
+                          <div>
+                            <label htmlFor="confirmPassword">
+                              Confirm Password
+                            </label>
+                            <input
+                              type="password"
+                              id="confirmPassword"
+                              placeholder="Confirm Password"
+                              {...register("confirmPassword")}
+                            ></input>
+                            <p className="error">
+                              {errors.confirmPassword?.message || "\u00A0"}
+                            </p>
+                          </div>
                         </div>
-                        <div>
-                          <label htmlFor="phoneNumber">Phone Number</label>
-                          <input
-                            type="text"
-                            id="phoneNumber"
-                            placeholder="Phone Number"
-                            {...register("phoneNumber")}
-                          ></input>
-                          <p className="error">
-                            {errors.phoneNumber?.message || "\u00A0"}
-                          </p>
-                        </div>
-                        <div>
-                          <label htmlFor="password">Password</label>
-                          <input
-                            type="password"
-                            id="password"
-                            placeholder="Password"
-                            {...register("password")}
-                          ></input>
-                          <p className="error">
-                            {errors.password?.message || "\u00A0"}
-                          </p>
-                        </div>
-                        <div>
-                          <label htmlFor="confirmPassword">
-                            Confirm Password
-                          </label>
-                          <input
-                            type="password"
-                            id="confirmPassword"
-                            placeholder="Confirm Password"
-                            {...register("confirmPassword")}
-                          ></input>
-                          <p className="error">
-                            {errors.confirmPassword?.message || "\u00A0"}
-                          </p>
+
+                        <div className="switch">
+                          <Switch
+                            checked={isSeller}
+                            onChange={(e) =>
+                              setIsSeller(e.currentTarget.checked)
+                            }
+                            label="Seller"
+                            size="sm"
+                          />
                         </div>
 
                         <div className="btn-container">
                           <Button
                             className="add-category-button"
-                            text="Add Customer"
+                            text="Add User"
                           />
                         </div>
                       </div>
@@ -326,4 +343,4 @@ const AddCustomer = () => {
   );
 };
 
-export default AddCustomer;
+export default AddUser;

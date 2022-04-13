@@ -3,13 +3,7 @@ import KhaltiCheckout from "khalti-checkout-web";
 import { toast } from "react-toastify";
 import Button from "../components/Button";
 
-const Khalti = ({
-  prodId,
-  prodName,
-  totalAmount,
-  successPayment,
-  paymentResult,
-}) => {
+const Khalti = ({ prodId, prodName, totalAmount, paymentResult }) => {
   let config = {
     publicKey: process.env.REACT_APP_KHALTI_PUBLIC_KEY,
     productIdentity: prodId,
@@ -18,7 +12,7 @@ const Khalti = ({
     eventHandler: {
       async onSuccess(payload) {
         // hit merchant api for initiating verfication
-        console.log(payload);
+        // console.log(payload);
 
         const data = {
           token: payload.token,
@@ -30,7 +24,6 @@ const Khalti = ({
         if (res) {
           toast.success("Payment successfull");
           let data = res.data.verifyRes;
-          successPayment(true);
           paymentResult({
             id: data.idx,
             token: data.token,
@@ -39,7 +32,7 @@ const Khalti = ({
           });
         }
 
-        console.log(res);
+        // console.log(res);
       },
       // onError handler is optional
       onError(error) {

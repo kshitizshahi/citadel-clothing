@@ -12,7 +12,7 @@ const reviewSchema = new mongoose.Schema(
       required: true,
       ref: "User",
     },
-    title: {
+    name: {
       type: String,
       required: true,
     },
@@ -33,4 +33,4 @@ const reviewSchema = new mongoose.Schema(
 
 const Review = mongoose.model("review", reviewSchema);
 
-module.exports = Review;
+export default Review;

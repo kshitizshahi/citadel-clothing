@@ -15,7 +15,6 @@ const verifyKhalti = async (req, res) => {
       data,
       config
     );
-    console.log(response.data);
     const verifyRes = response.data;
     res.status(200).json({ verifyRes, isVerified: true });
   } catch (error) {

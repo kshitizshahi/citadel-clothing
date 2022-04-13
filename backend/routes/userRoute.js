@@ -6,15 +6,14 @@ import {
   logout,
   getUser,
   updateUser,
-  getAllCustomers,
-  searchCustomers,
-  deleteCustomer,
+  getAllUsers,
   getAllUsersEmail,
-  getCustomer,
   getOtherUsersEmail,
-  updateCustomer,
-  checkOtherUsersEmail,
   emailTokenVerify,
+  searchAllUsers,
+  deleteUser,
+  getUserInfo,
+  updateUserAdmin,
 } from "../controllers/userController.js";
 import {
   admin,
@@ -27,9 +26,9 @@ const router = express.Router();
 const adminMiddleWare = [verifyAccessTokenExpiry, isAuth, admin];
 
 router.get("/get/user", verifyAccessTokenExpiry, isAuth, getUser);
-router.get("/get/all-customers", adminMiddleWare, getAllCustomers);
+router.get("/get/all-users", adminMiddleWare, getAllUsers);
 router.get("/get/all-users/email", adminMiddleWare, getAllUsersEmail);
-router.get("/get/:customerId", adminMiddleWare, getCustomer);
+router.get("/get/userInfo/:userId", adminMiddleWare, getUserInfo);
 
 router.post("/register", upload.single("profileImage"), register);
 router.post("/login", login);
@@ -43,26 +42,15 @@ router.put(
 );
 
 router.put(
-  "/update-customer/:customerId",
+  "/update-user/admin/:userId",
   adminMiddleWare,
   upload.single("profileImage"),
-  updateCustomer
+  updateUserAdmin
 );
 router.delete("/logout", logout);
-router.get("/search/:keywords", adminMiddleWare, searchCustomers);
-router.delete("/delete/:customerId", adminMiddleWare, deleteCustomer);
-router.get(
-  "/get/others/email/:customerId",
-  adminMiddleWare,
-  getOtherUsersEmail
-);
-
-router.get(
-  "/check/others/email",
-  verifyAccessTokenExpiry,
-  isAuth,
-  checkOtherUsersEmail
-);
+router.get("/search/:keywords", adminMiddleWare, searchAllUsers);
+router.delete("/delete/:userId", adminMiddleWare, deleteUser);
+router.get("/get/others/email/:userId", adminMiddleWare, getOtherUsersEmail);
 
 router.get("/confirmation/:token", emailTokenVerify);
 export default router;

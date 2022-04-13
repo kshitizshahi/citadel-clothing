@@ -37,11 +37,12 @@ const userSchema = new mongoose.Schema(
     },
     isAdmin: { type: Boolean, default: false },
     isEmailVerified: { type: Boolean, default: false },
-    // isSeller: { type: Boolean, default: false, required: true },
+    isSeller: { type: Boolean, default: false },
     profileImage: {
       type: String,
       default: `uploads\\profile\\default.png`,
     },
+    isAccountVerified: { type: Boolean, default: true },
   },
   {
     timestamps: true,

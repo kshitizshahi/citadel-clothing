@@ -7,12 +7,15 @@ import Button from "../components/Button";
 import { useNavigate } from "react-router-dom";
 import { registerUser } from "../redux/thunkApi/authApi";
 import { PUBLIC_URL } from "../utils/BaseUrl";
+import { Switch } from "@mantine/core";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
 const Register = () => {
+  const [isSeller, setIsSeller] = useState(false);
+
   const registerSchema = yup
     .object({
       firstName: yup.string().required("This field is required."),
@@ -68,6 +71,7 @@ const Register = () => {
           phoneNumber: data.phoneNumber,
           password: data.password,
           confirmPassword: data.confirmPassword,
+          isSeller: isSeller,
         })
       );
 
@@ -90,6 +94,7 @@ const Register = () => {
       toast.error(message);
     }
   }, []);
+
   return (
     <div className="register-container">
       <div className="image-container">
@@ -128,50 +133,63 @@ const Register = () => {
               </div>
             </div>
             <div className="form-fields">
-              <div>
-                <label htmlFor="emailAddress">Email Addresss</label>
-                <input
-                  type="email"
-                  id="emailAddress"
-                  placeholder="Email address"
-                  {...register("email")}
-                ></input>
-                <p className="error">{errors.email?.message || "\u00A0"}</p>
+              <div className="input-fields">
+                <div>
+                  <label htmlFor="emailAddress">Email Addresss</label>
+                  <input
+                    type="email"
+                    id="emailAddress"
+                    placeholder="Email address"
+                    {...register("email")}
+                  ></input>
+                  <p className="error">{errors.email?.message || "\u00A0"}</p>
+                </div>
+                <div>
+                  <label htmlFor="phoneNumber">Phone Number</label>
+                  <input
+                    type="text"
+                    id="phoneNumber"
+                    placeholder="Phone Number"
+                    // pattern="\d{10}$"
+                    {...register("phoneNumber")}
+                  ></input>
+                  <p className="error">
+                    {errors.phoneNumber?.message || "\u00A0"}
+                  </p>
+                </div>
+                <div>
+                  <label htmlFor="password">Password</label>
+                  <input
+                    type="password"
+                    id="password"
+                    placeholder="Enter password"
+                    {...register("password")}
+                  ></input>
+                  <p className="error">
+                    {errors.password?.message || "\u00A0"}
+                  </p>
+                </div>
+                <div>
+                  <label htmlFor="confirmPassword">Confirm Password</label>
+                  <input
+                    type="password"
+                    id="confirmPassword"
+                    placeholder="Re-enter password"
+                    {...register("confirmPassword")}
+                  ></input>
+                  <p className="error">
+                    {errors.confirmPassword?.message || "\u00A0"}
+                  </p>
+                </div>
               </div>
-              <div>
-                <label htmlFor="phoneNumber">Phone Number</label>
-                <input
-                  type="text"
-                  id="phoneNumber"
-                  placeholder="Phone Number"
-                  // pattern="\d{10}$"
-                  {...register("phoneNumber")}
-                ></input>
-                <p className="error">
-                  {errors.phoneNumber?.message || "\u00A0"}
-                </p>
-              </div>
-              <div>
-                <label htmlFor="password">Password</label>
-                <input
-                  type="password"
-                  id="password"
-                  placeholder="Enter password"
-                  {...register("password")}
-                ></input>
-                <p className="error">{errors.password?.message || "\u00A0"}</p>
-              </div>
-              <div>
-                <label htmlFor="confirmPassword">Confirm Password</label>
-                <input
-                  type="password"
-                  id="confirmPassword"
-                  placeholder="Re-enter password"
-                  {...register("confirmPassword")}
-                ></input>
-                <p className="error">
-                  {errors.confirmPassword?.message || "\u00A0"}
-                </p>
+
+              <div className="switch">
+                <Switch
+                  checked={isSeller}
+                  onChange={(e) => setIsSeller(e.currentTarget.checked)}
+                  label="Seller"
+                  size="sm"
+                />
               </div>
             </div>
             <div>

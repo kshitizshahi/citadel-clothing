@@ -2,8 +2,7 @@
 
 .register-container {
   @include flexBox(row, center);
-  /* background-color: rgb(156, 205, 245); */
-  height: 93vh;
+  height: 100vh;
   /* height: max-content; */
   background-color: var(--color-register-page-bg);
 
@@ -24,10 +23,6 @@
   .image-container {
     flex: 40%;
     max-width: 40%;
-    /* flex: clamp(20%, 40vw, 40%);
-    max-width: clamp(20%, 40vw, 40%); */
-    /* min-height: 80rem;
-    max-width: 55rem; */
     box-shadow: 0 0.4rem 0.8rem 0 rgba(0, 0, 0, 0.2);
 
     .image {
@@ -40,15 +35,8 @@
   }
 
   .register-form-container {
-    /* background-color: cornflowerblue; */
-    /* flex: clamp(30%, 45vw, 45%);
-    max-width: clamp(30%, 45vw, 45%); */
     flex: 45%;
     max-width: 45%;
-    /* height: max-content; */
-    /* height: 100%; */
-    /* min-height: 80rem;
-    max-width: 70rem; */
     box-shadow: 0 0.4rem 0.8rem 0 rgba(0, 0, 0, 0.2);
 
     .error {
@@ -59,14 +47,12 @@
 
     .form {
       margin-inline: 1rem;
-      /* background-color: brown; */
 
       .heading {
         text-align: center;
         margin-top: 0.5rem;
         font-size: 1.25rem;
         color: var(--color-text);
-        /* font-size: clamp(1rem, 3vw, 2.5rem); */
       }
     }
   }
@@ -74,20 +60,15 @@
 
 .register-form-spacing {
   margin: 3rem 3rem 0 3rem;
-  /* background-color: mediumorchid; */
 
   .flex-container {
     @include flexBox(row, space-between);
-    /* gap: 7rem; */
-    /* width: 80%; */
-    /* background-color: darkgoldenrod; */
 
     .first-name-container,
     .last-name-container {
       @include flexBox(column, null);
       flex: 45%;
       max-width: 45%;
-      /* background-color: grey; */
 
       input {
         @include inputBox();
@@ -95,10 +76,25 @@
       }
     }
   }
-  .form-fields input {
-    @include inputBox();
-    margin-block: 0.8rem 0;
+
+  .form-fields {
+    .input-fields {
+      input {
+        @include inputBox();
+        margin-block: 0.8rem 0;
+      }
+    }
+
+    .switch {
+      margin-block: 1rem 1.5rem;
+      label {
+        color: var(--color-text);
+        font-size: 1.45rem;
+        font-family: inherit;
+      }
+    }
   }
+
   .register-button {
     padding: 1.3rem 0;
     background-color: #4e9c80;
@@ -114,8 +110,7 @@
 
   .redirect {
     color: var(--color-text);
-    /* margin-top: 1.5rem; */
-    /* padding-bottom: 1rem; */ // font-size: 1.5rem;
+
     .link {
       text-decoration: none;
       color: #185638;
@@ -126,13 +121,9 @@
 
 @media screen and (max-width: 768px) {
   .register-container {
-    /* min-height: 110vh; */
     height: max-content;
-    /* max-height: 135vh; */
 
     .image-container {
-      // flex: 45%;
-      // max-width: 45%;
       display: none;
     }
 

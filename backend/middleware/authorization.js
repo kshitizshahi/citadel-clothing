@@ -41,6 +41,26 @@ export const admin = asyncHandler(async (req, res, next) => {
   }
 });
 
+export const sellerAdmin = asyncHandler(async (req, res, next) => {
+  const data = await User.findById(req.user).select("-password");
+
+  if (req.user && (data.isSeller || data.isAdmin)) {
+    next();
+  } else {
+    res.status(401).json({ message: "Not authorized" });
+  }
+});
+
+export const seller = asyncHandler(async (req, res, next) => {
+  const data = await User.findById(req.user).select("-password");
+
+  if (req.user && data.isSeller) {
+    next();
+  } else {
+    res.status(401).json({ message: "Not authorized as an seller" });
+  }
+});
+
 export const verifyAccessTokenExpiry = asyncHandler(async (req, res, next) => {
   const token = req.cookies.accessToken;
   const refToken = req.cookies.refreshToken;

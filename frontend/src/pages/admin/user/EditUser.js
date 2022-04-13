@@ -1,45 +1,47 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { Edit_Customer_Page } from "../../../../utils/PageTitle";
-import Button from "../../../../components/Button";
-import LoadingDots from "../../../../components/Loading";
-import SideBar from "../../../../components/Admin/SideBar";
+import { Edit_User_Page } from "../../../utils/PageTitle";
+import Button from "../../../components/Button";
+import LoadingDots from "../../../components/Loading";
+import SideBar from "../../../components/Admin/SideBar";
 import { Icon } from "@iconify/react";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import "../../../../styles/addCustomer.scss";
-import { BASE_URL } from "../../../../utils/BaseUrl";
+import "../../../styles/addUser.scss";
+import { BASE_URL } from "../../../utils/BaseUrl";
+import { Switch } from "@mantine/core";
 
-const EditCustomer = () => {
-  const [user, setUser] = useState([]);
+const EditUser = () => {
+  // const [user, setUser] = useState([]);
   const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/png"];
   const [image, setImage] = useState([]);
   const [loading, setLoading] = useState([]);
+  const [accountVerified, setAccountVerified] = useState(false);
 
   let { id } = useParams();
 
   let userEmailArray = [];
 
-  const editCustomerSchema = yup
+  const editUserSchema = yup
     .object(
       {
         firstName: yup.string().required("This field is required."),
         lastName: yup.string().required("This field is required."),
-        email: yup
-          .string()
-          .email("Invalid email address")
-          .required("This field is required.")
-          .test("existingEmail", "Email already in use.", (value) => {
-            if (value && userEmailArray.includes(value)) {
-              return false;
-            } else {
-              return true;
-            }
-          }),
+        // email: yup
+        //   .string()
+        //   .email("Invalid email address")
+        //   .required("This field is required.")
+        //   .test("existingEmail", "Email already in use.", (value) => {
+        //     if (value && userEmailArray.includes(value)) {
+        //       return false;
+        //     } else {
+        //       return true;
+        //     }
+        //   }),
         phoneNumber: yup
           .string()
           .required("This field is required.")
@@ -96,7 +98,7 @@ const EditCustomer = () => {
 
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(editCustomerSchema),
+    resolver: yupResolver(editUserSchema),
   });
 
   const [hideSideBar, setHideSideBar] = useState(false);
@@ -111,19 +113,22 @@ const EditCustomer = () => {
     const formdata = new FormData();
     formdata.append("firstName", data.firstName);
     formdata.append("lastName", data.lastName);
-    formdata.append("email", data.email);
+    // formdata.append("email", data.email);
     formdata.append("phoneNumber", data.phoneNumber);
     formdata.append("oldPassword", data.oldPassword);
     formdata.append("newPassword", data.newPassword);
     formdata.append("confirmNewPassword", data.confirmNewPassword);
-
     formdata.append("profileImage", data.profileImage[0]);
+    formdata.append("isAccountVerified", accountVerified);
 
     try {
-      const res = await axios.put(`/api/users/update-customer/${id}`, formdata);
+      const res = await axios.put(
+        `/api/users/update-user/admin/${id}`,
+        formdata
+      );
       toast.success(res.data.message);
       if (res.data.message) {
-        navigate("/admin/customer");
+        navigate("/admin/users");
       }
     } catch (error) {
       toast.error(error.response.data.message);
@@ -132,18 +137,18 @@ const EditCustomer = () => {
 
   useEffect(() => {
     let mounted = true;
-    document.title = Edit_Customer_Page;
+    document.title = Edit_User_Page;
 
-    (async function () {
-      try {
-        const response = await axios.get(`/api/users/get/others/email/${id}`);
-        if (mounted) {
-          setUser(response.data.otherUsers);
-        }
-      } catch (error) {
-        toast.error(error.response.data.message);
-      }
-    })();
+    // (async function () {
+    //   try {
+    //     const response = await axios.get(`/api/users/get/others/email/${id}`);
+    //     if (mounted) {
+    //       setUser(response.data.otherUsers);
+    //     }
+    //   } catch (error) {
+    //     toast.error(error.response.data.message);
+    //   }
+    // })();
 
     return () => {
       mounted = false;
@@ -156,15 +161,16 @@ const EditCustomer = () => {
     (async function () {
       try {
         setLoading(true);
-        const response = await axios.get(`/api/users/get/${id}`);
+        const response = await axios.get(`/api/users/get/userInfo/${id}`);
         setLoading(false);
         if (mounted) {
-          const customer = response.data.customer;
-          setValue("firstName", customer.firstName);
-          setValue("lastName", customer.lastName);
-          setValue("email", customer.email);
-          setValue("phoneNumber", customer.phoneNumber);
-          setImage(customer.profileImage);
+          const user = response.data.user;
+          setValue("firstName", user.firstName);
+          setValue("lastName", user.lastName);
+          setValue("email", user.email);
+          setValue("phoneNumber", user.phoneNumber);
+          setImage(user.profileImage);
+          setAccountVerified(user.isAccountVerified);
         }
       } catch (error) {
         toast.error(error.response.data.message);
@@ -180,9 +186,9 @@ const EditCustomer = () => {
     setHideSideBar(!hideSideBar);
   };
 
-  if (user && user.length > 0) {
-    user.map((elem) => userEmailArray.push(elem.email));
-  }
+  // if (user && user.length > 0) {
+  //   user.map((elem) => userEmailArray.push(elem.email));
+  // }
 
   if (mobileDevice && hideSideBar) {
     document.body.style.height = "100%";
@@ -197,10 +203,10 @@ const EditCustomer = () => {
       {loading ? (
         <LoadingDots />
       ) : (
-        <div className="add-customer-container">
+        <div className="add-user-container">
           {!mobileDevice ? (
             <div className={hideSideBar ? "side-bar hide" : "side-bar"}>
-              <SideBar select="users" subSelect="customers" />
+              <SideBar select="users" />
             </div>
           ) : (
             <div
@@ -214,7 +220,7 @@ const EditCustomer = () => {
                   onClick={toggleSideBar}
                 />
               </div>
-              <SideBar select="users" subSelect="customers" />
+              <SideBar select="users" sub />
             </div>
           )}
           <div className="form-container">
@@ -226,7 +232,7 @@ const EditCustomer = () => {
                   className="toggle-sidebar"
                 />
 
-                <p className="heading">Edit Customer</p>
+                <p className="heading">Edit User</p>
               </div>
 
               <div className="form-wrapper">
@@ -295,73 +301,86 @@ const EditCustomer = () => {
                         </div>
                       </div>
                       <div className="other-form-fields">
-                        <div>
-                          <label htmlFor="emailAddress">Email Addresss</label>
-                          <input
-                            type="email"
-                            id="emailAddress"
-                            placeholder="Email address"
-                            {...register("email")}
-                          ></input>
-                          <p className="error">
-                            {errors.email?.message || "\u00A0"}
-                          </p>
+                        <div className="input-fields">
+                          <div>
+                            <label htmlFor="emailAddress">Email Addresss</label>
+                            <input
+                              type="email"
+                              id="emailAddress"
+                              placeholder="Email address"
+                              readOnly="readOnly"
+                              {...register("email")}
+                            ></input>
+                            <p className="error">
+                              {errors.email?.message || "\u00A0"}
+                            </p>
+                          </div>
+                          <div>
+                            <label htmlFor="phoneNumber">Phone Number</label>
+                            <input
+                              type="text"
+                              id="phoneNumber"
+                              placeholder="Phone Number"
+                              {...register("phoneNumber")}
+                            ></input>
+                            <p className="error">
+                              {errors.phoneNumber?.message || "\u00A0"}
+                            </p>
+                          </div>
+                          <div>
+                            <label htmlFor="oldPassword">Old Password</label>
+                            <input
+                              type="password"
+                              id="oldPassword"
+                              placeholder="Old Password"
+                              {...register("oldPassword")}
+                            ></input>
+                            <p className="error">
+                              {errors.oldPassword?.message || "\u00A0"}
+                            </p>
+                          </div>
+                          <div>
+                            <label htmlFor="newPassword">New Password</label>
+                            <input
+                              type="password"
+                              id="newPassword"
+                              placeholder="New Password"
+                              {...register("newPassword")}
+                            ></input>
+                            <p className="error">
+                              {errors.newPassword?.message || "\u00A0"}
+                            </p>
+                          </div>
+                          <div>
+                            <label htmlFor="confirmNewPassword">
+                              Confirm New Password
+                            </label>
+                            <input
+                              type="password"
+                              id="confirmNewPassword"
+                              placeholder="Confirm New Password"
+                              {...register("confirmNewPassword")}
+                            ></input>
+                            <p className="error">
+                              {errors.confirmNewPassword?.message || "\u00A0"}
+                            </p>
+                          </div>
                         </div>
-                        <div>
-                          <label htmlFor="phoneNumber">Phone Number</label>
-                          <input
-                            type="text"
-                            id="phoneNumber"
-                            placeholder="Phone Number"
-                            {...register("phoneNumber")}
-                          ></input>
-                          <p className="error">
-                            {errors.phoneNumber?.message || "\u00A0"}
-                          </p>
-                        </div>
-                        <div>
-                          <label htmlFor="oldPassword">Old Password</label>
-                          <input
-                            type="password"
-                            id="oldPassword"
-                            placeholder="Old Password"
-                            {...register("oldPassword")}
-                          ></input>
-                          <p className="error">
-                            {errors.oldPassword?.message || "\u00A0"}
-                          </p>
-                        </div>
-                        <div>
-                          <label htmlFor="newPassword">New Password</label>
-                          <input
-                            type="password"
-                            id="newPassword"
-                            placeholder="New Password"
-                            {...register("newPassword")}
-                          ></input>
-                          <p className="error">
-                            {errors.newPassword?.message || "\u00A0"}
-                          </p>
-                        </div>
-                        <div>
-                          <label htmlFor="confirmNewPassword">
-                            Confirm New Password
-                          </label>
-                          <input
-                            type="password"
-                            id="confirmNewPassword"
-                            placeholder="Confirm New Password"
-                            {...register("confirmNewPassword")}
-                          ></input>
-                          <p className="error">
-                            {errors.confirmNewPassword?.message || "\u00A0"}
-                          </p>
+                        <div className="switch">
+                          <Switch
+                            checked={accountVerified}
+                            onChange={(e) =>
+                              setAccountVerified(e.currentTarget.checked)
+                            }
+                            label="Account Verified"
+                            size="sm"
+                          />
                         </div>
 
                         <div className="btn-container">
                           <Button
                             className="add-category-button"
-                            text="Update Customer"
+                            text="Update User"
                           />
                         </div>
                       </div>
@@ -377,4 +396,4 @@ const EditCustomer = () => {
   );
 };
 
-export default EditCustomer;
+export default EditUser;

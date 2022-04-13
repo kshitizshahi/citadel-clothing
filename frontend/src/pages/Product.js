@@ -123,8 +123,13 @@ const Product = () => {
                 <hr className="line" />
                 <div className="seller">
                   <label>Sold by:</label>
-                  <Link to={`/seller/${product?.seller?.fullName}`}>
-                    <p>{product?.seller?.fullName}</p>
+                  <Link
+                    to={`/seller/${product?.seller?.firstName}%20${product?.seller?.lastName}`}
+                  >
+                    <p>
+                      {product?.seller?.firstName} {""}
+                      {product?.seller?.lastName}
+                    </p>
                   </Link>
                 </div>
                 <div className="stock">
