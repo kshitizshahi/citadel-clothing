@@ -197,7 +197,7 @@ const Register = () => {
             </div>
             <div>
               <p className="redirect">
-                Already have account?{" "}
+                Already have an account?{" "}
                 <Link className="link" to={`/login`}>
                   Log In
                 </Link>

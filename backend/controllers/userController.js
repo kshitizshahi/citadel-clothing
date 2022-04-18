@@ -9,6 +9,9 @@ import {
 import fs from "fs";
 import { sendMail } from "../utils/emailSender.js";
 import jwt from "jsonwebtoken";
+import Product from "../models/ProductModel.js";
+import Order from "../models/orderModel.js";
+import Category from "../models/CategoryModel.js";
 
 const defaultResponse = (user) => {
   return {
@@ -188,6 +191,10 @@ const updateUser = asyncHandler(async (req, res) => {
       } else {
         if (bcrypt.compareSync(oldPassword, user.password)) {
           user.password = bcrypt.hashSync(newPassword, 8);
+          await user.save();
+          res.status(201).json({
+            message: "Password Changed",
+          });
         } else {
           res.status(400).json({ message: "Old Password does not match" });
         }
@@ -456,6 +463,25 @@ const emailTokenVerify = asyncHandler(async (req, res) => {
   }
 });
 
+const dashboardCount = asyncHandler(async (req, res) => {
+  const totalProducts = await Product.countDocuments();
+  const totalCustomers = await User.countDocuments({
+    isAdmin: false,
+    isSeller: false,
+  });
+  const totalOrders = await Order.countDocuments();
+  const totalCategory = await Category.countDocuments();
+
+  res.status(201).json({
+    dashboardInfo: {
+      totalProducts,
+      totalCustomers,
+      totalOrders,
+      totalCategory,
+    },
+  });
+});
+
 export {
   register,
   login,
@@ -470,4 +496,5 @@ export {
   getOtherUsersEmail,
   updateUserAdmin,
   emailTokenVerify,
+  dashboardCount,
 };

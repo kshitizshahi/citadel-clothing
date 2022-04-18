@@ -9,6 +9,7 @@ import subCategoryRoute from "./routes/subCategoryRoute.js";
 import paymentRoute from "./routes/paymentRoute.js";
 import orderRoute from "./routes/orderRoute.js";
 import reviewRoute from "./routes/reviewRoute.js";
+import contactRoute from "./routes/contactRoute.js";
 
 import path from "path";
 import createUploadFolder from "./configs/upload.js";
@@ -34,7 +35,7 @@ app.use("/api/sub-category", subCategoryRoute);
 app.use("/api/products", productRoute);
 app.use("/api/orders", orderRoute);
 app.use("/api/reviews", reviewRoute);
-
+app.use("/api/contact-us", contactRoute);
 app.use("/api/payment", paymentRoute);
 
 app.get("/", (req, res) => {

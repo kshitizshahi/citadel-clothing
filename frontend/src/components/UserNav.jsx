@@ -1,14 +1,16 @@
-import { NavLink, useNavigate, Link } from "react-router-dom";
+import { NavLink, useNavigate, Link, useLocation } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import "../styles/userNav.scss";
 import { logoutUser } from "../redux/thunkApi/authApi";
 import { useDispatch, useSelector } from "react-redux";
-const UserNav = () => {
+const UserNav = ({ current }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const user = useSelector((state) => state.authUser);
   const { isLoggedIn } = user;
+
+  const location = useLocation();
 
   const logoutHandler = (e) => {
     dispatch(logoutUser({}));
@@ -22,7 +24,11 @@ const UserNav = () => {
             <li>
               <NavLink
                 to="/profile"
-                className={({ isActive }) => (isActive ? "current-tab" : "")}
+                className={({ isActive }) =>
+                  isActive || location.pathname === "/change-password"
+                    ? "current-tab"
+                    : ""
+                }
               >
                 <Icon
                   icon="ant-design:user-outlined"
@@ -31,6 +37,7 @@ const UserNav = () => {
                 <p>My Profile</p>
               </NavLink>
             </li>
+
             <li>
               <NavLink
                 to="/orders"
@@ -63,7 +70,6 @@ const UserNav = () => {
                 <p>My Reviews</p>
               </NavLink>
             </li>
-
             <li>
               <Link to="/#" onClick={logoutHandler}>
                 <Icon icon="clarity:sign-out-line" className="logout-icon" />

@@ -59,7 +59,7 @@ const OrderDetails = () => {
       showCancelButton: true,
       confirmButtonColor: "#d33",
       cancelButtonColor: "#3085d6",
-      confirmButtonText: "Cancel",
+      confirmButtonText: "Yes, Cancel",
       cancelButtonText: "Go Back",
     }).then(async (result) => {
       if (result.isConfirmed) {

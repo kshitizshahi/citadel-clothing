@@ -132,6 +132,28 @@ const getDiscountProduct = asyncHandler(async (req, res) => {
   }
 });
 
+const getRelatedProduct = asyncHandler(async (req, res) => {
+  const { productId } = req.params;
+  const product = await Product.findById(productId);
+
+  const matchingProduct = await Product.find({ category: product.category })
+    .populate(query)
+    .lean();
+
+  const relatedProduct = matchingProduct.filter(
+    (element) => element._id.toString() !== product._id.toString()
+  );
+
+  console.log(relatedProduct);
+
+  if (relatedProduct) {
+    res.status(200).json({
+      relatedProduct,
+      message: "Related Product fetched",
+    });
+  }
+});
+
 const getCategoryProduct = asyncHandler(async (req, res) => {
   const { keywords } = req.params;
 
@@ -139,10 +161,7 @@ const getCategoryProduct = asyncHandler(async (req, res) => {
     name: { $regex: keywords, $options: "i" },
   });
 
-  console.log(category);
-
   if (category) {
-    console.log(category._id);
     const product = await Product.find({ category: category._id }).populate(
       "category",
       "_id name"
@@ -306,4 +325,5 @@ export {
   searchProduct,
   deleteImage,
   getCategoryProduct,
+  getRelatedProduct,
 };

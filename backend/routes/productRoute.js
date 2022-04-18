@@ -7,6 +7,7 @@ import {
   getCategoryProduct,
   getDiscountProduct,
   getProduct,
+  getRelatedProduct,
   searchProduct,
   updateProduct,
 } from "../controllers/productController.js";
@@ -26,9 +27,9 @@ const adminSellerMiddleWare = [verifyAccessTokenExpiry, isAuth, sellerAdmin];
 const sellerMiddleWare = [verifyAccessTokenExpiry, isAuth, seller];
 
 router.get("/get/all-products", getAllProduct);
+router.get("/get/related-products/:productId", getRelatedProduct);
 router.get("/get/discount-products", getDiscountProduct);
 router.get("/get/category/products/:keywords", getCategoryProduct);
-
 router.get("/get/:productId", getProduct);
 router.delete("/delete/:productId", adminSellerMiddleWare, deleteProduct);
 router.get("/search/:keywords", adminSellerMiddleWare, searchProduct);

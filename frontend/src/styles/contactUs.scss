@@ -1,0 +1,151 @@
+@use "../styles/mixins" as *;
+
+.contact-us-container {
+  background-color: var(--color-admin-dashboard-bg);
+  color: var(--color-text);
+  padding-block: 2rem 4rem;
+
+  .error {
+    color: var(--color-error);
+    font-size: 1rem;
+    margin-block: 0.2rem;
+  }
+
+  .container {
+    width: 84%;
+    margin: auto;
+
+    .contact-heading {
+      font-size: 2.8rem;
+      font-family: Open Sans;
+      margin-bottom: 2rem;
+    }
+
+    .container-wrapper {
+      display: flex;
+      gap: 1rem;
+
+      .contact-information {
+        flex: 45%;
+        max-width: 45%;
+        background-color: var(--color-admin-dashboard-foreground);
+        padding: 2rem;
+        border-radius: 0.4rem;
+
+        // background: #2c6661;
+        // background: -webkit-linear-gradient(top left, #2c6661, #ab68e5);
+        // background: -moz-linear-gradient(top left, #2c6661, #ab68e5);
+        // background: linear-gradient(to bottom right, #2c6661, #ab68e5);
+
+        .heading {
+          font-size: 2rem;
+          margin-bottom: 1rem;
+        }
+
+        .sub-heading {
+          font-size: 1.5rem;
+          margin-bottom: 4rem;
+          color: gray;
+        }
+
+        .contact-phone,
+        .contact-email,
+        .contact-address {
+          display: flex;
+          gap: 1rem;
+          margin-bottom: 3rem;
+        }
+
+        .phone-number,
+        .email,
+        .address {
+          margin-block: auto;
+          height: 1.8rem;
+          width: 1.8rem;
+        }
+      }
+      .contact-form {
+        flex-grow: 1;
+        background-color: var(--color-admin-dashboard-foreground);
+        padding: 2rem;
+        border-radius: 0.4rem;
+
+        input {
+          @include inputBox();
+          margin-block: 0.8rem 0;
+        }
+
+        textArea {
+          width: 100%;
+          height: 12rem;
+          margin-block: 0.8rem 0;
+          padding: 0.9rem 1rem;
+          border-radius: 0.4rem;
+          border: 0.1rem #a4a4a4 solid;
+          font-size: clamp(1.3rem, 2vw, 1.4rem);
+          font-family: inherit;
+          resize: none;
+        }
+
+        .send-message-btn {
+          padding: 1.1rem 1.8rem;
+          background-color: var(--color-btn);
+          border: none;
+          color: var(--color-add-product-btn-text);
+          font-size: 1.6rem;
+          font-size: 1.5rem;
+          border-radius: 0.3rem;
+          line-height: 2rem;
+          width: 40%;
+          margin-top: 1rem;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .contact-us-container {
+    padding-block: 2rem 4rem;
+
+    .container {
+      width: 90%;
+
+      .contact-heading {
+        font-size: 2.2rem;
+      }
+
+      .container-wrapper {
+        flex-direction: column;
+
+        .contact-information {
+          flex-grow: 1;
+          max-width: 100%;
+
+          .heading {
+            font-size: 1.75rem;
+          }
+
+          .sub-heading {
+            font-size: 1.35rem;
+          }
+
+          .contact-phone,
+          .contact-email,
+          .contact-address {
+            font-size: 1.3rem;
+          }
+
+          .phone-number,
+          .email,
+          .address {
+            margin-block: auto;
+            height: 1.4rem;
+            width: 1.4rem;
+          }
+        }
+      }
+    }
+  }
+}

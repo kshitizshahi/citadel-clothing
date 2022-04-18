@@ -14,22 +14,25 @@ import {
   deleteUser,
   getUserInfo,
   updateUserAdmin,
+  dashboardCount,
 } from "../controllers/userController.js";
 import {
   admin,
   isAuth,
+  sellerAdmin,
   verifyAccessTokenExpiry,
 } from "../middleware/authorization.js";
 
 const router = express.Router();
 
 const adminMiddleWare = [verifyAccessTokenExpiry, isAuth, admin];
+const adminSellerMiddleWare = [verifyAccessTokenExpiry, isAuth, sellerAdmin];
 
 router.get("/get/user", verifyAccessTokenExpiry, isAuth, getUser);
 router.get("/get/all-users", adminMiddleWare, getAllUsers);
 router.get("/get/all-users/email", adminMiddleWare, getAllUsersEmail);
 router.get("/get/userInfo/:userId", adminMiddleWare, getUserInfo);
-
+router.get("/get/dashboard-info", adminSellerMiddleWare, dashboardCount);
 router.post("/register", upload.single("profileImage"), register);
 router.post("/login", login);
 

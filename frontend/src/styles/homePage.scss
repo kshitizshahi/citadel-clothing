@@ -17,7 +17,7 @@
       // background-color: aqua;
 
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(35rem, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(35rem, 1fr));
 
       gap: 2.5rem 3.5rem;
       // justify-content: space-between;
@@ -106,9 +106,10 @@
 
           .load-more {
             padding: 1.5rem 1.5rem;
-            background-color: var(--color-bg);
+            background-color: var(--color-btn);
             border: none;
-            color: var(--color-text);
+            color: var(--color-add-product-btn-text);
+
             font-size: 1.6rem;
             border-radius: 0.3rem;
             margin-block: 4rem 2rem;
@@ -122,9 +123,6 @@
             }
           }
         }
-
-        // flex: 84%;
-        // max-width: 84%;
       }
     }
   }
@@ -137,7 +135,7 @@
       max-width: 90%;
     }
     .category-container {
-      grid-template-columns: repeat(auto-fit, minmax(50%, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(50%, 1fr));
     }
   }
 }

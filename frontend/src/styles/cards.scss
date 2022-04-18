@@ -4,11 +4,11 @@
   display: grid;
   //   grid-template-columns: repeat(auto-fill, 20%);
   //   grid-template-columns: repeat(auto-fit, minmax(35rem, 26.5%));
-  grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(25rem, 1fr));
 
   gap: 3.5rem;
   // justify-content: center;
-  //   background-color: bisque;
+  // background-color: bisque;
 
   .card-items {
     box-shadow: 0.2rem 0.4rem 0.8rem 0 rgba(0, 0, 0, 0.2);
@@ -70,6 +70,6 @@
 
 @media screen and (max-width: 768px) {
   .cards {
-    grid-template-columns: repeat(auto-fit, minmax(50%, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(50%, 1fr));
   }
 }

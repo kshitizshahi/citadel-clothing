@@ -60,6 +60,11 @@ const UserProfile = () => {
             }
           }
         ),
+    })
+    .required();
+
+  const addressSchema = yup
+    .object({
       address: yup.string().required("This field is required."),
       city: yup.string().required("This field is required."),
       country: yup.string().required("This field is required."),
@@ -76,15 +81,25 @@ const UserProfile = () => {
     .required();
 
   const {
-    register,
-    handleSubmit,
+    register: registerUser,
+    handleSubmit: handleSubmitUser,
     getValues,
     watch,
-    setValue,
+    setValue: setValueUser,
 
-    formState: { errors },
+    formState: { errors: errorsUser },
   } = useForm({
     resolver: yupResolver(updateUserSchema),
+  });
+
+  const {
+    register: registerAddress,
+    handleSubmit: handleSubmitAddress,
+    setValue: setValueAddress,
+
+    formState: { errors: errorsAddress },
+  } = useForm({
+    resolver: yupResolver(addressSchema),
   });
 
   const dispatch = useDispatch();
@@ -100,13 +115,15 @@ const UserProfile = () => {
     error: authError,
   } = useSelector((state) => state.authUser);
 
-  const saveShipping = () => {
+  const { shippingAddress } = useSelector((state) => state.Product);
+
+  const saveShipping = (data) => {
     dispatch(
       saveShippingAddress({
-        address: getValues("address"),
-        city: getValues("city"),
-        postalCode: getValues("postalCode"),
-        country: getValues("country"),
+        address: data.address,
+        city: data.city,
+        postalCode: data.postalCode,
+        country: data.country,
       })
     );
   };
@@ -121,7 +138,6 @@ const UserProfile = () => {
         userImage: data.userImage[0],
       })
     );
-    // dispatch(resetSuccess());
   };
 
   const changePasswordHandler = (e) => {
@@ -132,11 +148,18 @@ const UserProfile = () => {
     document.title = Profile_Page_Title;
 
     if (userInfo && fetchSuccess) {
-      setValue("firstName", userInfo.firstName);
-      setValue("lastName", userInfo.lastName);
-      setValue("email", userInfo.email);
-      setValue("phoneNumber", userInfo.phoneNumber);
+      setValueUser("firstName", userInfo.firstName);
+      setValueUser("lastName", userInfo.lastName);
+      setValueUser("email", userInfo.email);
+      setValueUser("phoneNumber", userInfo.phoneNumber);
       setImage(userInfo.profileImage);
+    }
+
+    if (shippingAddress) {
+      setValueAddress("address", shippingAddress.address);
+      setValueAddress("city", shippingAddress.city);
+      setValueAddress("postalCode", shippingAddress.postalCode);
+      setValueAddress("country", shippingAddress.country);
     }
   }, [fetchSuccess, dispatch]);
 
@@ -182,7 +205,7 @@ const UserProfile = () => {
           <div className="form-container">
             <div className="user-address-container">
               <form
-                onSubmit={handleSubmit(submitHandler)}
+                onSubmit={handleSubmitUser(submitHandler)}
                 encType="multipart/form-data"
               >
                 <div className="user-profile-form">
@@ -206,14 +229,14 @@ const UserProfile = () => {
                       Change Image
                     </label>
                     <p className="error">
-                      {errors.userImage?.message || "\u00A0"}
+                      {errorsUser.userImage?.message || "\u00A0"}
                     </p>
                     <input
                       type="file"
                       id="imageChange"
                       accept=".png, .jpg, .jpeg"
                       className="profile-image-input"
-                      {...register("userImage")}
+                      {...registerUser("userImage")}
                     ></input>
                   </div>
 
@@ -225,10 +248,10 @@ const UserProfile = () => {
                           type="text"
                           id="firstName"
                           placeholder="First Name"
-                          {...register("firstName")}
+                          {...registerUser("firstName")}
                         ></input>
                         <p className="error">
-                          {errors.firstName?.message || "\u00A0"}
+                          {errorsUser.firstName?.message || "\u00A0"}
                         </p>
                       </div>
                       <div className="last-name-container">
@@ -237,10 +260,10 @@ const UserProfile = () => {
                           type="text"
                           id="lastName"
                           placeholder="Last Name"
-                          {...register("lastName")}
+                          {...registerUser("lastName")}
                         ></input>
                         <p className="error">
-                          {errors.lastName?.message || "\u00A0"}
+                          {errorsUser.lastName?.message || "\u00A0"}
                         </p>
                       </div>
                     </div>
@@ -253,10 +276,10 @@ const UserProfile = () => {
                           readOnly="readOnly"
                           // disabled="disabled"
                           placeholder="Email address"
-                          {...register("email")}
+                          {...registerUser("email")}
                         ></input>
                         <p className="error">
-                          {errors.email?.message || "\u00A0"}
+                          {errorsUser.email?.message || "\u00A0"}
                         </p>
                       </div>
                       <div>
@@ -265,10 +288,10 @@ const UserProfile = () => {
                           type="tel"
                           id="phoneNumber"
                           placeholder="Phone Number"
-                          {...register("phoneNumber")}
+                          {...registerUser("phoneNumber")}
                         ></input>
                         <p className="error">
-                          {errors.phoneNumber?.message || "\u00A0"}
+                          {errorsUser.phoneNumber?.message || "\u00A0"}
                         </p>
                       </div>
                     </div>
@@ -288,20 +311,17 @@ const UserProfile = () => {
                 <h3> My Address Book</h3>
                 <div className="shipping-address-container">
                   <div className="ship-container">
-                    <div className="heading">
-                      <p>SHIPPING ADDRESS</p>
-                    </div>
-                    <form onSubmit={handleSubmit(saveShipping)}>
+                    <form onSubmit={handleSubmitAddress(saveShipping)}>
                       <div>
                         <label htmlFor="address">Addresss</label>
                         <input
                           type="text"
                           id="address"
                           placeholder="Your Street Name or Address"
-                          {...register("address")}
+                          {...registerAddress("address")}
                         ></input>
                         <p className="error">
-                          {errors.address?.message || "\u00A0"}
+                          {errorsAddress.address?.message || "\u00A0"}
                         </p>
                       </div>
                       <div>
@@ -310,10 +330,10 @@ const UserProfile = () => {
                           type="text"
                           id="city"
                           placeholder="Your City"
-                          {...register("city")}
+                          {...registerAddress("city")}
                         ></input>
                         <p className="error">
-                          {errors.city?.message || "\u00A0"}
+                          {errorsAddress.city?.message || "\u00A0"}
                         </p>
                       </div>
                       <div>
@@ -322,10 +342,10 @@ const UserProfile = () => {
                           type="text"
                           id="postalCode"
                           placeholder="Your Postal Code"
-                          {...register("postalCode")}
+                          {...registerAddress("postalCode")}
                         ></input>
                         <p className="error">
-                          {errors.postalCode?.message || "\u00A0"}
+                          {errorsAddress.postalCode?.message || "\u00A0"}
                         </p>
                       </div>
                       <div>
@@ -334,17 +354,16 @@ const UserProfile = () => {
                           type="text"
                           id="country"
                           placeholder="Your Country"
-                          {...register("country")}
+                          {...registerAddress("country")}
                         ></input>
                         <p className="error">
-                          {errors.country?.message || "\u00A0"}
+                          {errorsAddress.country?.message || "\u00A0"}
                         </p>
                       </div>
                       <div>
                         <Button
-                          className="place-order-btn"
-                          text="PLACE ORDER"
-                          onClick={saveShipping}
+                          className="save-address-btn"
+                          text="Save Address"
                         />
                       </div>
                     </form>

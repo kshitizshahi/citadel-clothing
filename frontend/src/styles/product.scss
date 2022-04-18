@@ -32,7 +32,7 @@
         color: var(--color-text);
 
         .heading {
-          font-size: 2.7rem;
+          font-size: 2.5rem;
         }
 
         .brand {
@@ -135,12 +135,11 @@
       }
     }
     .long-description {
-      margin-top: 5rem;
+      margin-top: 4rem;
       color: var(--color-text);
       .line {
         margin-inline: auto;
         width: 100%;
-
         border: none;
         height: 0.01rem;
         background-color: var(--color-line);
@@ -175,6 +174,148 @@
         text-align: justify;
         line-height: 1.6;
         // margin-inline: auto;
+      }
+    }
+
+    .related-products {
+      color: var(--color-text);
+      .heading {
+        font-size: 2.4rem;
+        font-weight: 600;
+        margin-block: 4rem 2rem;
+      }
+    }
+
+    .rating-container {
+      .line {
+        margin-inline: auto;
+        width: 100%;
+        border: none;
+        height: 0.01rem;
+        background-color: var(--color-line);
+        margin-top: 4rem;
+      }
+
+      .heading {
+        font-size: 2.4rem;
+        color: var(--color-text);
+        margin-block: 2rem;
+        font-weight: 600;
+      }
+
+      .sub-heading {
+        font-size: 2rem;
+        margin-block: 0 1.5rem;
+      }
+
+      label {
+        font-size: 1.4rem;
+      }
+      .rating-lbl {
+        margin-bottom: 0.8rem;
+      }
+      .comment-lbl {
+        margin-top: 1.5rem;
+      }
+
+      textArea {
+        min-width: 45%;
+        height: 10rem;
+        margin-block: 0.8rem 1rem;
+        padding: 0.9rem 1rem;
+        border-radius: 0.4rem;
+        border: none;
+        font-size: clamp(1.3rem, 2vw, 1.4rem);
+        font-family: inherit;
+        resize: none;
+        border: 0.1rem #a4a4a4 solid;
+      }
+
+      .add-review-btn {
+        padding: 1.1rem 1rem;
+        background-color: var(--color-btn);
+        border: none;
+        color: var(--color-add-product-btn-text);
+        font-size: 1.6rem;
+        font-size: 1.5rem;
+        border-radius: 0.3rem;
+        line-height: 2rem;
+        width: 13rem;
+        margin-top: 1rem;
+        cursor: pointer;
+      }
+
+      .sub-topic {
+        font-size: 1.55rem;
+      }
+
+      .link {
+        color: var(--color-link);
+      }
+
+      .line.sub {
+        margin-block: 3rem;
+      }
+
+      .product-review-container {
+        color: var(--color-text);
+        .heading {
+          font-size: 1.8rem;
+          color: var(--color-text);
+          margin-block: 2rem;
+        }
+
+        .review {
+          .user {
+            display: flex;
+            gap: 1rem;
+
+            .user-image {
+              img {
+                height: 5rem;
+                width: 5rem;
+                border-radius: 50%;
+                object-fit: cover;
+              }
+            }
+
+            .user-details {
+              .user-info {
+                display: flex;
+                gap: 2rem;
+                align-items: center;
+
+                .user-name {
+                  font-weight: bold;
+                  font-size: 1.4rem;
+                }
+
+                .date {
+                  font-size: 1.2rem;
+                  color: gray;
+                }
+              }
+            }
+            .ratings {
+              margin-block: 1rem;
+            }
+
+            .comment {
+              p {
+                text-align: justify;
+              }
+            }
+          }
+
+          .comment-line {
+            margin-inline: auto;
+            width: 100%;
+            border: none;
+            height: 0.01rem;
+            background-color: var(--color-line);
+            margin-block: 2rem;
+          }
+        }
       }
     }
   }

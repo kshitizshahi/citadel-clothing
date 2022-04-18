@@ -3,6 +3,13 @@ import Product from "../models/ProductModel.js";
 import Review from "../models/ReviewModel.js";
 import User from "../models/userModel.js";
 
+const query = [
+  {
+    path: "user",
+    select: "_id profileImage",
+  },
+];
+
 const createProductReview = asyncHandler(async (req, res) => {
   const { rating, comment } = req.body;
   const { productId } = req.params;
@@ -48,10 +55,27 @@ const createProductReview = asyncHandler(async (req, res) => {
       });
     }
   } else {
-    req.status(404).json({
+    res.status(404).json({
       message: "Product not found",
     });
   }
 });
 
-export { createProductReview };
+const getProductReview = asyncHandler(async (req, res) => {
+  const { productId } = req.params;
+
+  const review = await Review.find({ product: productId }).populate(query);
+
+  if (review) {
+    res.status(201).json({
+      review,
+      message: "Review fetched",
+    });
+  } else {
+    res.status(404).json({
+      message: "Review not found",
+    });
+  }
+});
+
+export { createProductReview, getProductReview };

@@ -141,15 +141,16 @@
         gap: 7%;
         .update-button,
         .change-password-button {
-          padding: 1.5rem 1.3rem;
-          background-color: var(--color-user-nav-current);
-          border: none;
-          color: var(--color-text);
-          font-size: 1.6rem;
+          padding: 1.3rem 1.8rem;
+          font-size: 1.5rem;
           border-radius: 0.3rem;
-          // width: 100%;
+          line-height: 2rem;
+          width: 100%;
           margin-block: 1.5rem 2.5rem;
           cursor: pointer;
+          background-color: var(--color-btn);
+          border: none;
+          color: var(--color-add-product-btn-text);
         }
       }
 
@@ -165,8 +166,42 @@
         }
 
         h3 {
-          margin: auto;
           color: var(--color-text);
+          margin-block: 1rem 2rem;
+        }
+
+        .shipping-address-container {
+          color: var(--color-text);
+          .ship-container {
+            margin: auto;
+
+            .error {
+              color: var(--color-error);
+              font-size: 1rem;
+              margin-block: 0.15rem;
+            }
+
+            input {
+              @include inputBox();
+              margin-block: 0.8rem 0;
+            }
+
+            .save-address-btn {
+              padding: 1.1rem 1.8rem;
+              // background-color: var(--color-user-nav-current);
+              // border: none;
+              // color: var(--color-text);
+              font-size: 1.5rem;
+              border-radius: 0.3rem;
+              line-height: 2rem;
+              width: 100%;
+              margin-top: 1rem;
+              cursor: pointer;
+              background-color: var(--color-btn);
+              border: none;
+              color: var(--color-add-product-btn-text);
+            }
+          }
         }
       }
     }

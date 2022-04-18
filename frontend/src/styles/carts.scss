@@ -153,8 +153,7 @@
       .clear-btn,
       .proceed-btn {
         padding: 1.2rem 1.8rem;
-
-        background-color: #303031;
+        background-color: var(--color-btn);
         border: none;
         color: var(--color-add-product-btn-text);
         font-size: 1.6rem;

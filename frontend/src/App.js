@@ -10,7 +10,6 @@ import UserRoute from "./routes/UserRoute";
 import { validateUser } from "./redux/thunkApi/authApi";
 import { useEffect, useState } from "react";
 import LoadingDots from "./components/Loading";
-
 import HomePage from "./pages/HomePage";
 import Men from "./pages/Men";
 import Shop from "./pages/Shop";
@@ -48,6 +47,8 @@ import ListSellerSubCategory from "./pages/seller/sub category/ListSubCategory";
 import AddSellerSubCategory from "./pages/seller/sub category/AddSubCategory";
 import EditSellerSubCategory from "./pages/seller/sub category/EditSubCategory";
 import ListSellerOrder from "./pages/seller/ListOrder";
+import ContactUs from "./pages/ContactUs";
+import ChangePassword from "./pages/ChangePassword";
 
 function App() {
   const { loading } = useSelector((state) => state.authUser);
@@ -100,6 +101,7 @@ function App() {
             <Route path="/login" element={<LogIn />} />
             <Route path="/register" element={<Register />} />
             <Route path="/category/:name" element={<Category />} />
+            <Route path="/contact-us" element={<ContactUs />} />
 
             <Route path="/" element={<UserPageLayout />}>
               <Route path="/cart" element={<Cart />} />
@@ -110,6 +112,7 @@ function App() {
                 <Route path="/profile" element={<UserProfile />} />
                 <Route path="/order/:id" element={<OrderDetails />} />
                 <Route path="/orders" element={<Order />} />
+                <Route path="/change-password" element={<ChangePassword />} />
               </Route>
               <Route path="/place-order" element={<PlaceOrder />} />
             </Route>

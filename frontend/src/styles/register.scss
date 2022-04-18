@@ -96,10 +96,10 @@
   }
 
   .register-button {
-    padding: 1.3rem 0;
-    background-color: #4e9c80;
+    padding: 1rem 0;
+    background-color: var(--color-btn);
     border: none;
-    color: #fff;
+    color: var(--color-add-product-btn-text);
     font-size: 1.8rem;
     border-radius: 0.3rem;
     width: 100%;
@@ -113,7 +113,7 @@
 
     .link {
       text-decoration: none;
-      color: #185638;
+      color: var(--color-login-link);
       font-weight: 700;
     }
   }

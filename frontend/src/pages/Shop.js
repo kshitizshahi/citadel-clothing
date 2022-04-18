@@ -5,9 +5,11 @@ import { Shop_Page_Title } from "../utils/PageTitle";
 import { getAllProduct } from "../redux/thunkApi/productApi";
 import "../styles/shop.scss";
 import LoadingDots from "../components/Loading";
+import { Pagination } from "@mantine/core";
 
 const Shop = () => {
   const [products, setProducts] = useState([]);
+  const [activePage, setPage] = useState(1);
 
   const dispatch = useDispatch();
 
@@ -41,6 +43,9 @@ const Shop = () => {
           <div className="products">
             <p className="heading">Products</p>
             {products && <Cards data={products} />}
+            <div className="pagination" style={{ paddingBlock: "3rem" }}>
+              <Pagination page={activePage} onChange={setPage} total={10} />
+            </div>
           </div>
         </div>
       )}

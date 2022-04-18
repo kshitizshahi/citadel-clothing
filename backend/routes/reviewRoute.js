@@ -1,5 +1,8 @@
 import express from "express";
-import { createProductReview } from "../controllers/reviewController.js";
+import {
+  createProductReview,
+  getProductReview,
+} from "../controllers/reviewController.js";
 import {
   admin,
   isAuth,
@@ -14,5 +17,6 @@ router.post(
   isAuth,
   createProductReview
 );
+router.get("/get/product-review/:productId", getProductReview);
 
 export default router;
