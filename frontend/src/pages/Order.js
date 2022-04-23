@@ -6,9 +6,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import LoadingDots from "../components/Loading";
-import { ORDER } from "../data/PageConfig";
 import "../styles/order.scss";
-import { BASE_URL } from "../utils/BaseUrl";
+import { BASE_URL, CANCEL_ORDER, USER_ORDERS } from "../utils/BaseUrl";
+import { Order_Page_Title } from "../utils/PageTitle";
 
 const Order = () => {
   const [loading, setLoading] = useState(false);
@@ -23,11 +23,11 @@ const Order = () => {
 
   useEffect(() => {
     let mounted = true;
-    document.title = ORDER.title;
+    document.title = Order_Page_Title;
     (async function () {
       try {
         setLoading(true);
-        const res = await axios.get(`/api/orders/get/user/orders`);
+        const res = await axios.get(USER_ORDERS);
         setLoading(false);
         if (mounted) {
           setOrders(res.data.order);
@@ -60,7 +60,7 @@ const Order = () => {
       if (result.isConfirmed) {
         try {
           setLoading(true);
-          const res = await axios.put(`/api/orders/cancel/order/${id}`);
+          const res = await axios.put(`${CANCEL_ORDER}/${id}`);
           setLoading(false);
           toast.success(res.data.message);
           if (res.data) {

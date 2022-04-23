@@ -7,6 +7,7 @@ import Button from "../components/Button";
 import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { CONTACT_US } from "../utils/BaseUrl";
 
 const ContactUs = () => {
   const [loading, setLoading] = useState([]);
@@ -34,7 +35,7 @@ const ContactUs = () => {
   const handleContactUs = async (data) => {
     try {
       setLoading(true);
-      const res = await axios.post(`/api/contact-us/send-message`, {
+      const res = await axios.post(CONTACT_US, {
         name: data.name,
         email: data.email,
         message: data.message,

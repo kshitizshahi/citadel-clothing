@@ -126,6 +126,7 @@ const UserProfile = () => {
         country: data.country,
       })
     );
+    toast.success("Shipping Address Saved");
   };
 
   const submitHandler = async (data) => {

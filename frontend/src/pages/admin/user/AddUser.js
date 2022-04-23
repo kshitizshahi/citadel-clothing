@@ -12,7 +12,11 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import "../../../styles/addUser.scss";
-import { PUBLIC_URL } from "../../../utils/BaseUrl";
+import {
+  ALL_USERS_EMAIL,
+  PUBLIC_URL,
+  REGISTER_USER,
+} from "../../../utils/BaseUrl";
 import { Switch } from "@mantine/core";
 
 const AddUser = () => {
@@ -111,7 +115,7 @@ const AddUser = () => {
     formdata.append("isAccountVerified", true);
 
     try {
-      const res = await axios.post(`/api/users/register`, formdata);
+      const res = await axios.post(REGISTER_USER, formdata);
       toast.success(res.data.message);
       if (res.data.message) {
         navigate("/admin/users");
@@ -127,7 +131,7 @@ const AddUser = () => {
 
     (async function () {
       try {
-        const response = await axios.get(`/api/users/get/all-users/email`);
+        const response = await axios.get(ALL_USERS_EMAIL);
         if (mounted) {
           setUser(response.data.users);
         }

@@ -11,6 +11,11 @@ import { Icon } from "@iconify/react";
 import Swal from "sweetalert2";
 import axios from "axios";
 import { toast } from "react-toastify";
+import {
+  DELETE_USER,
+  GET_ALL_USERS,
+  SEARCH_USER,
+} from "../../../utils/BaseUrl";
 
 const ListUsers = () => {
   const [users, setUsers] = useState([]);
@@ -31,7 +36,7 @@ const ListUsers = () => {
     if (keywords.length > 0) {
       (async function () {
         try {
-          const response = await axios.get(`/api/users/search/${keywords}`);
+          const response = await axios.get(`${SEARCH_USER}/${keywords}`);
           if (mounted) {
             setUsers(response.data.users);
           }
@@ -43,7 +48,7 @@ const ListUsers = () => {
       (async function () {
         try {
           setLoading(true);
-          const response = await axios.get(`/api/users/get/all-users`);
+          const response = await axios.get(GET_ALL_USERS);
           setLoading(false);
 
           if (mounted) {
@@ -95,7 +100,7 @@ const ListUsers = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const res = await axios.delete(`/api/users/delete/${cusId}`);
+          const res = await axios.delete(`${DELETE_USER}/${cusId}`);
           toast.success(res.data.message);
           setDeleteSuccess(!deleteSuccess);
         } catch (error) {

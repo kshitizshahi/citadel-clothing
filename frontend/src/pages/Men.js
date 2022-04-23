@@ -4,6 +4,7 @@ import { Men_Page_Title } from "../utils/PageTitle";
 import "../styles/shop.scss";
 import LoadingDots from "../components/Loading";
 import axios from "axios";
+import { CATEGORY_MEN } from "../utils/BaseUrl";
 
 const Men = () => {
   const [products, setProducts] = useState([]);
@@ -20,9 +21,7 @@ const Men = () => {
     (async function () {
       try {
         setLoading(true);
-        const response = await axios.get(
-          `/api/products/get/category/products/men`
-        );
+        const response = await axios.get(CATEGORY_MEN);
         setLoading(false);
 
         if (mounted) {

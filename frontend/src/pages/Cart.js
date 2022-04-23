@@ -2,6 +2,7 @@ import { Icon } from "@iconify/react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import Button from "../components/Button";
 import PlusMinusCart from "../components/PlusMinusCart";
 import { clearCart, removeFromCart } from "../redux/slice/productSlice";
@@ -36,10 +37,12 @@ const Cart = () => {
 
   const removeCartItem = async (id) => {
     await dispatch(removeFromCart(id));
+    toast.success("Cart Item removed");
   };
 
   const clearCartHandler = async () => {
     await dispatch(clearCart());
+    toast.success("Cart Cleared");
   };
 
   const updateQuantity = (quantity, id) => {

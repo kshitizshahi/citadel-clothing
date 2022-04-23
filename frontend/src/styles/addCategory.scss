@@ -100,7 +100,6 @@
 
             .category-image-input {
               font-size: clamp(1rem, 1vw, 1.2rem);
-
               color: var(--color-text);
             }
 
@@ -124,7 +123,8 @@
               @include inputBox();
               margin-block: 1.2rem 0;
               width: 85%;
-              // color: var(--color-text);
+              background-color: var(--color-input-bg);
+              color: var(--color-text);
             }
 
             .add-category-button {

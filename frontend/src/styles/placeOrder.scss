@@ -271,6 +271,8 @@
             margin-block: 0.5rem 0;
             padding: 0.8rem 1rem;
             font-size: clamp(1.3rem, 2vw, 1.35rem);
+            background-color: var(--color-input-bg);
+            color: var(--color-text);
           }
 
           .place-order-btn {

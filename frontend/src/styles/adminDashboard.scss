@@ -144,8 +144,8 @@
             input {
               @include inputBox();
               margin-block: 0.8rem 0;
-
-              // color: var(--color-text);
+              background-color: var(--color-input-bg);
+              color: var(--color-text);
             }
 
             .description-label {
@@ -226,6 +226,8 @@
                   color: #2c2c2a;
                   font-weight: 500;
                   font-size: clamp(1.45rem, 1vw, 1.55rem);
+                  background-color: var(--color-input-bg);
+                  color: var(--color-text);
                   &::placeholder {
                     color: #999 !important;
                     font-family: "Poppins";
@@ -237,9 +239,8 @@
               input {
                 @include inputBox();
                 margin-block: 0.8rem 0rem;
-
-                // background-color: var(--color-admin-dashboard-foreground);
-                // color: var(--color-text);
+                background-color: var(--color-input-bg);
+                color: var(--color-text);
               }
               .add-product-button {
                 padding: 1.3rem 2rem;

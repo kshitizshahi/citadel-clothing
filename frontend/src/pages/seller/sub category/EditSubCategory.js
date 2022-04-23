@@ -14,28 +14,31 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import SelectBox from "../../../components/SelectBox";
 import "../../../styles/addSubCategory.scss";
+import {
+  GET_SUBCATEGORY,
+  OTHER_SUBCATEGORY,
+  UPDATE_SUBCATEGORY,
+} from "../../../utils/BaseUrl";
 
 const EditSellerSubCategory = () => {
   const [categories, setCategories] = useState([]);
-  const [subCategories, setSubCategories] = useState([]);
+  // const [subCategories, setSubCategories] = useState([]);
   const [loading, setLoading] = useState(false);
 
   let selectCategoryArray = [];
-  let subCatNameArray = [];
+  // let subCatNameArray = [];
   let { id } = useParams();
 
   const addSubCategorySchema = yup
     .object({
-      subCategoryName: yup
-        .string()
-        .required("This field is required.")
-        .test("existingSubCategory", "Sub category already exists", (value) => {
-          if (value && subCatNameArray.includes(value)) {
-            return false;
-          } else {
-            return true;
-          }
-        }),
+      subCategoryName: yup.string().required("This field is required."),
+      // .test("existingSubCategory", "Sub category already exists", (value) => {
+      //   if (value && subCatNameArray.includes(value)) {
+      //     return false;
+      //   } else {
+      //     return true;
+      //   }
+      // }),
       category: yup.string().required("This field is required."),
     })
     .required();
@@ -62,7 +65,7 @@ const EditSellerSubCategory = () => {
 
   const submitHandler = async (data) => {
     try {
-      const res = await axios.put(`/api/sub-category/update/${id}`, {
+      const res = await axios.put(`${UPDATE_SUBCATEGORY}/${id}`, {
         name: data.subCategoryName,
         category: data.category,
       });
@@ -92,23 +95,23 @@ const EditSellerSubCategory = () => {
     };
   }, [dispatch]);
 
-  useEffect(() => {
-    let mounted = true;
-    (async function () {
-      try {
-        const response = await axios.get(`/api/sub-category/get/others/${id}`);
-        if (mounted) {
-          setSubCategories(response.data.otherSubCategory);
-        }
-      } catch (error) {
-        toast.error(error.response.data.message);
-      }
-    })();
+  // useEffect(() => {
+  //   let mounted = true;
+  //   (async function () {
+  //     try {
+  //       const response = await axios.get(`${OTHER_SUBCATEGORY}/${id}`);
+  //       if (mounted) {
+  //         setSubCategories(response.data.otherSubCategory);
+  //       }
+  //     } catch (error) {
+  //       toast.error(error.response.data.message);
+  //     }
+  //   })();
 
-    return () => {
-      mounted = false;
-    };
-  }, []);
+  //   return () => {
+  //     mounted = false;
+  //   };
+  // }, []);
 
   useEffect(() => {
     let mounted = true;
@@ -116,7 +119,7 @@ const EditSellerSubCategory = () => {
     (async function () {
       try {
         setLoading(true);
-        const response = await axios.get(`/api/sub-category/get/${id}`);
+        const response = await axios.get(`${GET_SUBCATEGORY}/${id}`);
         setLoading(false);
 
         if (mounted) {
@@ -147,11 +150,11 @@ const EditSellerSubCategory = () => {
     });
   }
 
-  if (subCategories && subCategories.length > 0) {
-    subCategories.map((elem) => {
-      subCatNameArray.push(elem.name);
-    });
-  }
+  // if (subCategories && subCategories.length > 0) {
+  //   subCategories.map((elem) => {
+  //     subCatNameArray.push(elem.name);
+  //   });
+  // }
 
   if (mobileDevice && hideSideBar) {
     document.body.style.height = "100%";

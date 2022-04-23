@@ -14,26 +14,28 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import SelectBox from "../../../components/SelectBox";
 import "../../../styles/addSubCategory.scss";
+import {
+  CREATE_SUBCATEGORY,
+  GET_ALL_SUBCATEGORY,
+} from "../../../utils/BaseUrl";
 
 const AddSellerSubCategory = () => {
   const [categories, setCategories] = useState([]);
   const [subCategories, setSubCategories] = useState([]);
 
   let selectCategoryArray = [];
-  let subCatNameArray = [];
+  // let subCatNameArray = [];
 
   const addSubCategorySchema = yup
     .object({
-      subCategoryName: yup
-        .string()
-        .required("This field is required.")
-        .test("existingSubCategory", "Sub category already exists", (value) => {
-          if (value && subCatNameArray.includes(value)) {
-            return false;
-          } else {
-            return true;
-          }
-        }),
+      subCategoryName: yup.string().required("This field is required."),
+      // .test("existingSubCategory", "Sub category already exists", (value) => {
+      //   if (value && subCatNameArray.includes(value)) {
+      //     return false;
+      //   } else {
+      //     return true;
+      //   }
+      // }),
       category: yup.string().required("This field is required."),
     })
     .required();
@@ -58,7 +60,7 @@ const AddSellerSubCategory = () => {
 
   const submitHandler = async (data) => {
     try {
-      const res = await axios.post(`/api/sub-category/create`, {
+      const res = await axios.post(CREATE_SUBCATEGORY, {
         name: data.subCategoryName,
         category: data.category,
       });
@@ -87,23 +89,23 @@ const AddSellerSubCategory = () => {
     };
   }, [dispatch]);
 
-  useEffect(() => {
-    let mounted = true;
-    (async function () {
-      try {
-        const response = await axios.get(`/api/sub-category/get/all`);
-        if (mounted) {
-          setSubCategories(response.data.subCategory);
-        }
-      } catch (error) {
-        toast.error(error.response.data.message);
-      }
-    })();
+  // useEffect(() => {
+  //   let mounted = true;
+  //   (async function () {
+  //     try {
+  //       const response = await axios.get(GET_ALL_SUBCATEGORY);
+  //       if (mounted) {
+  //         setSubCategories(response.data.subCategory);
+  //       }
+  //     } catch (error) {
+  //       toast.error(error.response.data.message);
+  //     }
+  //   })();
 
-    return () => {
-      mounted = false;
-    };
-  }, []);
+  //   return () => {
+  //     mounted = false;
+  //   };
+  // }, []);
 
   const toggleSideBar = (e) => {
     setHideSideBar(!hideSideBar);
@@ -118,11 +120,11 @@ const AddSellerSubCategory = () => {
     });
   }
 
-  if (subCategories && subCategories.length > 0) {
-    subCategories.map((elem) => {
-      subCatNameArray.push(elem.name);
-    });
-  }
+  // if (subCategories && subCategories.length > 0) {
+  //   subCategories.map((elem) => {
+  //     subCatNameArray.push(elem.name);
+  //   });
+  // }
 
   if (mobileDevice && hideSideBar) {
     document.body.style.height = "100%";

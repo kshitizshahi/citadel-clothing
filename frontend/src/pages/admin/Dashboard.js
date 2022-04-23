@@ -11,6 +11,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { Admin_Page_Dashboard } from "../../utils/PageTitle";
 import "../../styles/adminDashboard.scss";
+import { DASHBOARD_INFO } from "../../utils/BaseUrl";
 
 const Dashboard = () => {
   const { loading } = useSelector((state) => state.Product);
@@ -28,7 +29,7 @@ const Dashboard = () => {
     let mounted = true;
     (async function () {
       try {
-        const response = await axios.get(`/api/users/get/dashboard-info`);
+        const response = await axios.get(DASHBOARD_INFO);
         if (mounted) {
           setDashboardInfo(response.data.dashboardInfo);
         }

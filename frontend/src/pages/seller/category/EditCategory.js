@@ -12,7 +12,12 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import "../../../styles/editCategory.scss";
-import { BASE_URL } from "../../../utils/BaseUrl";
+import {
+  BASE_URL,
+  GET_CATEGORY,
+  OTHER_CATEGORY,
+  UPDATE_CATEGORY,
+} from "../../../utils/BaseUrl";
 
 const EditSellerCategory = () => {
   const [categories, setCategories] = useState([]);
@@ -82,7 +87,7 @@ const EditSellerCategory = () => {
     formdata.append("categoryImage", data.categoryImage[0]);
 
     try {
-      const res = await axios.put(`/api/category/update/${id}`, formdata);
+      const res = await axios.put(`${UPDATE_CATEGORY}/${id}`, formdata);
       toast.success(res.data.message);
       if (res.data.message) {
         navigate("/seller/category");
@@ -99,7 +104,7 @@ const EditSellerCategory = () => {
     (async function () {
       try {
         setLoading(true);
-        const response = await axios.get(`/api/category/get/${id}`);
+        const response = await axios.get(`${GET_CATEGORY}/${id}`);
         setLoading(false);
         if (mounted) {
           const category = response.data.category;
@@ -122,7 +127,7 @@ const EditSellerCategory = () => {
 
     (async function () {
       try {
-        const response = await axios.get(`/api/category/get/others/${id}`);
+        const response = await axios.get(`${OTHER_CATEGORY}/${id}`);
         if (mounted) {
           setCategories(response.data.otherCategory);
         }

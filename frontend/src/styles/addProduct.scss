@@ -81,18 +81,26 @@
               // background-color: var(--color-admin-dashboard-foreground);
               // color: var(--color-text);
               // }
+
               .tox-tinymce {
                 border-radius: 0.4rem;
+                border: 0.1rem var(--color-input-border) solid;
               }
 
               .tox-editor-header {
                 border-bottom: 0.0625rem solid #ccc;
               }
 
+              // .tox-toolbar__primary {
+              //   background-color: var(--color-input-bg);
+              // }
+
               // .tox-edit-area {
               //   border-bottom: 0.0625rem solid #ccc;
-              //   background-color: var(--color-admin-dashboard-foreground);
-              //   color: var(--color-text);
+              // }
+
+              // .tox .tox-edit-area__iframe {
+              //   background-color: var(--color-input-bg);
               // }
             }
 

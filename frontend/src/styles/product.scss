@@ -7,6 +7,9 @@
     margin: auto;
     padding-block: 2rem;
     // background-color: var(--color-admin-dashboard-foreground);
+    li {
+      list-style: disc;
+    }
 
     .wrapper {
       // background-color: var(--color-admin-dashboard-foreground);
@@ -206,6 +209,7 @@
       .sub-heading {
         font-size: 2rem;
         margin-block: 0 1.5rem;
+        color: var(--color-text);
       }
 
       label {
@@ -228,7 +232,9 @@
         font-size: clamp(1.3rem, 2vw, 1.4rem);
         font-family: inherit;
         resize: none;
-        border: 0.1rem #a4a4a4 solid;
+        border: 0.1rem var(--color-input-border) solid;
+        background-color: var(--color-input-bg);
+        color: var(--color-text);
       }
 
       .add-review-btn {
@@ -247,6 +253,7 @@
 
       .sub-topic {
         font-size: 1.55rem;
+        color: var(--color-text);
       }
 
       .link {
@@ -282,7 +289,7 @@
             .user-details {
               .user-info {
                 display: flex;
-                gap: 2rem;
+                gap: 1.5rem;
                 align-items: center;
 
                 .user-name {
@@ -291,8 +298,9 @@
                 }
 
                 .date {
-                  font-size: 1.2rem;
+                  font-size: 1.1rem;
                   color: gray;
+                  margin-block: auto;
                 }
               }
             }

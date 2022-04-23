@@ -75,8 +75,7 @@ const Register = () => {
         })
       );
 
-      if (response.payload.message) {
-        console.log(response);
+      if (response.payload.data) {
         navigate("/login");
       }
     })();

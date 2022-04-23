@@ -28,9 +28,10 @@ const Footer = () => {
           <div className="info">
             <p className="logo-heading">CITADEL</p>
             <p className="company-info">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation.
+              Citadel Clothing is a business that prides itself on offering
+              high-quality merchandise at an affordable price. The shop
+              categorizes the products to make it easier for customers to
+              purchase them.
             </p>
           </div>
           <div className="site-theme">

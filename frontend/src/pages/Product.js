@@ -16,7 +16,12 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import Cards from "../components/Cards";
 import Button from "../components/Button";
-import { BASE_URL } from "../utils/BaseUrl";
+import {
+  ADD_REVIEW,
+  BASE_URL,
+  PRODUCT_REVIEW,
+  RELATED_PRODUCTS,
+} from "../utils/BaseUrl";
 
 const Product = () => {
   const [product, setProduct] = useState([]);
@@ -60,7 +65,7 @@ const Product = () => {
     (async function () {
       try {
         setLoadingRelatedProduct(true);
-        const res = await axios.get(`/api/products/get/related-products/${id}`);
+        const res = await axios.get(`${RELATED_PRODUCTS}/${id}`);
         setLoadingRelatedProduct(false);
         if (mounted) {
           setRelatedProducts(res.data.relatedProduct);
@@ -74,7 +79,7 @@ const Product = () => {
     (async function () {
       try {
         setLoadingReview(true);
-        const res = await axios.get(`/api/reviews/get/product-review/${id}`);
+        const res = await axios.get(`${PRODUCT_REVIEW}/${id}`);
         setLoadingReview(false);
         if (mounted) {
           setProductReview(res.data.review);
@@ -95,6 +100,7 @@ const Product = () => {
 
   const navigateToCart = async () => {
     await dispatch(addToCart({ id, quantity }));
+    toast.success("Product added");
     navigate(`/cart`);
   };
 
@@ -112,7 +118,7 @@ const Product = () => {
     } else {
       try {
         setLoadingReview(true);
-        const res = await axios.post(`/api/reviews/create/review/${id}`, {
+        const res = await axios.post(`${ADD_REVIEW}/${id}`, {
           rating,
           comment,
         });
@@ -165,8 +171,8 @@ const Product = () => {
                 </div>
                 <div className="description">
                   {/* {parse(`${product.description}`)} */}
-                  {desc && desc.length > 280
-                    ? parse(`${desc.slice(0, 280)}...`)
+                  {desc && desc.length > 250
+                    ? parse(`${desc.slice(0, 250)}...`)
                     : parse(`${desc}`)}
                 </div>
                 <div className="product-quantity">

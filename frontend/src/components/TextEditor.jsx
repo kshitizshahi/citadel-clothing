@@ -33,7 +33,8 @@ const TextEditor = forwardRef(({ ...props }, ref) => {
             "alignright alignjustify | bullist numlist outdent indent | " +
             "removeformat | help",
           // content_style:
-          //   "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+          // // "color {}"
+          // "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
         }}
       />
     </div>

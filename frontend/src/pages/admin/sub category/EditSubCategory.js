@@ -14,6 +14,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import SelectBox from "../../../components/SelectBox";
 import "../../../styles/addSubCategory.scss";
+import {
+  GET_SUBCATEGORY,
+  OTHER_SUBCATEGORY,
+  UPDATE_SUBCATEGORY,
+} from "../../../utils/BaseUrl";
 
 const EditSubCategory = () => {
   const [categories, setCategories] = useState([]);
@@ -62,7 +67,7 @@ const EditSubCategory = () => {
 
   const submitHandler = async (data) => {
     try {
-      const res = await axios.put(`/api/sub-category/update/${id}`, {
+      const res = await axios.put(`${UPDATE_SUBCATEGORY}/${id}`, {
         name: data.subCategoryName,
         category: data.category,
       });
@@ -96,7 +101,7 @@ const EditSubCategory = () => {
     let mounted = true;
     (async function () {
       try {
-        const response = await axios.get(`/api/sub-category/get/others/${id}`);
+        const response = await axios.get(`${OTHER_SUBCATEGORY}/${id}`);
         if (mounted) {
           setSubCategories(response.data.otherSubCategory);
         }
@@ -116,7 +121,7 @@ const EditSubCategory = () => {
     (async function () {
       try {
         setLoading(true);
-        const response = await axios.get(`/api/sub-category/get/${id}`);
+        const response = await axios.get(`${GET_SUBCATEGORY}/${id}`);
         setLoading(false);
 
         if (mounted) {

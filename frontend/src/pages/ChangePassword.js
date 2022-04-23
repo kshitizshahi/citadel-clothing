@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import axios from "axios";
+import { UPDATE_USER } from "../utils/BaseUrl";
 
 const ChangePassword = () => {
   const [loading, setLoading] = useState(false);
@@ -40,7 +41,7 @@ const ChangePassword = () => {
   const submitHandler = async (data) => {
     try {
       setLoading(true);
-      const res = await axios.put(`/api/users/update-user`, {
+      const res = await axios.put(UPDATE_USER, {
         oldPassword: data.oldPassword,
         newPassword: data.newPassword,
         confirmNewPassword: data.confirmNewPassword,

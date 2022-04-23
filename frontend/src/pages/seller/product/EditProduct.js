@@ -15,7 +15,13 @@ import SelectBox from "../../../components/SelectBox";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { BASE_URL } from "../../../utils/BaseUrl";
+import {
+  BASE_URL,
+  DELETE_PRODUCT_IMAGE,
+  GET_PRODUCT,
+  GET_SUB_CATEGORY_CATEGORY,
+  UPDATE_PRODUCT,
+} from "../../../utils/BaseUrl";
 import "../../../styles/editProduct.scss";
 
 const editProductSchema = yup
@@ -101,7 +107,7 @@ const EditSellerProduct = () => {
 
       if (imageRemove.length > 0) {
         try {
-          const response = await axios.put(`/api/products/delete/image/${id}`, {
+          const response = await axios.put(`${DELETE_PRODUCT_IMAGE}/${id}`, {
             removeDBImages: imageRemove,
           });
         } catch (error) {
@@ -115,7 +121,7 @@ const EditSellerProduct = () => {
       // }
 
       try {
-        const res = await axios.put(`/api/products/update/${id}`, formdata);
+        const res = await axios.put(`${UPDATE_PRODUCT}/${id}`, formdata);
         toast.success(res.data.message);
 
         if (res.data.message) {
@@ -140,7 +146,7 @@ const EditSellerProduct = () => {
     (async function () {
       try {
         setLoading(true);
-        const response = await axios.get(`/api/products/get/${id}`);
+        const response = await axios.get(`${GET_PRODUCT}/${id}`);
         setLoading(false);
         const product = response.data.product;
 
@@ -182,7 +188,7 @@ const EditSellerProduct = () => {
     if (getValues("category") !== undefined) {
       try {
         const res = await axios.get(
-          `/api/sub-category/get/category/${getValues("category")}`
+          `${GET_SUB_CATEGORY_CATEGORY}/${getValues("category")}`
         );
         setSubCategories(res.data.data);
       } catch (error) {

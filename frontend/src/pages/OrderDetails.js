@@ -3,7 +3,13 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import Button from "../components/Button";
 
 import "../styles/orderDetails.scss";
-import { BASE_URL, PUBLIC_URL } from "../utils/BaseUrl";
+import {
+  BASE_URL,
+  CANCEL_ORDER,
+  PUBLIC_URL,
+  GET_ORDER,
+  UPDATE_ORDER,
+} from "../utils/BaseUrl";
 import { Order_Details_Page_Title } from "../utils/PageTitle";
 
 import LoadingDots from "../components/Loading";
@@ -24,7 +30,7 @@ const OrderDetails = () => {
     timeStyle: "medium",
   };
 
-  const { userInfo } = useSelector((state) => state.authUser);
+  // const { userInfo } = useSelector((state) => state.authUser);
   const { isSeller } = useSelector((state) => state.authUser);
 
   const navigate = useNavigate();
@@ -37,7 +43,7 @@ const OrderDetails = () => {
     (async function () {
       try {
         setLoading(true);
-        const res = await axios.get(`/api/orders/get/order/${id}`);
+        const res = await axios.get(`${GET_ORDER}/${id}`);
         setLoading(false);
         if (mounted) {
           setOrder(res.data.order);
@@ -65,7 +71,7 @@ const OrderDetails = () => {
       if (result.isConfirmed) {
         try {
           setLoading(true);
-          const res = await axios.put(`/api/orders/cancel/order/${id}`);
+          const res = await axios.put(`${CANCEL_ORDER}/${id}`);
           setLoading(false);
           toast.success(res.data.message);
           if (res.data) {
@@ -82,7 +88,7 @@ const OrderDetails = () => {
   const updateOrder = async (id) => {
     try {
       setLoading(true);
-      const res = await axios.put(`/api/orders/edit/order/${id}`);
+      const res = await axios.put(`${UPDATE_ORDER}/${id}`);
       setLoading(false);
       toast.success(res.data.message);
       if (res.data) {
@@ -244,16 +250,16 @@ const OrderDetails = () => {
                       </p>
                     </div>
 
-                    {order?.user?.email === userInfo.email && (
-                      <div>
-                        <Button
-                          className="cancel-order-btn"
-                          text="CANCEL ORDER"
-                          disabled={order.isCancelled}
-                          onClick={(e) => cancelOrder(order._id)}
-                        />
-                      </div>
-                    )}
+                    {/* {order?.user?.email === userInfo.email && ( */}
+                    <div>
+                      <Button
+                        className="cancel-order-btn"
+                        text="CANCEL ORDER"
+                        disabled={order.isCancelled}
+                        onClick={(e) => cancelOrder(order._id)}
+                      />
+                    </div>
+                    {/* )} */}
                   </div>
                 </div>
               </div>

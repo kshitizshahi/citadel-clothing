@@ -11,7 +11,6 @@ const subCategorySchema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
-      unique: true,
       // enum: ["Pants", "Shirts", "T-shirts"],
       maxLength: [50, "Sub category name cannot be more than 50 characters"],
       minLength: [3, "Sub category name should contain at least 3 characters"],

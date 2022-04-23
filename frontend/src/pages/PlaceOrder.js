@@ -10,7 +10,7 @@ import {
 } from "../redux/slice/productSlice";
 import { addToCart } from "../redux/thunkApi/productApi";
 import "../styles/placeOrder.scss";
-import { BASE_URL, PUBLIC_URL } from "../utils/BaseUrl";
+import { BASE_URL, PLACE_ORDER, PUBLIC_URL } from "../utils/BaseUrl";
 import { Place_Order_Page_Title } from "../utils/PageTitle";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -138,7 +138,7 @@ const PlaceOrder = () => {
 
           try {
             setLoading(true);
-            const res = await axios.post(`/api/orders/place-order`, orderData);
+            const res = await axios.post(PLACE_ORDER, orderData);
             setLoading(false);
             toast.success(res.data.message);
             navigate(`/order/${res.data.createdOrder._id}`);
@@ -194,7 +194,7 @@ const PlaceOrder = () => {
     } else {
       try {
         setLoading(true);
-        const res = await axios.post(`/api/orders/place-order`, orderData);
+        const res = await axios.post(PLACE_ORDER, orderData);
         setLoading(false);
         toast.success(res.data.message);
         navigate(`/order/${res.data.createdOrder._id}`);

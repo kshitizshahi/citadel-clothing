@@ -144,8 +144,6 @@ const getRelatedProduct = asyncHandler(async (req, res) => {
     (element) => element._id.toString() !== product._id.toString()
   );
 
-  console.log(relatedProduct);
-
   if (relatedProduct) {
     res.status(200).json({
       relatedProduct,

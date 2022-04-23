@@ -5,6 +5,7 @@ import "../styles/shop.scss";
 import LoadingDots from "../components/Loading";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { CATEGORY_PRODUCTS } from "../utils/BaseUrl";
 
 const Category = () => {
   const [products, setProducts] = useState([]);
@@ -23,9 +24,7 @@ const Category = () => {
     (async function () {
       try {
         setLoading(true);
-        const response = await axios.get(
-          `/api/products/get/category/products/${name}`
-        );
+        const response = await axios.get(`${CATEGORY_PRODUCTS}/${name}`);
         setLoading(false);
 
         if (mounted) {
@@ -62,6 +61,7 @@ const Category = () => {
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
+                  color: "var(--color-text)",
                 }}
               >
                 No Products

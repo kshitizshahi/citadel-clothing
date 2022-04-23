@@ -12,6 +12,7 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { getCategory } from "../../../redux/thunkApi/categoryApi";
+import { DELETE_CATEGORY, SEARCH_CATEGORY } from "../../../utils/BaseUrl";
 
 const ListCategory = () => {
   const [category, setCategory] = useState([]);
@@ -34,7 +35,7 @@ const ListCategory = () => {
     if (keywords.length > 0) {
       (async function () {
         try {
-          const response = await axios.get(`/api/category/search/${keywords}`);
+          const response = await axios.get(`${SEARCH_CATEGORY}/${keywords}`);
           if (mounted) {
             setCategory(response.data.category);
           }
@@ -87,7 +88,7 @@ const ListCategory = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const res = await axios.delete(`/api/category/delete/${catId}`);
+          const res = await axios.delete(`${DELETE_CATEGORY}/${catId}`);
           toast.success(res.data.message);
           setDeleteSuccess(!deleteSuccess);
         } catch (error) {

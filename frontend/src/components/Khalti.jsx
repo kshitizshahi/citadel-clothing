@@ -2,6 +2,7 @@ import axios from "axios";
 import KhaltiCheckout from "khalti-checkout-web";
 import { toast } from "react-toastify";
 import Button from "../components/Button";
+import { PAYMENT_VERIFY } from "../utils/BaseUrl";
 
 const Khalti = ({ prodId, prodName, totalAmount, paymentResult }) => {
   let config = {
@@ -19,7 +20,7 @@ const Khalti = ({ prodId, prodName, totalAmount, paymentResult }) => {
           amount: payload.amount,
         };
 
-        const res = await axios.post(`/api/payment/verify`, data);
+        const res = await axios.post(PAYMENT_VERIFY, data);
 
         if (res) {
           toast.success("Payment successfull");

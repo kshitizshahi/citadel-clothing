@@ -4,6 +4,7 @@ import { Kid_Page_Title } from "../utils/PageTitle";
 import "../styles/shop.scss";
 import LoadingDots from "../components/Loading";
 import axios from "axios";
+import { CATEGORY_KID } from "../utils/BaseUrl";
 
 const Kid = () => {
   const [products, setProducts] = useState([]);
@@ -20,9 +21,7 @@ const Kid = () => {
     (async function () {
       try {
         setLoading(true);
-        const response = await axios.get(
-          `/api/products/get/category/products/kid`
-        );
+        const response = await axios.get(CATEGORY_KID);
         setLoading(false);
 
         if (mounted) {
@@ -59,6 +58,7 @@ const Kid = () => {
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
+                  color: "var(--color-text)",
                 }}
               >
                 No Products

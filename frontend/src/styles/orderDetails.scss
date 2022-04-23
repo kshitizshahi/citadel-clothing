@@ -165,7 +165,7 @@
 
         .mark-deliver-btn {
           padding: 1.1rem 1.8rem;
-          background-color: #303031;
+          background-color: var(--color-btn);
           border: none;
           color: var(--color-add-product-btn-text);
           font-size: 1.5rem;
@@ -324,15 +324,14 @@
 
           .cancel-order-btn {
             padding: 1.1rem 1.8rem;
-            background-color: #303031;
-            border: none;
-            color: var(--color-add-product-btn-text);
-            font-size: 1.5rem;
             border-radius: 0.3rem;
             line-height: 2rem;
             width: 100%;
             margin-top: 1rem;
             cursor: pointer;
+            background-color: var(--color-btn);
+            border: none;
+            color: var(--color-add-product-btn-text);
 
             &:disabled {
               opacity: 0.7;

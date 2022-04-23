@@ -16,6 +16,10 @@ import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import "../../../styles/addProduct.scss";
+import {
+  CREATE_PRODUCT,
+  GET_SUB_CATEGORY_CATEGORY,
+} from "../../../utils/BaseUrl";
 
 const addProductSchema = yup
   .object({
@@ -100,7 +104,7 @@ const AddSellerProduct = () => {
       // }
 
       try {
-        const res = await axios.post(`/api/products/create`, formdata);
+        const res = await axios.post(CREATE_PRODUCT, formdata);
         toast.success(res.data.message);
 
         if (res.data.message) {
@@ -139,7 +143,7 @@ const AddSellerProduct = () => {
     if (getValues("category") !== undefined) {
       try {
         const res = await axios.get(
-          `/api/sub-category/get/category/${getValues("category")}`
+          `${GET_SUB_CATEGORY_CATEGORY}/${getValues("category")}`
         );
         setSubCategories(res.data.data);
       } catch (error) {

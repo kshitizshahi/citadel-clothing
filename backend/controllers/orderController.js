@@ -1,6 +1,9 @@
 import Order from "../models/orderModel.js";
 import asyncHandler from "express-async-handler";
 import Product from "../models/ProductModel.js";
+import User from "../models/userModel.js";
+
+import { sendMail } from "../utils/orderPlacedEmailSender.js";
 
 const query = [
   {
@@ -49,9 +52,19 @@ const placeOrder = asyncHandler(async (req, res) => {
 
       if (product) {
         product.countInStock = product.countInStock - elem.quantity;
-
         await product.save();
       }
+    });
+
+    const user = await User.findById(req.user);
+
+    const shippingDetails = createdOrder.shippingAddress;
+
+    sendMail({
+      order: createdOrder,
+      name: `${user.firstName} ${user.lastName}`,
+      user,
+      shippingAddress: `${shippingDetails.address}, ${shippingDetails.city} ${shippingDetails.postalCode} ${shippingDetails.country}`,
     });
 
     res.status(201).json({

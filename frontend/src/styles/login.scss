@@ -32,6 +32,7 @@
     padding-left: 3rem;
     max-width: 35%;
     box-shadow: 0 0.4rem 0.8rem 0 rgba(0, 0, 0, 0.2);
+    position: relative;
 
     .heading {
       margin-block: 2rem;
@@ -42,12 +43,19 @@
       @include inputBox();
       max-width: 90%;
       margin-block: 0.7rem 0.3rem;
+      background-color: var(--color-input-bg);
+      color: var(--color-text);
     }
 
     .error {
       color: var(--color-error);
       font-size: 1.15rem;
       margin-block: 0.1rem 0.2rem;
+    }
+
+    .forgot-password {
+      position: absolute;
+      right: 5rem;
     }
 
     .login-button {
@@ -62,16 +70,17 @@
       cursor: pointer;
     }
 
+    .link {
+      text-decoration: none;
+      color: var(--color-login-link);
+      font-weight: 700;
+    }
+
     .redirect {
       color: var(--color-text);
       padding-bottom: 0.5rem;
       /* margin-top: 1.5rem; */
       /* padding-bottom: 1rem; */ // font-size: 1.5rem;
-      .link {
-        text-decoration: none;
-        color: var(--color-login-link);
-        font-weight: 700;
-      }
     }
   }
 }

@@ -1,23 +1,4 @@
 :root {
-  // --color-text: #171613;
-  // --color-text: #050505;
-  // --color-text: #1d1d1d;
-  // --color-search-bg: #e5e5e5;
-  // --color-search-text: var(--color-text);
-  // --color-search-placeholder: var(--color-text);
-  // --color-profile-page-bg: #fbf8f1;
-  // --color-profile-page-bg: #d0dbdb;
-  // --color-profile-page-bg: rgb(250, 251, 251);
-  // --color-profile-page-bg: #e5e7eb;
-  // background-color: rgb(51, 167, 128);
-  // --color-profile-page-bg: #f5f5f5;
-  // --color-profile-page-bg: rgb(223, 222, 222);
-  // --color-user-nav-bg: #eaf0f0;
-  // --color-user-nav-bg: #f0d7d7;
-  // --color-user-nav-current: #ebf8f2;
-  // --color-admin-dashboard-bg: rgb(237, 241, 245);
-  // --color-nav-bar-hover: #bc904c;
-
   --color-bg: #f0f2f5;
   --color-text: #2c2c2a;
   --color-search-bg: #d4caca;
@@ -49,18 +30,12 @@
   --color-cart-line: #ccc;
   --color-btn: #2c3a40;
   --color-login-link: #185638;
+  --color-input-border: #a4a4a4;
+  --color-input-bg: rgb(255, 255, 255, 0.85);
+  --color-switch-bg: gray;
 }
 
 html[theme="dark"] {
-  // --color-bg: #18191a;
-  // --color-bg: #171613;
-  // --color-text: #fff;
-  // --color-text: #dee0e5;
-  // --color-search-bg: rgb(134, 141, 146);
-  // --color-search-bg: #3a3b3c;
-  // --color-search-text: var(--color-text);
-  // --color-search-placeholder: var(--color-text);
-
   --color-bg: #1f1d1d;
   --color-text: #e4e6eb;
   --color-search-bg: #3f4041;
@@ -92,4 +67,7 @@ html[theme="dark"] {
   --color-cart-line: #323131;
   --color-btn: #303031;
   --color-login-link: gray;
+  --color-input-border: #272828;
+  --color-input-bg: #1c1b1b;
+  --color-switch-bg: #1c1b1b;
 }

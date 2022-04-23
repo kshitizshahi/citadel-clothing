@@ -101,6 +101,11 @@ const LogIn = () => {
               <p className="error">{errors.password?.message || "\u00A0"}</p>
             </div>
             <div>
+              <Link className="link" to="/forgot-password">
+                <p className="forgot-password">Forgot password?</p>
+              </Link>
+            </div>
+            <div>
               <Button className="login-button" text="Login" />
             </div>
 

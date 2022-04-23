@@ -4,6 +4,7 @@ import { Women_Page_Title } from "../utils/PageTitle";
 import "../styles/shop.scss";
 import LoadingDots from "../components/Loading";
 import axios from "axios";
+import { CATEGORY_WOMEN } from "../utils/BaseUrl";
 
 const Women = () => {
   const [products, setProducts] = useState([]);
@@ -20,9 +21,7 @@ const Women = () => {
     (async function () {
       try {
         setLoading(true);
-        const response = await axios.get(
-          `/api/products/get/category/products/women`
-        );
+        const response = await axios.get(CATEGORY_WOMEN);
         setLoading(false);
 
         if (mounted) {

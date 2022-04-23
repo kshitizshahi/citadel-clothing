@@ -11,6 +11,11 @@ import { Icon } from "@iconify/react";
 import Swal from "sweetalert2";
 import axios from "axios";
 import { toast } from "react-toastify";
+import {
+  DELETE_SUBCATEGORY,
+  GET_ALL_SUBCATEGORY,
+  SEARCH_SUBCATEGORY,
+} from "../../../utils/BaseUrl";
 
 const ListSellerSubCategory = () => {
   const [subCategory, setSubCategory] = useState([]);
@@ -32,9 +37,7 @@ const ListSellerSubCategory = () => {
     if (keywords.length > 0) {
       (async function () {
         try {
-          const response = await axios.get(
-            `/api/sub-category/search/${keywords}`
-          );
+          const response = await axios.get(`${SEARCH_SUBCATEGORY}/${keywords}`);
           if (mounted) {
             setSubCategory(response.data.subCategory);
           }
@@ -46,7 +49,7 @@ const ListSellerSubCategory = () => {
       (async function () {
         try {
           setLoading(true);
-          const response = await axios.get(`/api/sub-category/get/all`);
+          const response = await axios.get(GET_ALL_SUBCATEGORY);
           setLoading(false);
           if (mounted) {
             setSubCategory(response.data.subCategory);
@@ -96,9 +99,7 @@ const ListSellerSubCategory = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const res = await axios.delete(
-            `/api/sub-category/delete/${subCatId}`
-          );
+          const res = await axios.delete(`${DELETE_SUBCATEGORY}/${subCatId}`);
           toast.success(res.data.message);
           setDeleteSuccess(!deleteSuccess);
         } catch (error) {

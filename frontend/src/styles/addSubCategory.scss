@@ -66,7 +66,8 @@
             input {
               @include inputBox();
               margin-block: 0.8rem 0;
-              // color: var(--color-text);
+              background-color: var(--color-input-bg);
+              color: var(--color-text);
             }
           }
 
@@ -79,6 +80,9 @@
               font-weight: 500;
               font-size: clamp(1.45rem, 1vw, 1.55rem);
               padding-block: 1.85rem;
+              background-color: var(--color-input-bg);
+              color: var(--color-text);
+              border: 0.1rem var(--color-input-border) solid;
 
               &::placeholder {
                 color: #999 !important;

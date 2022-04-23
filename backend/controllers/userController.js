@@ -12,6 +12,7 @@ import jwt from "jsonwebtoken";
 import Product from "../models/ProductModel.js";
 import Order from "../models/orderModel.js";
 import Category from "../models/CategoryModel.js";
+import { sendEmail } from "../utils/accountVerifiedEmailSender.js";
 
 const defaultResponse = (user) => {
   return {
@@ -86,7 +87,7 @@ const register = asyncHandler(async (req, res) => {
 
     const data = defaultResponse(createdUser);
     res.status(201).json({
-      // data,
+      data,
       message: "Registered. Please verify your email",
     });
   }
@@ -405,6 +406,13 @@ const updateUserAdmin = asyncHandler(async (req, res) => {
 
     const updatedProfile = await user.save();
     const data = defaultResponse(updatedProfile);
+
+    if (isAccountVerified && user.isSeller) {
+      sendEmail({
+        name: `${user.firstName} ${user.lastName}`,
+        email: user.email,
+      });
+    }
 
     res.status(200).json({
       data,

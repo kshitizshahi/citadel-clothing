@@ -9,7 +9,7 @@ import { Pagination } from "@mantine/core";
 
 const Shop = () => {
   const [products, setProducts] = useState([]);
-  const [activePage, setPage] = useState(1);
+  const [activePage, setActivePage] = useState(1);
 
   const dispatch = useDispatch();
 
@@ -44,7 +44,11 @@ const Shop = () => {
             <p className="heading">Products</p>
             {products && <Cards data={products} />}
             <div className="pagination" style={{ paddingBlock: "3rem" }}>
-              <Pagination page={activePage} onChange={setPage} total={10} />
+              <Pagination
+                page={activePage}
+                onChange={setActivePage}
+                total={3}
+              />
             </div>
           </div>
         </div>

@@ -14,6 +14,7 @@ import { Icon } from "@iconify/react";
 import Swal from "sweetalert2";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { DELETE_PRODUCT, SEARCH_PRODUCTS } from "../../../utils/BaseUrl";
 
 const ListSellerProduct = () => {
   const [products, setProducts] = useState([]);
@@ -37,7 +38,7 @@ const ListSellerProduct = () => {
     if (keywords.length > 0) {
       (async function () {
         try {
-          const response = await axios.get(`/api/products/search/${keywords}`);
+          const response = await axios.get(`${SEARCH_PRODUCTS}/${keywords}`);
           if (mounted) {
             setProducts(response.data.product);
           }
@@ -104,7 +105,7 @@ const ListSellerProduct = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const res = await axios.delete(`/api/products/delete/${prodId}`);
+          const res = await axios.delete(`${DELETE_PRODUCT}/${prodId}`);
           toast.success(res.data.message);
           setDeleteSuccess(!deleteSuccess);
         } catch (error) {

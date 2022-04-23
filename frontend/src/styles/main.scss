@@ -39,8 +39,13 @@ body {
   .swal2-popup .swal2-styled:focus {
     box-shadow: none !important;
   }
+}
 
-  /* color: var(--color-text); */
+.mantine-1lrsd4n {
+  background-color: var(--color-bg);
+  // border: none;
+  background-color: var(--color-switch-bg);
+  border: 0.0625rem gray solid;
 }
 
 button {

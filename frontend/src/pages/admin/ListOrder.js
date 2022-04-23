@@ -11,6 +11,7 @@ import { Icon } from "@iconify/react";
 import Swal from "sweetalert2";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { GET_ALL_ORDERS, SEARCH_ORDERS } from "../../utils/BaseUrl";
 
 const ListOrder = () => {
   const [order, setOrder] = useState([]);
@@ -36,7 +37,7 @@ const ListOrder = () => {
     if (keywords.length > 0) {
       (async function () {
         try {
-          const response = await axios.get(`/api/orders/search/${keywords}`);
+          const response = await axios.get(`${SEARCH_ORDERS}/${keywords}`);
           if (mounted) {
             setOrder(response.data.order);
           }
@@ -48,7 +49,7 @@ const ListOrder = () => {
       (async function () {
         try {
           setLoading(true);
-          const response = await axios.get(`/api/orders/get/all`);
+          const response = await axios.get(GET_ALL_ORDERS);
           setLoading(false);
 
           if (mounted) {

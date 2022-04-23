@@ -12,7 +12,11 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import "../../../styles/addUser.scss";
-import { BASE_URL } from "../../../utils/BaseUrl";
+import {
+  BASE_URL,
+  GET_USER_INFO,
+  UPDATE_USER_ADMIN,
+} from "../../../utils/BaseUrl";
 import { Switch } from "@mantine/core";
 
 const EditUser = () => {
@@ -122,10 +126,7 @@ const EditUser = () => {
     formdata.append("isAccountVerified", accountVerified);
 
     try {
-      const res = await axios.put(
-        `/api/users/update-user/admin/${id}`,
-        formdata
-      );
+      const res = await axios.put(`${UPDATE_USER_ADMIN}/${id}`, formdata);
       toast.success(res.data.message);
       if (res.data.message) {
         navigate("/admin/users");
@@ -161,7 +162,7 @@ const EditUser = () => {
     (async function () {
       try {
         setLoading(true);
-        const response = await axios.get(`/api/users/get/userInfo/${id}`);
+        const response = await axios.get(`${GET_USER_INFO}/${id}`);
         setLoading(false);
         if (mounted) {
           const user = response.data.user;

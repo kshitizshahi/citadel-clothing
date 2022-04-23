@@ -14,6 +14,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import SelectBox from "../../../components/SelectBox";
 import "../../../styles/addSubCategory.scss";
+import {
+  CREATE_SUBCATEGORY,
+  GET_ALL_SUBCATEGORY,
+} from "../../../utils/BaseUrl";
 
 const AddSubCategory = () => {
   const [categories, setCategories] = useState([]);
@@ -58,7 +62,7 @@ const AddSubCategory = () => {
 
   const submitHandler = async (data) => {
     try {
-      const res = await axios.post(`/api/sub-category/create`, {
+      const res = await axios.post(CREATE_SUBCATEGORY, {
         name: data.subCategoryName,
         category: data.category,
       });
@@ -91,7 +95,7 @@ const AddSubCategory = () => {
     let mounted = true;
     (async function () {
       try {
-        const response = await axios.get(`/api/sub-category/get/all`);
+        const response = await axios.get(GET_ALL_SUBCATEGORY);
         if (mounted) {
           setSubCategories(response.data.subCategory);
         }

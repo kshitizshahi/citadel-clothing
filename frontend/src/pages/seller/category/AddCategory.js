@@ -12,7 +12,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import "../../../styles/addCategory.scss";
-import { PUBLIC_URL } from "../../../utils/BaseUrl";
+import { CREATE_CATEGORY, PUBLIC_URL } from "../../../utils/BaseUrl";
 
 const AddSellerCategory = () => {
   const [categories, setCategories] = useState([]);
@@ -81,7 +81,7 @@ const AddSellerCategory = () => {
     formdata.append("categoryImage", data.categoryImage[0]);
 
     try {
-      const res = await axios.post(`/api/category/create`, formdata);
+      const res = await axios.post(CREATE_CATEGORY, formdata);
 
       toast.success(res.data.message);
       if (res.data.message) {
