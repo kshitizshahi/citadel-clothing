@@ -64,6 +64,9 @@ const LogIn = () => {
     if (location.search && location.search.includes("success")) {
       const message = decodeURI(location.search.split("=")[1]);
       toast.success(message);
+    } else if (location.search && location.search.includes("error")) {
+      const message = decodeURI(location.search.split("=")[1]);
+      toast.error(message);
     }
   }, []);
 

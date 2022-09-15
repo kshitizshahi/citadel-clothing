@@ -1,6 +1,8 @@
 export const Home_Page_Title = "Home";
 export const Profile_Page_Title = "User Profile";
 export const Change_Password_Page_Title = "Change Password";
+export const Forgot_Password_Page_Title = "Forgot Password";
+export const Reset_Password_Page_Title = "Reset Password";
 export const Login_Page_Title = "Log In";
 export const Register_Page_Title = "Register";
 export const Shop_Page_Title = "Shop";
@@ -20,6 +22,7 @@ export const Add_User_Page = "Add User";
 export const Edit_User_Page = "Edit User";
 export const Cart_Page_Title = "Cart";
 export const Order_Page_Title = "Order";
+export const Review_Page_Title = "Review";
 export const Shop_Category_Page_Title = "Shop By Category";
 export const Men_Page_Title = "Men's Fashion";
 export const Women_Page_Title = "Women's Fashion";

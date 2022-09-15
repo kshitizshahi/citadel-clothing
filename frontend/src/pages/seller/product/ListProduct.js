@@ -15,6 +15,7 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { DELETE_PRODUCT, SEARCH_PRODUCTS } from "../../../utils/BaseUrl";
+import { Pagination } from "@mantine/core";
 
 const ListSellerProduct = () => {
   const [products, setProducts] = useState([]);
@@ -22,6 +23,9 @@ const ListSellerProduct = () => {
   // const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [deleteSuccess, setDeleteSuccess] = useState(false);
   const [keywords, setKeywords] = useState("");
+  const [activePage, setActivePage] = useState(1);
+  const [totalPage, setTotalPage] = useState();
+  const [totalProducts, setTotalProducts] = useState();
 
   const { loading } = useSelector((state) => state.Product);
   const { mobileDevice } = useSelector((state) => state.Media);
@@ -48,9 +52,13 @@ const ListSellerProduct = () => {
       })();
     } else {
       (async function () {
-        const response = await dispatch(getAllProduct({}));
+        const response = await dispatch(
+          getAllProduct({ pageNumber: activePage })
+        );
         if (mounted) {
           setProducts(response.payload.product);
+          setTotalProducts(response.payload.totalProducts);
+          setTotalPage(response.payload.totalPages);
         }
       })();
     }
@@ -59,7 +67,7 @@ const ListSellerProduct = () => {
       mounted = false;
       setProducts(null);
     };
-  }, [deleteSuccess, keywords, dispatch]);
+  }, [deleteSuccess, keywords, dispatch, activePage]);
 
   const keywordsChange = (e) => {
     setKeywords(e.target.value);
@@ -225,6 +233,16 @@ const ListSellerProduct = () => {
                   </tbody>
                 </table>
               </div>
+              {totalProducts > products?.length && (
+                <div className="pagination" style={{ paddingBottom: "2.5rem" }}>
+                  <Pagination
+                    page={activePage}
+                    onChange={setActivePage}
+                    total={totalPage}
+                    color="dark"
+                  />
+                </div>
+              )}
             </div>
           </div>
           {/* {openDeleteModal && (

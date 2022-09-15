@@ -95,8 +95,8 @@ export const sendEmail = ({ name, email }) => {
 
   const mailOptions = {
     from: `Citadel <${process.env.SENDER_EMAIL}>`,
-    to: `Citadel <${process.env.SENDER_EMAIL}>`,
-    // to: email,
+    // to: `Citadel <${process.env.SENDER_EMAIL}>`,
+    to: email,
     subject: "Seller Account verified",
 
     html: html,

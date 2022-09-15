@@ -75,20 +75,40 @@ const placeOrder = asyncHandler(async (req, res) => {
 });
 
 const getAllOrders = asyncHandler(async (req, res) => {
-  const order = await Order.find().populate(query);
+  const ordersPerPage = 8;
+  const currentPage = Number(req.query.pageNumber) || 1;
+  const totalOrders = await Order.countDocuments();
+
+  const order = await Order.find()
+    .limit(ordersPerPage)
+    .skip(ordersPerPage * (currentPage - 1))
+    .populate(query);
   if (order) {
     res.status(200).json({
       order,
+      currentPage,
+      totalOrders,
+      totalPages: Math.ceil(totalOrders / ordersPerPage),
       message: "Order fetched",
     });
   }
 });
 
 const getUserOrders = asyncHandler(async (req, res) => {
-  const order = await Order.find({ user: req.user }).sort({ createdAt: -1 });
+  const ordersPerPage = 3;
+  const currentPage = Number(req.query.pageNumber) || 1;
+  const totalOrders = await Order.countDocuments({ user: req.user });
+
+  const order = await Order.find({ user: req.user })
+    .limit(ordersPerPage)
+    .skip(ordersPerPage * (currentPage - 1))
+    .sort({ createdAt: -1 });
   if (order) {
     res.status(200).json({
       order,
+      currentPage,
+      totalOrders,
+      totalPages: Math.ceil(totalOrders / ordersPerPage),
       message: "Order fetched",
     });
   }

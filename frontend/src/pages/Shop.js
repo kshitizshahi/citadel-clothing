@@ -10,6 +10,7 @@ import { Pagination } from "@mantine/core";
 const Shop = () => {
   const [products, setProducts] = useState([]);
   const [activePage, setActivePage] = useState(1);
+  const [totalPage, setTotalPage] = useState();
 
   const dispatch = useDispatch();
 
@@ -23,16 +24,19 @@ const Shop = () => {
     let mounted = true;
 
     (async function () {
-      const response = await dispatch(getAllProduct({}));
+      const response = await dispatch(
+        getAllProduct({ pageNumber: activePage })
+      );
       if (mounted) {
         setProducts(response.payload.product);
+        setTotalPage(response.payload.totalPages);
       }
     })();
 
-    return () => {
-      setProducts({});
-    };
-  }, [dispatch]);
+    // return () => {
+    //   setProducts({});
+    // };
+  }, [dispatch, activePage]);
 
   return (
     <div className="shop-container">
@@ -47,7 +51,8 @@ const Shop = () => {
               <Pagination
                 page={activePage}
                 onChange={setActivePage}
-                total={3}
+                total={totalPage}
+                color="dark"
               />
             </div>
           </div>

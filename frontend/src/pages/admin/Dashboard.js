@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { Tooltip } from "@mantine/core";
 import LoadingDots from "../../components/Loading";
 import SideBar from "../../components/Admin/SideBar";
-import "../../styles/listProduct.scss";
 import { Icon } from "@iconify/react";
 import axios from "axios";
 import { toast } from "react-toastify";

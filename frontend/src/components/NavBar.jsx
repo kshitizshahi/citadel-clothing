@@ -4,10 +4,12 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../redux/thunkApi/authApi";
 import SearchBar from "./SearchBar";
-import { BASE_URL } from "../utils/BaseUrl";
+import { BASE_URL, SEARCH_PRODUCTS } from "../utils/BaseUrl";
 import { NavLink } from "react-router-dom";
 import "../styles/main.scss";
 import { useEffect, useState } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const NavBar = () => {
   const { isLoggedIn, userInfo, isAdmin, isSeller } = useSelector(
@@ -15,6 +17,8 @@ const NavBar = () => {
   );
 
   const [openNav, setOpenNav] = useState(false);
+  const [keywords, setKeywords] = useState("");
+  const [searchData, setSearchData] = useState([]);
 
   const [matches, setMatches] = useState(
     window.matchMedia("(max-width: 1000px)").matches
@@ -26,6 +30,10 @@ const NavBar = () => {
   const logoutHandler = (e) => {
     dispatch(logoutUser({}));
     navigate("/");
+  };
+
+  const keywordsChange = (e) => {
+    setKeywords(e.target.value);
   };
 
   useEffect(() => {
@@ -50,6 +58,27 @@ const NavBar = () => {
     document.body.style.height = "";
     document.body.style.overflow = "";
   }
+
+  useEffect(() => {
+    let mounted = true;
+    if (keywords.length > 0) {
+      (async function () {
+        try {
+          const response = await axios.get(`${SEARCH_PRODUCTS}/${keywords}`);
+          if (mounted) {
+            setSearchData(response.data.product);
+          }
+        } catch (error) {
+          toast.error(error.response.data.message);
+        }
+      })();
+    }
+
+    return () => {
+      mounted = false;
+      setSearchData(null);
+    };
+  }, [keywords]);
 
   return (
     <div className="navigation-bar">
@@ -243,8 +272,23 @@ const NavBar = () => {
                 Contact Us
               </NavLink>
             </li>
-            <div className="nav-search">
-              <SearchBar placeholder="Search here" />
+            <div className="nav-search search-dropdown">
+              <SearchBar placeholder="Search here" onChange={keywordsChange} />
+              {searchData?.length > 0 && (
+                <div className="dropdown-content-wrap">
+                  <ul className="dropdown-content">
+                    <div>
+                      {searchData.map((elem) => (
+                        <div>
+                          <a href={`/product/${elem._id}`}>
+                            <li>{elem.name}</li>
+                          </a>
+                        </div>
+                      ))}
+                    </div>
+                  </ul>
+                </div>
+              )}
             </div>
           </ul>
         )}
@@ -260,7 +304,6 @@ const NavBar = () => {
                   src={`${BASE_URL}/${userInfo.profileImage}`}
                   alt=""
                 />
-                {/* <p>{userInfo.firstName}</p> */}
               </div>
             ) : (
               <Icon icon="ant-design:user-outlined" className="profile-icon" />

@@ -10,6 +10,13 @@ const query = [
   },
 ];
 
+const productQuery = [
+  {
+    path: "product",
+    select: "_id name brand price countInStock images",
+  },
+];
+
 const createProductReview = asyncHandler(async (req, res) => {
   const { rating, comment } = req.body;
   const { productId } = req.params;
@@ -24,7 +31,7 @@ const createProductReview = asyncHandler(async (req, res) => {
 
     if (alreadyReviewed) {
       res.status(400).json({
-        message: "Product already reviewed",
+        message: "You have already reviewed the product",
       });
     } else {
       const user = await User.findById(req.user);
@@ -78,4 +85,18 @@ const getProductReview = asyncHandler(async (req, res) => {
   }
 });
 
-export { createProductReview, getProductReview };
+const getUserReview = asyncHandler(async (req, res) => {
+  const review = await Review.find({ user: req.user }).populate(productQuery);
+  if (review) {
+    res.status(201).json({
+      review,
+      message: "Review fetched",
+    });
+  } else {
+    res.status(404).json({
+      message: "Review not found",
+    });
+  }
+});
+
+export { createProductReview, getProductReview, getUserReview };

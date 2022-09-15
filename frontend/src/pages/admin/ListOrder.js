@@ -12,6 +12,7 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { GET_ALL_ORDERS, SEARCH_ORDERS } from "../../utils/BaseUrl";
+import { Pagination } from "@mantine/core";
 
 const ListOrder = () => {
   const [order, setOrder] = useState([]);
@@ -19,6 +20,9 @@ const ListOrder = () => {
   const [deleteSuccess, setDeleteSuccess] = useState(false);
   const [keywords, setKeywords] = useState("");
   const [loading, setLoading] = useState(false);
+  const [activePage, setActivePage] = useState(1);
+  const [totalPage, setTotalPage] = useState();
+  const [totalOrders, setTotalOrders] = useState();
 
   let options = {
     dateStyle: "long",
@@ -49,11 +53,15 @@ const ListOrder = () => {
       (async function () {
         try {
           setLoading(true);
-          const response = await axios.get(GET_ALL_ORDERS);
+          const response = await axios.get(
+            `${GET_ALL_ORDERS}/?pageNumber=${activePage}`
+          );
           setLoading(false);
 
           if (mounted) {
             setOrder(response.data.order);
+            setTotalPage(response.data.totalPages);
+            setTotalOrders(response.data.totalOrders);
           }
         } catch (error) {
           setLoading(false);
@@ -65,7 +73,7 @@ const ListOrder = () => {
     return () => {
       mounted = false;
     };
-  }, [deleteSuccess, keywords]);
+  }, [deleteSuccess, keywords, activePage]);
 
   const keywordsChange = (e) => {
     setKeywords(e.target.value);
@@ -188,6 +196,16 @@ const ListOrder = () => {
                   </tbody>
                 </table>
               </div>
+              {totalOrders > order?.length && (
+                <div className="pagination" style={{ paddingBottom: "2.5rem" }}>
+                  <Pagination
+                    page={activePage}
+                    onChange={setActivePage}
+                    total={totalPage}
+                    color="dark"
+                  />
+                </div>
+              )}
             </div>
           </div>
         </div>

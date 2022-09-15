@@ -118,8 +118,8 @@ export const sendMail = ({ order, user, shippingAddress, name }) => {
 
   const mailOptions = {
     from: `Citadel <${process.env.SENDER_EMAIL}>`,
-    // to: user.email,
-    to: `Citadel <${process.env.SENDER_EMAIL}>`,
+    to: user.email,
+    // to: `Citadel <${process.env.SENDER_EMAIL}>`,
     subject: "Your order has been placed",
 
     html: html,

@@ -1,18 +1,19 @@
 import { useEffect, useState } from "react";
 import Cards from "../components/Cards";
-import { Kid_Page_Title } from "../utils/PageTitle";
 import "../styles/shop.scss";
 import LoadingDots from "../components/Loading";
 import axios from "axios";
-import { CATEGORY_KID } from "../utils/BaseUrl";
+import { BRAND_PRODUCTS, CATEGORY_MEN } from "../utils/BaseUrl";
+import { useParams } from "react-router-dom";
 
-const Kid = () => {
+const Brand = () => {
   const [products, setProducts] = useState([]);
-  const [heading, setHeading] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  let { name } = useParams();
+
   useEffect(() => {
-    document.title = Kid_Page_Title;
+    document.title = name;
   }, []);
 
   useEffect(() => {
@@ -21,12 +22,11 @@ const Kid = () => {
     (async function () {
       try {
         setLoading(true);
-        const response = await axios.get(CATEGORY_KID);
+        const response = await axios.get(`${BRAND_PRODUCTS}/${name}`);
         setLoading(false);
 
         if (mounted) {
           setProducts(response.data.product);
-          setHeading(response.data.product[0]?.category?.name);
         }
       } catch (error) {
         setLoading(false);
@@ -47,7 +47,7 @@ const Kid = () => {
           <div className="products">
             {products.length > 0 ? (
               <div>
-                <p className="heading">{heading}</p>
+                <p className="heading">{name} Products</p>
                 {products && <Cards data={products} />}
               </div>
             ) : (
@@ -58,7 +58,6 @@ const Kid = () => {
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
-                  color: "var(--color-text)",
                 }}
               >
                 No Products
@@ -71,4 +70,4 @@ const Kid = () => {
   );
 };
 
-export default Kid;
+export default Brand;

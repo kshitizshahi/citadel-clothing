@@ -28,7 +28,6 @@ const HomePage = () => {
 
   if (topProducts) {
     // array = topProducts.slice(0, 4);
-
     array = topProducts.slice(firstProductIndex, lastProductIndex);
   }
 
@@ -91,7 +90,6 @@ const HomePage = () => {
     <div className="home-page-container">
       {loading ? (
         <>
-          <ProgressBar />
           <LoadingDots />
         </>
       ) : (

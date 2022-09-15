@@ -3,9 +3,11 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 export const getAllProduct = createAsyncThunk(
   "product/getAll",
-  async ({}, { rejectWithValue }) => {
+  async ({ pageNumber }, { rejectWithValue }) => {
     try {
-      const res = await axios.get(`/api/products/get/all-products`);
+      const res = await axios.get(
+        `/api/products/get/all-products?pageNumber=${pageNumber}`
+      );
       return res.data;
     } catch (err) {
       if (!err.response) {

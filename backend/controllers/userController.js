@@ -13,6 +13,7 @@ import Product from "../models/ProductModel.js";
 import Order from "../models/orderModel.js";
 import Category from "../models/CategoryModel.js";
 import { sendEmail } from "../utils/accountVerifiedEmailSender.js";
+import { sendForgotPasswordMail } from "../utils/forgotPasswordEmail.js";
 
 const defaultResponse = (user) => {
   return {
@@ -140,6 +141,24 @@ const login = asyncHandler(async (req, res) => {
   res.status(401).json({ message: "Invalid email or password" });
 });
 
+const forgotPassword = asyncHandler(async (req, res) => {
+  const { email } = req.body;
+  const user = await User.findOne({ email: email });
+
+  if (user) {
+    sendForgotPasswordMail({
+      user,
+      path: req.headers.host,
+    });
+
+    res.status(200).json({
+      message: "Password reset email sent",
+    });
+  } else {
+    res.status(401).json({ message: "Invalid email" });
+  }
+});
+
 const updateUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user);
 
@@ -229,6 +248,34 @@ const updateUser = asyncHandler(async (req, res) => {
     res.status(404).json({
       message: "User not found",
     });
+  }
+});
+
+const resetPassword = asyncHandler(async (req, res) => {
+  const { token } = req.params;
+  const { newPassword, confirmNewPassword } = req.body;
+
+  if (newPassword || confirmNewPassword) {
+    if (newPassword !== confirmNewPassword) {
+      res.status(400).json({ message: "Password does not match" });
+    } else {
+      jwt.verify(token, process.env.EMAIL_SECRET, async (err, decode) => {
+        if (err) {
+          res.status(400).json({
+            message: "Invalid token",
+          });
+        } else {
+          const user = await User.findById({ _id: decode.userId });
+          if (user) {
+            user.password = bcrypt.hashSync(newPassword, 8);
+            await user.save();
+            res.status(200).json({
+              message: "Password reset successfull",
+            });
+          }
+        }
+      });
+    }
   }
 });
 
@@ -471,6 +518,40 @@ const emailTokenVerify = asyncHandler(async (req, res) => {
   }
 });
 
+const forgotPasswordTokenVerify = asyncHandler(async (req, res) => {
+  const { token } = req.params;
+  try {
+    jwt.verify(
+      token,
+      process.env.EMAIL_SECRET,
+
+      async (err, decode) => {
+        if (err) {
+          res.redirect(
+            `${process.env.ORIGIN}/login?error=${encodeURIComponent(
+              "Link expired. Reset password again"
+            )}`
+          );
+        } else {
+          res.redirect(
+            `${process.env.ORIGIN}/reset-password?success=${encodeURIComponent(
+              "Enter new password details"
+            )}&&token=${token}`
+          );
+        }
+      }
+    );
+  } catch (e) {
+    console.log("error", e.message);
+    await User.deleteOne({ _id: payload.userId });
+    res.redirect(
+      `${process.env.ORIGIN}/register?error=${encodeURIComponent(
+        "Link expired. Register again"
+      )}`
+    );
+  }
+});
+
 const dashboardCount = asyncHandler(async (req, res) => {
   const totalProducts = await Product.countDocuments();
   const totalCustomers = await User.countDocuments({
@@ -505,4 +586,7 @@ export {
   updateUserAdmin,
   emailTokenVerify,
   dashboardCount,
+  forgotPassword,
+  forgotPasswordTokenVerify,
+  resetPassword,
 };

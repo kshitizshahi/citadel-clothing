@@ -169,12 +169,7 @@ const Product = () => {
                     {product.discount > 0 && `${product.discount}% OFF`}
                   </p>
                 </div>
-                <div className="description">
-                  {/* {parse(`${product.description}`)} */}
-                  {desc && desc.length > 250
-                    ? parse(`${desc.slice(0, 250)}...`)
-                    : parse(`${desc}`)}
-                </div>
+
                 <div className="product-quantity">
                   <label htmlFor="productQuantity">Quantity</label>
                   {product.countInStock >= 1 ? (
@@ -218,16 +213,17 @@ const Product = () => {
               </div>
             </div>
           </div>
-          {desc && desc.length > 284 && (
-            <div className="long-description">
-              {/* <hr className="line" /> */}
-
-              <p className="heading">Product Description</p>
-              <div className="description-content">{parse(`${desc}`)}</div>
-            </div>
-          )}
+          {/* {desc && desc.length > 284 && ( */}
+          <div className="long-description">
+            {/* <hr className="line" /> */}
+            <p className="heading">Product Description</p>
+            <div className="description-content">{parse(`${desc}`)}</div>
+          </div>
+          {/* )} */}
           <div className="related-products">
-            <p className="heading">Related Products</p>
+            {relatedProducts?.length > 0 && (
+              <p className="heading">Related Products</p>
+            )}
             {relatedProducts && (
               <Cards data={recommendedProducts} relatedProducts />
             )}

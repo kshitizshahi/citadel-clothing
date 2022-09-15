@@ -9,6 +9,7 @@ import LoadingDots from "../components/Loading";
 import "../styles/order.scss";
 import { BASE_URL, CANCEL_ORDER, USER_ORDERS } from "../utils/BaseUrl";
 import { Order_Page_Title } from "../utils/PageTitle";
+import { Pagination } from "@mantine/core";
 
 const Order = () => {
   const [loading, setLoading] = useState(false);
@@ -18,6 +19,9 @@ const Order = () => {
     dateStyle: "long",
     timeStyle: "medium",
   };
+  const [activePage, setActivePage] = useState(1);
+  const [totalPage, setTotalPage] = useState();
+  const [totalOrders, setTotalOrders] = useState();
 
   const navigate = useNavigate();
 
@@ -27,10 +31,12 @@ const Order = () => {
     (async function () {
       try {
         setLoading(true);
-        const res = await axios.get(USER_ORDERS);
+        const res = await axios.get(`${USER_ORDERS}/?pageNumber=${activePage}`);
         setLoading(false);
         if (mounted) {
           setOrders(res.data.order);
+          setTotalPage(res.data.totalPages);
+          setTotalOrders(res.data.totalOrders);
         }
       } catch (error) {
         setLoading(false);
@@ -41,7 +47,7 @@ const Order = () => {
       mounted = false;
       setOrders({});
     };
-  }, [orderCancel]);
+  }, [orderCancel, activePage]);
 
   const editOrder = (id) => {
     navigate(`/order/${id}`);
@@ -81,7 +87,7 @@ const Order = () => {
       ) : (
         <div>
           <div className="heading">
-            <p>My Orders ({orders.length})</p>
+            <p>My Orders ({totalOrders})</p>
             <hr className="line" />
           </div>
           <div>
@@ -183,6 +189,19 @@ const Order = () => {
                     </div>
                   </div>
                 ))}
+                {totalOrders > orders?.length && (
+                  <div
+                    className="pagination"
+                    style={{ paddingBlock: "1rem 2rem" }}
+                  >
+                    <Pagination
+                      page={activePage}
+                      onChange={setActivePage}
+                      total={totalPage}
+                      color="dark"
+                    />
+                  </div>
+                )}
               </div>
             )}
           </div>

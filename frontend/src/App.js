@@ -49,6 +49,11 @@ import EditSellerSubCategory from "./pages/seller/sub category/EditSubCategory";
 import ListSellerOrder from "./pages/seller/ListOrder";
 import ContactUs from "./pages/ContactUs";
 import ChangePassword from "./pages/ChangePassword";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
+import Reviews from "./pages/Reviews";
+import Brand from "./pages/Brand";
+import Seller from "./pages/Seller";
 
 function App() {
   const { loading } = useSelector((state) => state.authUser);
@@ -98,10 +103,14 @@ function App() {
             <Route path="/kid" element={<Kid />} />
             <Route path="/shop" element={<Shop />} />
             <Route path="/product/:id" element={<Product />} />
+            <Route path="/brand/:name" element={<Brand />} />
+            <Route path="/seller/:name" element={<Seller />} />
             <Route path="/login" element={<LogIn />} />
             <Route path="/register" element={<Register />} />
             <Route path="/category/:name" element={<Category />} />
             <Route path="/contact-us" element={<ContactUs />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
 
             <Route path="/" element={<UserPageLayout />}>
               <Route path="/cart" element={<Cart />} />
@@ -112,6 +121,8 @@ function App() {
                 <Route path="/profile" element={<UserProfile />} />
                 <Route path="/order/:id" element={<OrderDetails />} />
                 <Route path="/orders" element={<Order />} />
+                <Route path="/reviews" element={<Reviews />} />
+
                 <Route path="/change-password" element={<ChangePassword />} />
               </Route>
               <Route path="/place-order" element={<PlaceOrder />} />

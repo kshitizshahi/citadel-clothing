@@ -33,6 +33,8 @@ export const GET_PRODUCT = "/api/products/get";
 export const CREATE_PRODUCT = "/api/products/create";
 export const SEARCH_PRODUCTS = "/api/products/search";
 export const DELETE_PRODUCT = "/api/products/delete";
+export const BRAND_PRODUCTS = "/api/products/get/brand/products";
+export const SELLER_PRODUCTS = "/api/products/get/seller/products";
 
 export const CREATE_SUBCATEGORY = "/api/sub-category/create";
 export const GET_ALL_SUBCATEGORY = "/api/sub-category/get/all";
@@ -51,3 +53,6 @@ export const SEARCH_USER = "/api/users/search";
 export const DELETE_USER = "/api/users/delete";
 export const GET_ALL_USERS = "/api/users/get/all-users";
 export const UPDATE_USER = "/api/users/update-user";
+export const FORGOT_PASSWORD = "/api/users/forgot-password";
+export const RESET_PASSWORD = "/api/users/reset-password";
+export const USER_REVIEW = "/api/reviews/get/user-review";

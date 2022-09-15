@@ -1,4 +1,5 @@
 import Product from "../models/ProductModel.js";
+import User from "../models/userModel.js";
 import asyncHandler from "express-async-handler";
 import fs from "fs";
 import Category from "../models/CategoryModel.js";
@@ -109,12 +110,24 @@ const getProduct = asyncHandler(async (req, res) => {
 });
 
 const getAllProduct = asyncHandler(async (req, res) => {
-  const product = await Product.find().populate(query).lean();
+  const productsPerPage = 8;
+  const currentPage = Number(req.query.pageNumber) || 1;
+
+  const totalProducts = await Product.countDocuments();
+
+  const product = await Product.find()
+    .limit(productsPerPage)
+    .skip(productsPerPage * (currentPage - 1))
+    .populate(query)
+    .lean();
   if (product) {
     // const data = defaultResponse(Product);
 
     res.status(200).json({
       product,
+      currentPage,
+      totalProducts,
+      totalPages: Math.ceil(totalProducts / productsPerPage),
       message: "Product fetched",
     });
   }
@@ -136,7 +149,10 @@ const getRelatedProduct = asyncHandler(async (req, res) => {
   const { productId } = req.params;
   const product = await Product.findById(productId);
 
-  const matchingProduct = await Product.find({ category: product.category })
+  const matchingProduct = await Product.find({
+    category: product.category,
+    subCategory: product.subCategory,
+  })
     .populate(query)
     .lean();
 
@@ -164,6 +180,45 @@ const getCategoryProduct = asyncHandler(async (req, res) => {
       "category",
       "_id name"
     );
+    res.status(200).json({
+      product,
+      message: "Product found",
+    });
+  } else {
+    res.status(404).json({
+      message: "Product not found",
+    });
+  }
+});
+
+const getBrandProduct = asyncHandler(async (req, res) => {
+  const { name } = req.params;
+
+  const product = await Product.find({ brand: name }).populate(
+    "category",
+    "_id name"
+  );
+
+  if (product) {
+    res.status(200).json({
+      product,
+      message: "Product found",
+    });
+  } else {
+    res.status(404).json({
+      message: "Product not found",
+    });
+  }
+});
+
+const getSellerProduct = asyncHandler(async (req, res) => {
+  const { name } = req.params;
+
+  const firstName = name.split(" ")[0];
+  const seller = await User.findOne({ firstName: firstName });
+  const product = await Product.find({ seller: seller._id });
+
+  if (product) {
     res.status(200).json({
       product,
       message: "Product found",
@@ -324,4 +379,6 @@ export {
   deleteImage,
   getCategoryProduct,
   getRelatedProduct,
+  getBrandProduct,
+  getSellerProduct,
 };

@@ -97,7 +97,7 @@ const ChangePassword = () => {
                 <input
                   type="password"
                   id="confirmNewPassword"
-                  placeholder="Enter your new password"
+                  placeholder="Re-enter your new password"
                   {...register("confirmNewPassword")}
                 ></input>
                 <p className="error">

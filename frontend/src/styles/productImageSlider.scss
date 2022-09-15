@@ -17,6 +17,11 @@
       .image {
         width: 100%;
         object-fit: cover;
+
+        &:hover {
+          cursor: pointer;
+          border: 0.0625rem solid var(--color-admin-dashboard-border);
+        }
       }
 
       .active {

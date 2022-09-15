@@ -110,7 +110,6 @@ const PlaceOrder = () => {
     console.log("paymentResult", paymentResult);
     if (paymentResult) {
       if (isMounted) {
-        console.log("hey");
         (async function () {
           dispatch(
             saveShippingAddress({

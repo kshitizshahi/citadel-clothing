@@ -16,7 +16,7 @@ ReactDOM.render(
   <Provider store={store}>
     <React.StrictMode>
       <App />
-      <ToastContainer autoClose={40000} hideProgressBar />
+      <ToastContainer autoClose={2000} hideProgressBar />
     </React.StrictMode>
   </Provider>,
   document.getElementById("root")

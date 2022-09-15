@@ -15,6 +15,9 @@ import {
   getUserInfo,
   updateUserAdmin,
   dashboardCount,
+  forgotPassword,
+  forgotPasswordTokenVerify,
+  resetPassword,
 } from "../controllers/userController.js";
 import {
   admin,
@@ -35,6 +38,7 @@ router.get("/get/userInfo/:userId", adminMiddleWare, getUserInfo);
 router.get("/get/dashboard-info", adminSellerMiddleWare, dashboardCount);
 router.post("/register", upload.single("profileImage"), register);
 router.post("/login", login);
+router.post("/forgot-password", forgotPassword);
 
 router.put(
   "/update-user",
@@ -56,4 +60,7 @@ router.delete("/delete/:userId", adminMiddleWare, deleteUser);
 router.get("/get/others/email/:userId", adminMiddleWare, getOtherUsersEmail);
 
 router.get("/confirmation/:token", emailTokenVerify);
+router.get("/forgot-password/confirmation/:token", forgotPasswordTokenVerify);
+router.post("/reset-password/:token", resetPassword);
+
 export default router;

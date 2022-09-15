@@ -2,12 +2,6 @@ import mongoose from "mongoose";
 
 const productSchema = new mongoose.Schema(
   {
-    user: {
-      type: mongoose.Schema.Types.ObjectId,
-      // required: true,
-      ref: "User",
-    },
-
     category: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Category",
@@ -60,10 +54,7 @@ const productSchema = new mongoose.Schema(
       required: true,
       default: 0,
     },
-    isVerified: {
-      type: Boolean,
-      default: false,
-    },
+
     isOffer: {
       type: Boolean,
       default: false,

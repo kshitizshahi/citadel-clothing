@@ -43,7 +43,7 @@ const Men = () => {
       {loading ? (
         <LoadingDots />
       ) : (
-        <div className="container">
+        <div className="container" style={{ paddingBottom: "5rem" }}>
           <div className="products">
             {products.length > 0 ? (
               <div>
