@@ -20,7 +20,8 @@
                 "OPTIONS"
             ],
             "headers": {
-                "Access-Control-Allow-Origin": "https://citadel-clothing.vercel.app"
+                "Access-Control-Allow-Origin": "https://citadel-clothing.vercel.app",
+                "Access-Control-Allow-Credentials": "true"
             }
         }
     ]
