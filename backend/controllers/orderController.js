@@ -1,6 +1,6 @@
 import Order from "../models/orderModel.js";
 import asyncHandler from "express-async-handler";
-import Product from "../models/ProductModel.js";
+import Product from "../models/productModel.js";
 import User from "../models/userModel.js";
 
 import { sendMail } from "../utils/orderPlacedEmailSender.js";

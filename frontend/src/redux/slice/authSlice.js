@@ -113,12 +113,12 @@ const authSlice = createSlice({
       state.loading = false;
       state.isLoggedIn = true;
       state.userInfo = action.payload.data;
-      state.isAdmin = action.payload.data.isAdmin;
+      state.isAdmin = action.payload.data?.isAdmin;
       state.isSeller = action.payload.data.isSeller;
       state.error = null;
       state.fetchSuccess = true;
       localStorage.setItem("userLogin", JSON.stringify(state.isLoggedIn));
-      localStorage.setItem("isAdmin", JSON.stringify(state.isAdmin));
+      localStorage.setItem("isAdmin", JSON.stringify(state?.isAdmin));
       localStorage.setItem("isSeller", JSON.stringify(state.isSeller));
     },
     [validateUser.rejected]: (state, action) => {

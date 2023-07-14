@@ -130,7 +130,7 @@ const HomePage = () => {
                     text="Load More"
                     onClick={loadProducts}
                     className="load-more"
-                    disabled={lastProductIndex >= topProducts.length}
+                    disabled={lastProductIndex >= topProducts?.length}
                   />
                 </div>
               </div>

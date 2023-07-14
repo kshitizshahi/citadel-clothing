@@ -1,4 +1,4 @@
-import Category from "../models/CategoryModel.js";
+import Category from "../models/categoryModel.js";
 import asyncHandler from "express-async-handler";
 import fs from "fs";
 

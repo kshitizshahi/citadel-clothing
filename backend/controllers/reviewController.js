@@ -1,6 +1,6 @@
 import asyncHandler from "express-async-handler";
-import Product from "../models/ProductModel.js";
-import Review from "../models/ReviewModel.js";
+import Product from "../models/productModel.js";
+import Review from "../models/reviewModel.js";
 import User from "../models/userModel.js";
 
 const query = [

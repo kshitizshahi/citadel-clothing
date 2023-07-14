@@ -9,9 +9,9 @@ import {
 import fs from "fs";
 import { sendMail } from "../utils/emailSender.js";
 import jwt from "jsonwebtoken";
-import Product from "../models/ProductModel.js";
+import Product from "../models/productModel.js";
 import Order from "../models/orderModel.js";
-import Category from "../models/CategoryModel.js";
+import Category from "../models/categoryModel.js";
 import { sendEmail } from "../utils/accountVerifiedEmailSender.js";
 import { sendForgotPasswordMail } from "../utils/forgotPasswordEmail.js";
 
