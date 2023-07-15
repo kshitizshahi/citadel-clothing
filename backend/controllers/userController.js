@@ -119,15 +119,15 @@ const login = asyncHandler(async (req, res) => {
       res.cookie("accessToken", accessToken, {
         httpOnly: true,
         maxAge: 60 * 15 * 1000,
-        // secure: process.env.NODE_ENV !== "development",
-        // sameSite: "none",
+        secure: process.env.NODE_ENV !== "development",
+        sameSite: "none",
         // secure: false,
       });
       res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
         maxAge: 60 * 60 * 24 * 2 * 1000,
-        // secure: process.env.NODE_ENV !== "development",
-        // sameSite: "none",
+        secure: process.env.NODE_ENV !== "development",
+        sameSite: "none",
         // secure: false,
       });
 

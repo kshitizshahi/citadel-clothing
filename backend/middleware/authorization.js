@@ -88,7 +88,7 @@ export const verifyAccessTokenExpiry = asyncHandler(async (req, res, next) => {
         httpOnly: true,
         maxAge: 60 * 15 * 1000,
         secure: process.env.NODE_ENV !== "development",
-        // sameSite: "none",
+        sameSite: "none",
         // secure: false,
       });
       next();
