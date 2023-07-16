@@ -119,16 +119,16 @@ const login = asyncHandler(async (req, res) => {
       res.cookie("accessToken", accessToken, {
         httpOnly: true,
         maxAge: 60 * 15 * 1000,
-        secure: process.env.NODE_ENV !== "development",
+        secure: true,
+        // secure: process.env.NODE_ENV !== "development",
         sameSite: "none",
-        // secure: false,
       });
       res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
         maxAge: 60 * 60 * 24 * 2 * 1000,
-        secure: process.env.NODE_ENV !== "development",
+        secure: true,
+        // secure: process.env.NODE_ENV !== "development",
         sameSite: "none",
-        // secure: false,
       });
 
       res.status(200).json({
@@ -280,8 +280,13 @@ const resetPassword = asyncHandler(async (req, res) => {
 });
 
 const logout = (req, res) => {
-  res.status(202).clearCookie("accessToken");
-  res.status(202).clearCookie("refreshToken");
+  res
+    .status(202)
+    .clearCookie("accessToken", { sameSite: "none", secure: true });
+
+  res
+    .status(202)
+    .clearCookie("refreshToken", { sameSite: "none", secure: true });
 
   res.status(202).json({ message: "User logged out" });
 };
