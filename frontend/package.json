@@ -8,7 +8,7 @@
     "@mantine/core": "^4.0.0",
     "@mantine/hooks": "^4.0.0",
     "@reduxjs/toolkit": "^1.7.2",
-    "@testing-library/jest-dom": "^5.16.1",
+    "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
     "@tinymce/tinymce-react": "^3.13.1",
@@ -26,7 +26,8 @@
     "sass": "^1.49.7",
     "sweetalert2": "^11.4.4",
     "web-vitals": "^2.1.2",
-    "yup": "^0.32.11"
+    "yup": "^0.32.11",
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.0"
   },
   "scripts": {
     "start": "react-scripts start",
