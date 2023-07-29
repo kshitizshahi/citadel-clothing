@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 import { CONTACT_US } from "../utils/BaseUrl";
 
 const ContactUs = () => {
-  const [loading, setLoading] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const contactUsSchema = yup
     .object({
@@ -109,7 +109,11 @@ const ContactUs = () => {
                   </div>
 
                   <div>
-                    <Button className="send-message-btn" text="Send Message" />
+                    <Button
+                      className="send-message-btn"
+                      text="Send Message"
+                      disabled={loading}
+                    />
                   </div>
                 </form>
               </div>

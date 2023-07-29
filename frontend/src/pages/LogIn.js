@@ -38,7 +38,7 @@ const LogIn = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { isLoggedIn } = useSelector((state) => state.authUser);
+  const { isLoggedIn, loading } = useSelector((state) => state.authUser);
 
   if (location.search && location.search.includes("redirect")) {
     redirect = location.search.split("=")[1];
@@ -109,7 +109,11 @@ const LogIn = () => {
               </Link>
             </div>
             <div>
-              <Button className="login-button" text="Login" />
+              <Button
+                className="login-button"
+                text="Login"
+                disabled={loading}
+              />
             </div>
 
             <div>

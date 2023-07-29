@@ -103,6 +103,11 @@
           width: 40%;
           margin-top: 1rem;
           cursor: pointer;
+
+          &:disabled {
+            opacity: 0.5;
+            cursor: auto;
+          }
         }
       }
     }

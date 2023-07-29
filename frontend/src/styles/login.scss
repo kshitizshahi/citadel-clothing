@@ -68,6 +68,11 @@
       // width: 100%;
       margin-block: 1.5rem 2.5rem;
       cursor: pointer;
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: auto;
+      }
     }
 
     .link {

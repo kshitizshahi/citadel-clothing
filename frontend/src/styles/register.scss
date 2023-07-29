@@ -108,6 +108,11 @@
     /* width: 61.2rem; */
     margin-block: 1rem 2.5rem;
     cursor: pointer;
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: auto;
+    }
   }
 
   .redirect {

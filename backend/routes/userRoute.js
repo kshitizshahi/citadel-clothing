@@ -25,6 +25,11 @@ import {
   sellerAdmin,
   verifyAccessTokenExpiry,
 } from "../middleware/authorization.js";
+import {
+  loginRateLimiter,
+  registerRateLimiter,
+  forgotPasswordRateLimiter,
+} from "../middleware/apiRequestLimiter.js";
 
 const router = express.Router();
 
@@ -36,9 +41,14 @@ router.get("/get/all-users", adminMiddleWare, getAllUsers);
 router.get("/get/all-users/email", adminMiddleWare, getAllUsersEmail);
 router.get("/get/userInfo/:userId", adminMiddleWare, getUserInfo);
 router.get("/get/dashboard-info", adminSellerMiddleWare, dashboardCount);
-router.post("/register", upload.single("profileImage"), register);
-router.post("/login", login);
-router.post("/forgot-password", forgotPassword);
+router.post(
+  "/register",
+  registerRateLimiter,
+  upload.single("profileImage"),
+  register
+);
+router.post("/login", loginRateLimiter, login);
+router.post("/forgot-password", forgotPasswordRateLimiter, forgotPassword);
 
 router.put(
   "/update-user",

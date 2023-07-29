@@ -8,7 +8,7 @@ const Button = ({ className, text, onClick, disabled }) => {
           {text}
         </button>
       ) : (
-        <button className={className} type="submit">
+        <button className={className} type="submit" disabled={disabled}>
           {text}
         </button>
       )}

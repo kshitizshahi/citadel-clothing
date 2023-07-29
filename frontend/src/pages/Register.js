@@ -59,7 +59,7 @@ const Register = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { isLoggedIn } = useSelector((state) => state.authUser);
+  const { isLoggedIn, loading } = useSelector((state) => state.authUser);
 
   const submitHandler = (data) => {
     (async function () {
@@ -192,7 +192,11 @@ const Register = () => {
               </div>
             </div>
             <div>
-              <Button className="register-button" text="Create Account" />
+              <Button
+                className="register-button"
+                text="Create Account"
+                disabled={loading}
+              />
             </div>
             <div>
               <p className="redirect">
