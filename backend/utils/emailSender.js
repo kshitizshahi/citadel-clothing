@@ -6,7 +6,7 @@ export const sendMail = ({ email, path, user }) => {
     { userId: user._id },
     process.env.EMAIL_SECRET,
     {
-      expiresIn: "7d",
+      expiresIn: "1d",
     },
     (err, emailToken) => {
       const url = `http://${path}/api/users/confirmation/${emailToken}`;
@@ -82,7 +82,7 @@ export const sendMail = ({ email, path, user }) => {
               padding-inline: 20px;
             "
           >
-            The link will self expire in seven days.
+            The link will self expire in 24 hours.
           </p>
         </td>
       </tr>

@@ -7,7 +7,7 @@ export const sendForgotPasswordMail = ({ path, user }) => {
     { userId: user._id },
     process.env.EMAIL_SECRET,
     {
-      expiresIn: "7d",
+      expiresIn: "1h",
     },
     (err, emailToken) => {
       const url = `http://${path}/api/users/forgot-password/confirmation/${emailToken}`;
@@ -71,7 +71,7 @@ export const sendForgotPasswordMail = ({ path, user }) => {
             padding-inline: 20px;
           "
         >
-          The link will self expire in seven days.
+          The link will self expire in 1 hour.
         </p>
         </td>
       </tr>
