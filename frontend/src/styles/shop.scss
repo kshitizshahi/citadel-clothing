@@ -1,5 +1,9 @@
 .shop-container {
-  background-color: var(--color-profile-page-bg);
+  // background-color: var(--color-profile-page-bg);
+  background-color: var(--color-user-nav-bg);
+
+  min-height: 100vh;
+  min-height: 100svh;
   .container {
     max-width: 84%;
     margin: 0 auto;

@@ -1,7 +1,9 @@
 @use "../styles/mixins" as *;
 
 .contact-us-container {
-  background-color: var(--color-admin-dashboard-bg);
+  // background-color: var(--color-admin-dashboard-bg);
+  background-color: var(--color-contact-bg);
+
   color: var(--color-text);
   padding-block: 2rem 4rem;
 
@@ -31,6 +33,7 @@
         background-color: var(--color-admin-dashboard-foreground);
         padding: 2rem;
         border-radius: 0.4rem;
+        box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.2);
 
         // background: #2c6661;
         // background: -webkit-linear-gradient(top left, #2c6661, #ab68e5);
@@ -69,6 +72,7 @@
         background-color: var(--color-admin-dashboard-foreground);
         padding: 2rem;
         border-radius: 0.4rem;
+        box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.2);
 
         input {
           @include inputBox();

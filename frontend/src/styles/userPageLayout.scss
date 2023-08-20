@@ -3,15 +3,13 @@
   background-color: var(--color-profile-page-bg);
 
   .container {
-    max-width: 83.5%;
+    max-width: 84%;
     margin-inline: auto;
     display: flex;
-    padding-right: 1rem;
-    gap: 4rem;
+    gap: 3rem;
 
     .user-nav {
-      flex: 19%;
-      max-width: 19%;
+      flex-basis: 19%;
     }
 
     .child-component {
@@ -24,40 +22,20 @@
 
 @media screen and (max-width: 1200px) {
   .user-page-layout {
-    padding-inline: 1rem;
     .container {
-      max-width: 100%;
-      padding-right: 0;
+      max-width: 90%;
       gap: 2rem;
-      // flex-direction: column;
-
-      .user-nav {
-        flex: 25%;
-        max-width: 25%;
-      }
-      .child-component {
-        flex-grow: 1;
-      }
     }
   }
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 800px) {
   .user-page-layout {
-    padding-inline: 1rem;
     .container {
-      max-width: 100%;
+      max-width: 95%;
       padding-right: 0;
       gap: 2rem;
       flex-direction: column;
-
-      .user-nav {
-        flex-grow: 1;
-        max-width: 100%;
-      }
-      .child-component {
-        flex-grow: 1;
-      }
     }
   }
 }

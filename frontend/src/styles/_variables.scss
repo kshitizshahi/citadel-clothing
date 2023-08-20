@@ -33,6 +33,8 @@
   --color-input-border: #a4a4a4;
   --color-input-bg: rgb(255, 255, 255, 0.85);
   --color-switch-bg: gray;
+  --color-preview-hover: rgba(0, 0, 0, 0.907);
+  --color-contact-bg: rgb(251, 251, 250);
 }
 
 html[theme="dark"] {
@@ -70,4 +72,6 @@ html[theme="dark"] {
   --color-input-border: #272828;
   --color-input-bg: #1c1b1b;
   --color-switch-bg: #1c1b1b;
+  --color-preview-hover: #ffffff;
+  --color-contact-bg: #181818;
 }

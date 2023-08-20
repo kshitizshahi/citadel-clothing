@@ -74,55 +74,57 @@ const LogIn = () => {
     <div>
       <form onSubmit={handleSubmit(submitHandler)}>
         <div className="login-container">
-          <div className="image-container">
-            <img src={`${PUBLIC_URL}/images/login.jpg`} alt="login-image" />
-          </div>
-          <div className="form-container">
-            <div className="heading">
-              <h1>Log In</h1>
+          <div className="wrapper">
+            <div className="image-container">
+              <img src={`${PUBLIC_URL}/images/login.jpg`} alt="login-image" />
             </div>
-            <div>
-              <label htmlFor="email">Email address</label>
-              <input
-                type="email"
-                id="email"
-                placeholder="Enter email"
-                // value={email}
-                {...register("email")}
-              />
+            <div className="form-container">
+              <div className="heading">
+                <h1>Log In</h1>
+              </div>
+              <div>
+                <label htmlFor="email">Email address</label>
+                <input
+                  type="email"
+                  id="email"
+                  placeholder="Enter email"
+                  // value={email}
+                  {...register("email")}
+                />
 
-              <p className="error">{errors.email?.message || "\u00A0"}</p>
-            </div>
-            <div>
-              <label htmlFor="password">Password</label>
-              <input
-                type="password"
-                id="password"
-                placeholder="Enter password"
-                {...register("password")}
-              />
-              <p className="error">{errors.password?.message || "\u00A0"}</p>
-            </div>
-            <div>
-              <Link className="link" to="/forgot-password">
-                <p className="forgot-password">Forgot password?</p>
-              </Link>
-            </div>
-            <div>
-              <Button
-                className="login-button"
-                text="Login"
-                disabled={loading}
-              />
-            </div>
-
-            <div>
-              <p className="redirect">
-                New Customer?{" "}
-                <Link className="link" to={`/register`}>
-                  Create your account
+                <p className="error">{errors.email?.message || "\u00A0"}</p>
+              </div>
+              <div>
+                <label htmlFor="password">Password</label>
+                <input
+                  type="password"
+                  id="password"
+                  placeholder="Enter password"
+                  {...register("password")}
+                />
+                <p className="error">{errors.password?.message || "\u00A0"}</p>
+              </div>
+              <div>
+                <Link className="link" to="/forgot-password">
+                  <p className="forgot-password">Forgot password?</p>
                 </Link>
-              </p>
+              </div>
+              <div>
+                <Button
+                  className="login-button"
+                  text="Login"
+                  disabled={loading}
+                />
+              </div>
+
+              <div>
+                <p className="redirect">
+                  New Customer?{" "}
+                  <Link className="link" to={`/register`}>
+                    Create your account
+                  </Link>
+                </p>
+              </div>
             </div>
           </div>
         </div>

@@ -13,33 +13,54 @@ const ProductImageSlider = ({ data }) => {
   //   `${PUBLIC_URL}/images/login1.jpg`,
   // ];
 
-  useEffect(() => {
-    window
-      .matchMedia("(min-width: 768px)")
-      .addEventListener("change", (e) => setMatches(e.matches));
+  // useEffect(() => {
+  //   window
+  //     .matchMedia("(min-width: 768px)")
+  //     .addEventListener("change", (e) => setMatches(e.matches));
 
-    return () => {
-      setMatches({});
-      window.removeEventListener("change", null);
-    };
-  }, []);
+  //   return () => {
+  //     setMatches({});
+  //     window.removeEventListener("change", null);
+  //   };
+  // }, []);
+
+  // const Preview = ({ data, setIndex, currentIndex }) => {
+  //   return (
+  //     <div className="preview">
+  //       {data.map((elem, index) => (
+  //         <img
+  //           key={index}
+  //           src={`${BASE_URL}/${elem}`}
+  //           alt=""
+  //           onClick={() => setIndex(index)}
+  //           className={currentIndex === index ? "image active" : "image"}
+  //           style={{
+  //             height: matches
+  //               ? `calc((60vh - (${data.length - 1}* 1.5rem))/${data.length})`
+  //               : `calc((30vh - (${data.length - 1}* 1.5rem))/${data.length})`,
+  //           }}
+  //         />
+  //       ))}
+  //     </div>
+  //   );
+  // };
 
   const Preview = ({ data, setIndex, currentIndex }) => {
     return (
-      <div className="preview">
+      <div className="preview-container">
         {data.map((elem, index) => (
-          <img
-            key={index}
-            src={`${BASE_URL}/${elem}`}
-            alt=""
-            onClick={() => setIndex(index)}
-            className={currentIndex === index ? "image active" : "image"}
-            style={{
-              height: matches
-                ? `calc((60vh - (${data.length - 1}* 1.5rem))/${data.length})`
-                : `calc((30vh - (${data.length - 1}* 1.5rem))/${data.length})`,
-            }}
-          />
+          <div className={`preview-image-${index}`} key={index}>
+            <img
+              src={`${BASE_URL}/${elem}`}
+              alt=""
+              onClick={() => setIndex(index)}
+              className={
+                currentIndex === index
+                  ? `image-${index} active`
+                  : `image-${index}`
+              }
+            />
+          </div>
         ))}
       </div>
     );
@@ -66,13 +87,18 @@ const ProductImageSlider = ({ data }) => {
     <div className="product-image-slider">
       {data && (
         <>
-          <div className="preview-image-container">
+          <Preview
+            data={data}
+            setIndex={setSlideIndex}
+            currentIndex={slideIndex}
+          />
+          {/* <div className="preview-image-container">
             <Preview
               data={data}
               setIndex={setSlideIndex}
               currentIndex={slideIndex}
             />
-          </div>
+          </div> */}
           <div className="main-image-container">
             <img src={`${BASE_URL}/${data[slideIndex]}`} />
             <div className="btn-container">

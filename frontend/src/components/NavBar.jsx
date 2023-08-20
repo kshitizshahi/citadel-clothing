@@ -81,25 +81,154 @@ const NavBar = () => {
   }, [keywords]);
 
   return (
-    <div className="navigation-bar">
-      <div className="logo">
-        <Link to="/">
-          <h2 className="heading">CITADEL</h2>
-        </Link>
-      </div>
-      <div className="navigation-items">
-        {matches && (
-          <div
-            className="navigation-side-bar"
-            style={{ width: openNav ? "20rem" : "0" }}
-          >
-            {openNav && (
-              <div className={"close"}>
-                <Icon icon="ci:close-big" id="cancel-btn" onClick={showNav} />
-              </div>
-            )}
+    <div className="hero">
+      <div className="navigation-bar">
+        <div className="logo">
+          <Link to="/">
+            <h2 className="heading">CITADEL</h2>
+          </Link>
+        </div>
+        <div className="navigation-items">
+          {matches && (
+            <div
+              className="navigation-side-bar"
+              style={{ width: openNav ? "20rem" : "0" }}
+            >
+              {openNav && (
+                <div className={"close"}>
+                  <Icon icon="ci:close-big" id="cancel-btn" onClick={showNav} />
+                </div>
+              )}
 
-            <ul>
+              <ul>
+                <li>
+                  <NavLink
+                    to="/"
+                    className={({ isActive }) => (isActive ? "active" : "")}
+                  >
+                    Home
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/shop"
+                    className={({ isActive }) => (isActive ? "active" : "")}
+                  >
+                    Shop
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/women"
+                    className={({ isActive }) => (isActive ? "active" : "")}
+                  >
+                    Women
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/men"
+                    className={({ isActive }) => (isActive ? "active" : "")}
+                  >
+                    Men
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/kid"
+                    className={({ isActive }) => (isActive ? "active" : "")}
+                  >
+                    Kid
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/contact-us"
+                    className={({ isActive }) => (isActive ? "active" : "")}
+                  >
+                    Contact Us
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/cart"
+                    className={({ isActive }) => (isActive ? "active" : "")}
+                  >
+                    Cart
+                  </NavLink>
+                </li>
+                {isLoggedIn ? (
+                  <>
+                    <li>
+                      <NavLink
+                        to="/profile"
+                        className={({ isActive }) => (isActive ? "active" : "")}
+                      >
+                        Profile
+                      </NavLink>
+                    </li>
+
+                    {isAdmin && (
+                      <li>
+                        <NavLink
+                          to="/admin/dashboard"
+                          className={({ isActive }) =>
+                            isActive ? "active" : ""
+                          }
+                        >
+                          Dashboard
+                        </NavLink>
+                      </li>
+                    )}
+                    {isSeller && (
+                      <li>
+                        <NavLink
+                          to="/seller/dashboard"
+                          className={({ isActive }) =>
+                            isActive ? "active" : ""
+                          }
+                        >
+                          Dashboard
+                        </NavLink>
+                      </li>
+                    )}
+                    <li>
+                      <Link to="#" onClick={logoutHandler}>
+                        Logout
+                      </Link>
+                    </li>
+                  </>
+                ) : (
+                  <>
+                    <li>
+                      <NavLink
+                        to="/login"
+                        className={({ isActive }) => (isActive ? "active" : "")}
+                      >
+                        Login
+                      </NavLink>
+                    </li>
+                    <li>
+                      <NavLink
+                        to="/register"
+                        className={({ isActive }) => (isActive ? "active" : "")}
+                      >
+                        Register
+                      </NavLink>
+                    </li>
+                  </>
+                )}
+              </ul>
+            </div>
+          )}
+          {matches ? (
+            <Icon
+              icon="charm:menu-hamburger"
+              onClick={showNav}
+              className="toggle-navbar"
+            />
+          ) : (
+            <ul className="menus">
               <li>
                 <NavLink
                   to="/"
@@ -148,206 +277,89 @@ const NavBar = () => {
                   Contact Us
                 </NavLink>
               </li>
-              <li>
-                <NavLink
-                  to="/cart"
-                  className={({ isActive }) => (isActive ? "active" : "")}
-                >
-                  Cart
-                </NavLink>
-              </li>
-              {isLoggedIn ? (
-                <>
-                  <li>
-                    <NavLink
-                      to="/profile"
-                      className={({ isActive }) => (isActive ? "active" : "")}
-                    >
-                      Profile
-                    </NavLink>
-                  </li>
-
-                  {isAdmin && (
-                    <li>
-                      <NavLink
-                        to="/admin/dashboard"
-                        className={({ isActive }) => (isActive ? "active" : "")}
-                      >
-                        Dashboard
-                      </NavLink>
-                    </li>
-                  )}
-                  {isSeller && (
-                    <li>
-                      <NavLink
-                        to="/seller/dashboard"
-                        className={({ isActive }) => (isActive ? "active" : "")}
-                      >
-                        Dashboard
-                      </NavLink>
-                    </li>
-                  )}
-                  <li>
-                    <Link to="#" onClick={logoutHandler}>
-                      Logout
-                    </Link>
-                  </li>
-                </>
-              ) : (
-                <>
-                  <li>
-                    <NavLink
-                      to="/login"
-                      className={({ isActive }) => (isActive ? "active" : "")}
-                    >
-                      Login
-                    </NavLink>
-                  </li>
-                  <li>
-                    <NavLink
-                      to="/register"
-                      className={({ isActive }) => (isActive ? "active" : "")}
-                    >
-                      Register
-                    </NavLink>
-                  </li>
-                </>
-              )}
-            </ul>
-          </div>
-        )}
-        {matches ? (
-          <Icon
-            icon="charm:menu-hamburger"
-            onClick={showNav}
-            className="toggle-navbar"
-          />
-        ) : (
-          <ul className="menus">
-            <li>
-              <NavLink
-                to="/"
-                className={({ isActive }) => (isActive ? "active" : "")}
-              >
-                Home
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/shop"
-                className={({ isActive }) => (isActive ? "active" : "")}
-              >
-                Shop
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/women"
-                className={({ isActive }) => (isActive ? "active" : "")}
-              >
-                Women
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/men"
-                className={({ isActive }) => (isActive ? "active" : "")}
-              >
-                Men
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/kid"
-                className={({ isActive }) => (isActive ? "active" : "")}
-              >
-                Kid
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/contact-us"
-                className={({ isActive }) => (isActive ? "active" : "")}
-              >
-                Contact Us
-              </NavLink>
-            </li>
-            <div className="nav-search search-dropdown">
-              <SearchBar placeholder="Search here" onChange={keywordsChange} />
-              {searchData?.length > 0 && (
-                <div className="dropdown-content-wrap">
-                  <ul className="dropdown-content">
-                    <div>
-                      {searchData.map((elem) => (
-                        <div>
-                          <a href={`/product/${elem._id}`}>
-                            <li>{elem.name}</li>
-                          </a>
-                        </div>
-                      ))}
-                    </div>
-                  </ul>
-                </div>
-              )}
-            </div>
-          </ul>
-        )}
-      </div>
-
-      {!matches && (
-        <div className="nav-icons">
-          <div className="profile-dropdown">
-            {userInfo ? (
-              <div className="profile-image-container">
-                <img
-                  className="profile-image"
-                  src={`${BASE_URL}/${userInfo.profileImage}`}
-                  alt=""
+              <div className="nav-search search-dropdown">
+                <SearchBar
+                  placeholder="Search here"
+                  onChange={keywordsChange}
                 />
-              </div>
-            ) : (
-              <Icon icon="ant-design:user-outlined" className="profile-icon" />
-            )}
-
-            <div className="dropdown-content-wrap">
-              <ul className="dropdown-content">
-                {isLoggedIn ? (
-                  <div>
-                    <Link to="/profile">
-                      <li>Profile</li>
-                    </Link>
-                    {isAdmin && (
-                      <Link to="/admin/dashboard">
-                        <li>Dashboard</li>
-                      </Link>
-                    )}
-                    {isSeller && (
-                      <Link to="/seller/dashboard">
-                        <li>Dashboard</li>
-                      </Link>
-                    )}
-                    <li onClick={logoutHandler}>Logout</li>
-                  </div>
-                ) : (
-                  <div>
-                    <Link to="/login">
-                      <li>Login</li>
-                    </Link>
-                    <Link to="/register">
-                      <li>Register</li>
-                    </Link>
+                {searchData?.length > 0 && (
+                  <div className="dropdown-content-wrap">
+                    <ul className="dropdown-content">
+                      <div>
+                        {searchData.map((elem) => (
+                          <div>
+                            <a href={`/product/${elem._id}`}>
+                              <li>{elem.name}</li>
+                            </a>
+                          </div>
+                        ))}
+                      </div>
+                    </ul>
                   </div>
                 )}
-              </ul>
+              </div>
+            </ul>
+          )}
+        </div>
+
+        {!matches && (
+          <div className="nav-icons">
+            <div className="profile-dropdown">
+              {userInfo ? (
+                <div className="profile-image-container">
+                  <img
+                    className="profile-image"
+                    src={`${BASE_URL}/${userInfo.profileImage}`}
+                    alt=""
+                  />
+                </div>
+              ) : (
+                <Icon
+                  icon="ant-design:user-outlined"
+                  className="profile-icon"
+                />
+              )}
+
+              <div className="dropdown-content-wrap">
+                <ul className="dropdown-content">
+                  {isLoggedIn ? (
+                    <div>
+                      <Link to="/profile">
+                        <li>Profile</li>
+                      </Link>
+                      {isAdmin && (
+                        <Link to="/admin/dashboard">
+                          <li>Dashboard</li>
+                        </Link>
+                      )}
+                      {isSeller && (
+                        <Link to="/seller/dashboard">
+                          <li>Dashboard</li>
+                        </Link>
+                      )}
+                      <li onClick={logoutHandler}>Logout</li>
+                    </div>
+                  ) : (
+                    <div>
+                      <Link to="/login">
+                        <li>Login</li>
+                      </Link>
+                      <Link to="/register">
+                        <li>Register</li>
+                      </Link>
+                    </div>
+                  )}
+                </ul>
+              </div>
+            </div>
+            <div className="cart">
+              <Link to="/cart">
+                <Icon icon="feather:shopping-cart" className="cart-icon" />
+              </Link>
             </div>
           </div>
-          <div className="cart">
-            <Link to="/cart">
-              <Icon icon="feather:shopping-cart" className="cart-icon" />
-            </Link>
-          </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };

@@ -114,7 +114,7 @@ const authSlice = createSlice({
       state.isLoggedIn = true;
       state.userInfo = action.payload.data;
       state.isAdmin = action.payload.data?.isAdmin;
-      state.isSeller = action.payload.data.isSeller;
+      state.isSeller = action.payload.data?.isSeller;
       state.error = null;
       state.fetchSuccess = true;
       localStorage.setItem("userLogin", JSON.stringify(state.isLoggedIn));
@@ -126,6 +126,8 @@ const authSlice = createSlice({
       // state.error = action.payload;
       state.fetchSuccess = false;
       state.isLoggedIn = false;
+      state.isAdmin = false;
+      state.isSeller = false;
       localStorage.setItem("userLogin", JSON.stringify(state.isLoggedIn));
     },
   },

@@ -15,7 +15,7 @@ html {
 }
 
 body {
-  // min-height: 100vh;
+  // min-height: 100svh;
   font-size: 1.45rem;
   font-family: Poppins, Open Sans, "Segoe UI", Helvetica, Arial, sans-serif;
 
@@ -72,34 +72,31 @@ li {
   height: 100%;
 }
 
+.hero {
+  background: var(--color-bg);
+}
 .navigation-bar {
   background: var(--color-bg);
-  @include flexBox(row, center);
+  @include flexBox(row, space-between);
+  align-items: center;
   color: var(--color-text);
-  /* min-width: 100vw; */
-  /* max-height: 30vh; */
-  /* justify-content: space-evenly; */
-  gap: 3%;
+  max-width: 84%;
+  margin-inline: auto;
 
   .logo {
-    flex: 8%;
-    max-width: 8%;
     margin-block: auto;
 
     .heading {
-      margin-block: 1.5rem;
-      text-align: center;
+      padding-block: 1.5rem;
     }
   }
 }
 
 .navigation-items {
-  flex: 62%;
-  max-width: 62%;
-  margin-block: auto;
+  flex-basis: 70%;
 
   .menus {
-    @include flexBox(row, space-evenly);
+    @include flexBox(row, space-between);
 
     a {
       &:hover {
@@ -137,7 +134,7 @@ li {
 .nav-search {
   /* padding: 0 2rem; */
   margin-block: auto;
-  flex-grow: 0.1;
+  flex-grow: 0.3;
 
   .search-bar {
     position: relative;
@@ -177,9 +174,8 @@ li {
 }
 
 .nav-icons {
-  @include flexBox(row, space-evenly);
-  flex: 10%;
-  max-width: 10%;
+  @include flexBox(row, null);
+  gap: 3rem;
   margin-block: auto;
 
   .profile-dropdown {
@@ -365,6 +361,7 @@ li {
       position: fixed;
       right: 0;
       height: 100vh;
+      height: 100svh;
       top: 0;
       width: 0;
       background-color: var(--color-swal-bg);

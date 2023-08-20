@@ -135,7 +135,7 @@ const Rating = ({
         <>
           <div
             style={{
-              marginBlock: "auto",
+              marginTop: "3px",
             }}
           >
             <span>

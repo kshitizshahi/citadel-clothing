@@ -33,9 +33,9 @@ const Shop = () => {
       }
     })();
 
-    // return () => {
-    //   setProducts({});
-    // };
+    return () => {
+      setProducts({});
+    };
   }, [dispatch, activePage]);
 
   return (
@@ -45,16 +45,33 @@ const Shop = () => {
       ) : (
         <div className="container">
           <div className="products">
-            <p className="heading">Products</p>
-            {products && <Cards data={products} />}
-            <div className="pagination" style={{ paddingBlock: "3rem" }}>
-              <Pagination
-                page={activePage}
-                onChange={setActivePage}
-                total={totalPage}
-                color="dark"
-              />
-            </div>
+            {products?.length > 0 ? (
+              <div>
+                <p className="heading">Products</p>
+                {products && <Cards data={products} />}
+
+                <div className="pagination" style={{ paddingBlock: "3rem" }}>
+                  <Pagination
+                    page={activePage}
+                    onChange={setActivePage}
+                    total={totalPage}
+                    color="dark"
+                  />
+                </div>
+              </div>
+            ) : (
+              <p
+                style={{
+                  height: window.innerHeight,
+                  fontSize: "3rem",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                No Products
+              </p>
+            )}
           </div>
         </div>
       )}

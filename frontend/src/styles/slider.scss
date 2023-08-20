@@ -3,8 +3,14 @@
 .image-slider {
   // height: max;
   height: 91vh;
+  height: 91svh;
   // height: max-content;
   position: relative;
+
+  @media screen and (max-width: 778px) {
+    height: 60vh;
+    height: 60svh;
+  }
 
   .slide {
     width: 100%;
@@ -45,6 +51,92 @@
         margin-block: 2rem 0;
         cursor: pointer;
       }
+      @media screen and (max-width: 1400px) {
+        top: 45%;
+        right: 7%;
+        transform: translate(-1%, -35%);
+        h1 {
+          font-size: 4rem;
+        }
+
+        h2 {
+          font-size: 2.3rem;
+        }
+
+        .shop-btn {
+          font-size: 1.4rem;
+        }
+      }
+
+      @media screen and (max-width: 1052px) {
+        top: 50%;
+        right: 3%;
+        h1 {
+          font-size: 3.5rem;
+        }
+
+        h2 {
+          font-size: 2.2rem;
+        }
+
+        .shop-btn {
+          font-size: 1.3rem;
+        }
+      }
+
+      @media screen and (max-width: 814px) {
+        top: 50%;
+        right: 1%;
+        h1 {
+          font-size: 3rem;
+        }
+
+        h2 {
+          font-size: 1.8rem;
+        }
+
+        .shop-btn {
+          font-size: 1rem;
+          padding: 1rem 1rem;
+          margin-block: 1.3rem 0;
+        }
+      }
+
+      @media screen and (max-width: 667px) {
+        top: 45%;
+        right: 2%;
+        h1 {
+          font-size: 2.2rem;
+        }
+
+        h2 {
+          font-size: 1.6rem;
+        }
+
+        .shop-btn {
+          font-size: 1rem;
+          padding: 1rem 1rem;
+          margin-block: 1.3rem 0;
+        }
+      }
+
+      @media screen and (max-width: 585px) {
+        top: 40%;
+        right: 3px;
+        h1 {
+          font-size: 1.8rem;
+        }
+
+        h2 {
+          font-size: 1.3rem;
+        }
+
+        .shop-btn {
+          font-size: 1rem;
+          padding: 1rem 1rem;
+          margin-block: 1.3rem 0;
+        }
+      }
     }
   }
   .active {
@@ -63,20 +155,31 @@
     align-items: center;
     cursor: pointer;
 
+    @media screen and (max-width: 667px) {
+      width: 1.8rem;
+      height: 1.8rem;
+    }
+
     .slider-icon {
-      width: 1.2rem;
-      height: 1.2rem;
+      width: 1rem;
+      height: 1rem;
     }
   }
 
   .prev {
     top: 50%;
     left: 1rem;
+    @media screen and (max-width: 778px) {
+      left: 0.5rem;
+    }
     transform: translateY(-50%);
   }
   .next {
     top: 50%;
     right: 1rem;
+    @media screen and (max-width: 778px) {
+      right: 0.5rem;
+    }
     transform: translateY(-50%);
   }
 }

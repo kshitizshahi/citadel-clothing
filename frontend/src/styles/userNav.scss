@@ -3,7 +3,6 @@
 .user-nav-container {
   // background-color: var(--color-bg);
   background-color: var(--color-user-nav-bg);
-
   // background-color: #242526;
   color: var(--color-text);
   border-radius: 0.4rem;
@@ -14,18 +13,25 @@
     padding-block: 2.4rem;
 
     li {
+      font-size: 1.4rem;
+
       a {
         @include flexBox(row, null);
         gap: 5%;
-        padding: 1.2rem 2rem;
+        padding-block: 0.9rem;
+        padding-left: 1.3rem;
         margin: 0.01rem;
 
         &:hover {
-          background-color: var(--color-user-nav-hover);
+          @media screen and (min-width: 800px) {
+            background-color: var(--color-user-nav-hover);
+          }
         }
       }
       .current-tab {
-        background-color: var(--color-user-nav-current);
+        @media screen and (min-width: 800px) {
+          background-color: var(--color-user-nav-current);
+        }
         // background-color: var(--color-profile-icon-hover);
         font-weight: 600;
         border-radius: 0.3rem;
@@ -47,6 +53,75 @@
       .cart-icon {
         height: 2.1rem;
         width: 2.5rem;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .user-nav-container {
+    ul {
+      li {
+        font-size: 1.3rem;
+        padding-block: 0.6rem;
+
+        a {
+          padding-left: 0.5rem;
+          padding-block: 0.6rem;
+        }
+
+        .profile-icon,
+        .order-icon,
+        .review-icon,
+        .logout-icon {
+          height: 2.1rem;
+          width: 2.4rem;
+        }
+
+        .cart-icon {
+          height: 2rem;
+          width: 2.4rem;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .user-nav-container {
+    ul {
+      li {
+        font-size: 1.3rem;
+        padding-block: 0.3rem;
+
+        a {
+          gap: 1rem;
+          padding-left: 0.5rem;
+          padding-block: 0.6rem;
+          &:hover {
+            color: var(--color-nav-bar-hover);
+          }
+        }
+        .current-tab {
+          color: var(--color-nav-bar-hover);
+
+          font-weight: 600;
+          border-radius: 0.3rem;
+          // color: var(--current-tab-color);
+        }
+
+        .profile-icon,
+        .order-icon,
+        .review-icon,
+        .logout-icon {
+          height: 2rem;
+          width: 2.2rem;
+        }
+
+        .cart-icon {
+          height: 1.9rem;
+          width: 2.2rem;
+        }
       }
     }
   }

@@ -95,119 +95,125 @@ const Register = () => {
   }, []);
 
   return (
-    <div className="register-container">
-      <div className="image-container">
-        <img
-          className="image"
-          src={`${PUBLIC_URL}/images/daniel-roe-lpjb_UMOyx8-unsplash.jpg`}
-          alt="register-image"
-        />
-      </div>
-      <div className="register-form-container">
-        <form className="form" onSubmit={handleSubmit(submitHandler)}>
-          <div className="heading">
-            <h1>Create Account</h1>
-          </div>
-          <div className="register-form-spacing">
-            <div className="flex-container">
-              <div className="first-name-container">
-                <label htmlFor="firstName">First Name</label>
-                <input
-                  type="text"
-                  id="firstName"
-                  placeholder="First Name"
-                  {...register("firstName")}
-                ></input>
-                <p className="error">{errors.firstName?.message || "\u00A0"}</p>
-              </div>
-              <div className="last-name-container">
-                <label htmlFor="lastName">Last Name</label>
-                <input
-                  type="text"
-                  id="lastName"
-                  placeholder="Last Name"
-                  {...register("lastName")}
-                ></input>
-                <p className="error">{errors.lastName?.message || "\u00A0"}</p>
-              </div>
+    <div className="register-wrapper">
+      <div className="container">
+        <div className="image-container">
+          <img
+            className="image"
+            src={`${PUBLIC_URL}/images/daniel-roe-lpjb_UMOyx8-unsplash.jpg`}
+            alt="register-image"
+          />
+        </div>
+        <div className="register-form-container">
+          <form className="form" onSubmit={handleSubmit(submitHandler)}>
+            <div className="heading">
+              <h1>Create Account</h1>
             </div>
-            <div className="form-fields">
-              <div className="input-fields">
-                <div>
-                  <label htmlFor="emailAddress">Email Addresss</label>
-                  <input
-                    type="email"
-                    id="emailAddress"
-                    placeholder="Email address"
-                    {...register("email")}
-                  ></input>
-                  <p className="error">{errors.email?.message || "\u00A0"}</p>
-                </div>
-                <div>
-                  <label htmlFor="phoneNumber">Phone Number</label>
+            <div className="register-form-spacing">
+              <div className="flex-container">
+                <div className="first-name-container">
+                  <label htmlFor="firstName">First Name</label>
                   <input
                     type="text"
-                    id="phoneNumber"
-                    placeholder="Phone Number"
-                    // pattern="\d{10}$"
-                    {...register("phoneNumber")}
+                    id="firstName"
+                    placeholder="First Name"
+                    {...register("firstName")}
                   ></input>
                   <p className="error">
-                    {errors.phoneNumber?.message || "\u00A0"}
+                    {errors.firstName?.message || "\u00A0"}
                   </p>
                 </div>
-                <div>
-                  <label htmlFor="password">Password</label>
+                <div className="last-name-container">
+                  <label htmlFor="lastName">Last Name</label>
                   <input
-                    type="password"
-                    id="password"
-                    placeholder="Enter password"
-                    {...register("password")}
+                    type="text"
+                    id="lastName"
+                    placeholder="Last Name"
+                    {...register("lastName")}
                   ></input>
                   <p className="error">
-                    {errors.password?.message || "\u00A0"}
-                  </p>
-                </div>
-                <div>
-                  <label htmlFor="confirmPassword">Confirm Password</label>
-                  <input
-                    type="password"
-                    id="confirmPassword"
-                    placeholder="Re-enter password"
-                    {...register("confirmPassword")}
-                  ></input>
-                  <p className="error">
-                    {errors.confirmPassword?.message || "\u00A0"}
+                    {errors.lastName?.message || "\u00A0"}
                   </p>
                 </div>
               </div>
+              <div className="form-fields">
+                <div className="input-fields">
+                  <div>
+                    <label htmlFor="emailAddress">Email Addresss</label>
+                    <input
+                      type="email"
+                      id="emailAddress"
+                      placeholder="Email address"
+                      {...register("email")}
+                    ></input>
+                    <p className="error">{errors.email?.message || "\u00A0"}</p>
+                  </div>
+                  <div>
+                    <label htmlFor="phoneNumber">Phone Number</label>
+                    <input
+                      type="text"
+                      id="phoneNumber"
+                      placeholder="Phone Number"
+                      // pattern="\d{10}$"
+                      {...register("phoneNumber")}
+                    ></input>
+                    <p className="error">
+                      {errors.phoneNumber?.message || "\u00A0"}
+                    </p>
+                  </div>
+                  <div>
+                    <label htmlFor="password">Password</label>
+                    <input
+                      type="password"
+                      id="password"
+                      placeholder="Enter password"
+                      {...register("password")}
+                    ></input>
+                    <p className="error">
+                      {errors.password?.message || "\u00A0"}
+                    </p>
+                  </div>
+                  <div>
+                    <label htmlFor="confirmPassword">Confirm Password</label>
+                    <input
+                      type="password"
+                      id="confirmPassword"
+                      placeholder="Re-enter password"
+                      {...register("confirmPassword")}
+                    ></input>
+                    <p className="error">
+                      {errors.confirmPassword?.message || "\u00A0"}
+                    </p>
+                  </div>
+                </div>
 
-              <div className="switch">
-                <Switch
-                  checked={isSeller}
-                  onChange={(e) => setIsSeller(e.currentTarget.checked)}
-                  label="Seller"
-                  size="sm"
+                <div className="switch">
+                  <Switch
+                    checked={isSeller}
+                    onChange={(e) => setIsSeller(e.currentTarget.checked)}
+                    label="Seller"
+                    size="sm"
+                  />
+                </div>
+              </div>
+              <div>
+                <Button
+                  className="register-button"
+                  text="Create Account"
+                  disabled={loading}
                 />
               </div>
+              <div>
+                <p className="redirect">
+                  Already have an account?{" "}
+                  <Link className="link" to={`/login`}>
+                    Log In
+                  </Link>
+                </p>
+              </div>
             </div>
-            <div>
-              <Button
-                className="register-button"
-                text="Create Account"
-                disabled={loading}
-              />
-            </div>
-            <div>
-              <p className="redirect">
-                Already have an account?{" "}
-                <Link className="link" to={`/login`}>
-                  Log In
-                </Link>
-              </p>
-            </div>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
     </div>
   );

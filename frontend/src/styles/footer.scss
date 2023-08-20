@@ -1,33 +1,31 @@
 @use "../styles/mixins" as *;
 
 .footer-container {
-  @include flexBox(column, null);
   color: var(--color-text);
-  /* background-color: #171613; */
   background-color: var(--color-bg);
-  /* background-color: rgb(222, 235, 235); */
-  /* background-color: rgb(0, 110, 255); */
 
+  .container {
+    max-width: 84%;
+    margin-inline: auto;
+  }
   .first-container {
-    @include flexBox(row, space-evenly);
-    /* gap: 9vw; */
-    padding-bottom: 1.5rem;
+    @include flexBox(row, space-between);
+    padding-block: 1.5rem;
 
     .about {
-      flex: 20%;
-      max-width: 20%;
+      flex-basis: 25%;
 
       .info {
         .logo-heading {
-          font-size: 2.3rem;
+          font-size: clamp(1.8rem, 1.5vw, 2.3rem);
           /* font-size: calc(0.7rem + 1vmax); */
           padding: 0;
-          margin-block: 1.5rem 2.1rem;
+          margin-bottom: 2.1rem;
         }
 
         .company-info {
           text-align: justify;
-          font-size: clamp(1rem, 1.5vw, 1.3rem);
+          font-size: clamp(0.8rem, 1.2vw, 1.45rem);
           /* font-size: 1.4rem; */
           line-height: 1.6;
         }
@@ -39,7 +37,7 @@
 .site-theme {
   .theme-heading {
     margin-block: 2rem 1.7rem;
-    font-size: 1.8rem;
+    font-size: clamp(1.4rem, 1.5vw, 1.8rem);
   }
 
   .light-theme-btn {
@@ -65,10 +63,7 @@
 
 .footer-others {
   @include flexBox(row, space-between);
-  flex: 55%;
-  max-width: 55%;
-  /* gap: 9vw; */
-  margin-top: 2rem;
+  flex-basis: 55%;
   /* flex-wrap: wrap; */
 
   .quick-links p,
@@ -81,7 +76,7 @@
   .account ul,
   .products ul {
     li {
-      font-size: 1.45rem;
+      font-size: clamp(0.8rem, 1.4vw, 1.45rem);
       margin-bottom: 2.5rem;
     }
   }
@@ -91,34 +86,29 @@
 .account-heading,
 .product-heading,
 .follow-heading {
-  font-size: 1.6rem;
+  font-size: clamp(1.2rem, 1.5vw, 1.6rem);
 }
 
 .footer-social-media {
-  .facebook-icon {
-    height: 2.1rem;
-    width: 2.1rem;
-    color: var(--color-text);
-    margin: 2.5rem 1rem 0 0;
-  }
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
 
+  .facebook-icon,
   .instagram-icon,
   .twitter-icon,
   .youtube-icon {
     height: 2.1rem;
     width: 2.1rem;
     color: var(--color-text);
-    margin-inline: 1rem;
+    margin-top: 2.5rem;
   }
 }
 
 .copyright-container {
-  @include flexBox(row, center);
-
   .copyright {
     .line {
-      /* width: 132rem; */
-      min-width: 83vw;
+      width: 100%;
       border: none;
       height: 0.1rem;
       background-color: rgb(114, 111, 111);
@@ -127,33 +117,20 @@
 
     p {
       text-align: center;
-      margin-block: 1rem;
+      padding-block: 1rem;
+      font-size: clamp(1.2rem, 1.2vw, 1.45rem);
     }
   }
 }
 
-@media screen and (max-width: 768px) {
-  .footer-container {
-    .first-container {
-      .about {
-        .info {
-          .logo-heading {
-            font-size: 1.6rem;
-          }
-
-          .company-info {
-            /* font-size: clamp(1rem, 2vw, 1.4rem); */
-            font-size: 0.9rem;
-          }
-        }
-      }
-    }
+@media screen and (max-width: 1200px) {
+  .footer-others {
+    flex-basis: 68%;
   }
 
   .site-theme {
     .theme-heading {
-      margin-block: 2rem 1.5rem;
-      font-size: 1.3rem;
+      margin-block: 1.8rem 1rem;
     }
 
     .light-theme-btn {
@@ -168,64 +145,60 @@
     }
   }
 
-  .footer-others {
-    @include flexBox(row, space-around);
-    flex: 75%;
-    max-width: 75%;
-    margin-top: 1.9rem;
-    /* gap: 5rem; */
-    /* flex-wrap: wrap; */
-
-    .quick-links ul,
-    .account ul,
-    .products ul {
-      li {
-        font-size: 0.9rem;
-        margin-bottom: 2.5rem;
-      }
-    }
-  }
-
-  .links-heading,
-  .account-heading,
-  .product-heading,
-  .follow-heading {
-    font-size: 1rem;
-    /* margin-bottom: 1.2rem; */
-  }
-
-  .quick-links a,
-  .account a,
-  .products a {
-    font-size: 0.9rem;
-  }
-
   .footer-social-media {
-    .facebook-icon {
-      height: 1.2rem;
-      width: 1.2rem;
-      margin: 2.5rem 0.2rem 0 0;
-    }
-
+    .facebook-icon,
     .instagram-icon,
     .twitter-icon,
     .youtube-icon {
-      height: 1.2rem;
-      width: 1.2rem;
-      margin-inline: 0.2rem;
+      height: 1.6rem;
+      width: 1.6rem;
     }
   }
+}
 
-  .copyright-container {
-    .copyright {
-      .line {
-        /* width: 132rem; */
-        min-width: 95vw;
+@media screen and (max-width: 768px) {
+  .none {
+    display: none;
+  }
+
+  .footer-container {
+    .first-container {
+      .about {
+        flex-basis: 40%;
+      }
+      .site-theme {
+        .theme-heading {
+          margin-block: 0 1.5rem;
+          font-size: 1.6rem;
+        }
       }
 
-      p {
-        font-size: 1.1rem;
+      .light-theme-btn {
+        height: 2.9rem;
+        width: 2.9rem;
       }
+
+      .dark-theme-btn {
+        height: 2.9rem;
+        width: 2.9rem;
+        margin-left: 1rem;
+      }
+    }
+  }
+  .footer-others {
+    flex-basis: 40%;
+
+    .follow-heading {
+      font-size: 1.6rem;
+    }
+    .facebook-icon,
+    .instagram-icon,
+    .twitter-icon,
+    .youtube-icon {
+      height: 2rem;
+      width: 2rem;
+      color: var(--color-text);
+      margin-top: 1.8rem;
     }
   }
 }

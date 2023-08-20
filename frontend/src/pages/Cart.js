@@ -73,14 +73,18 @@ const Cart = () => {
           {cart.map((item) => (
             <div key={item.productId}>
               <div className="items">
-                <div className="product-image">
-                  <img src={`${BASE_URL}/${item.image}`} alt="" />
-                </div>
-                <div className="product-name">
-                  <p className="name">{item.name}</p>
-                  <p className="brand">Brand: {item.brand}</p>
-                  <p className="brand">Stock: {item.countInStock}</p>
-                </div>
+                <Link to={`/product/${item.productId}`} className="link-1">
+                  <div className="product-image">
+                    <img src={`${BASE_URL}/${item.image}`} alt="" />
+                  </div>
+                </Link>
+                <Link to={`/product/${item.productId}`} className="link-2">
+                  <div className="product-name">
+                    <p className="name">{item.name}</p>
+                    <p className="brand">Brand: {item.brand}</p>
+                    <p className="brand">Stock: {item.countInStock}</p>
+                  </div>
+                </Link>
                 <div className="product-price">
                   <div>
                     <p className="price">Rs. {item.price}</p>

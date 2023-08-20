@@ -1,41 +1,44 @@
 .product-container {
   background-color: var(--color-admin-dashboard-bg);
+  background-color: var(--color-user-nav-bg);
+  // background-color: #ffffff;
+
   font-family: "Open Sans";
   // font-weight: 550;
   .container {
-    width: 84%;
+    max-width: 84%;
     margin: auto;
     padding-block: 2rem;
+
     // background-color: var(--color-admin-dashboard-foreground);
     li {
       list-style: disc;
     }
 
     .wrapper {
-      // background-color: var(--color-admin-dashboard-foreground);
-      display: flex;
-      // padding: 2rem 1.5rem;
-      // border-radius: 0.4rem;
+      display: grid;
+      gap: 2.5rem;
+      @media (min-width: 701px) {
+        grid-template-columns: repeat(2, 1fr);
+      }
 
-      .product-image-container {
-        flex: 45%;
-        max-width: 45%;
-        height: 60vh;
+      @media (max-width: 700px) {
+        grid-template-rows: 2, 50%;
+        gap: 2rem;
       }
 
       .product-details-container {
-        flex: 55%;
-        max-width: 55%;
-
-        .details-container {
-          width: 90%;
-          margin: auto;
-        }
-
         color: var(--color-text);
 
         .heading {
-          font-size: 2.5rem;
+          font-size: 2.3rem;
+          @media (max-width: 700px) {
+            font-size: 2.4rem;
+            margin-bottom: 1rem;
+          }
+          @media (max-width: 500px) {
+            font-size: 2rem;
+          }
         }
 
         .brand {
@@ -60,6 +63,10 @@
           .product-price {
             font-size: 1.8rem;
             font-weight: 550;
+
+            @media (max-width: 500px) {
+              font-size: 1.65rem;
+            }
           }
 
           .mark-price {
@@ -87,9 +94,16 @@
           gap: 1.5rem;
           align-items: center;
           margin-block: 4rem 2rem;
+          @media (max-width: 700px) {
+            margin-block: 3rem 2rem;
+          }
 
           label {
             font-size: 1.6rem;
+
+            @media (max-width: 500px) {
+              font-size: 1.5rem;
+            }
           }
 
           .out-of-stock {
@@ -101,6 +115,11 @@
             height: 2.5rem;
             width: 2.5rem;
             cursor: pointer;
+
+            @media (max-width: 500px) {
+              height: 2.2rem;
+              width: 2.2rem;
+            }
           }
           // & svg:hover {
           //   color: rgb(179, 54, 54);
@@ -139,8 +158,12 @@
       }
     }
     .long-description {
-      margin-top: 4rem;
+      padding-top: 4rem;
       color: var(--color-text);
+
+      @media (max-width: 500px) {
+        padding-top: 3rem;
+      }
       .line {
         margin-inline: auto;
         width: 100%;
@@ -170,6 +193,10 @@
         &::after {
           margin-left: 1rem;
         }
+
+        @media (max-width: 500px) {
+          font-size: 2.1rem;
+        }
       }
 
       .description-content {
@@ -177,6 +204,10 @@
         // max-width: 90%;
         text-align: justify;
         line-height: 1.6;
+
+        @media (max-width: 500px) {
+          font-size: 1.4rem;
+        }
         // margin-inline: auto;
       }
     }
@@ -186,7 +217,11 @@
       .heading {
         font-size: 2.4rem;
         font-weight: 600;
-        margin-block: 4rem 2rem;
+        margin-block: 3rem 2rem;
+
+        @media (max-width: 500px) {
+          font-size: 2.2rem;
+        }
       }
     }
 
@@ -205,12 +240,20 @@
         color: var(--color-text);
         margin-block: 2rem;
         font-weight: 600;
+
+        @media (max-width: 500px) {
+          font-size: 2.1rem;
+        }
       }
 
       .sub-heading {
         font-size: 2rem;
         margin-block: 0 1.5rem;
         color: var(--color-text);
+
+        @media (max-width: 500px) {
+          font-size: 1.8rem;
+        }
       }
 
       label {
@@ -236,6 +279,10 @@
         border: 0.1rem var(--color-input-border) solid;
         background-color: var(--color-input-bg);
         color: var(--color-text);
+
+        @media (max-width: 500px) {
+          min-width: 100%;
+        }
       }
 
       .add-review-btn {
@@ -243,7 +290,6 @@
         background-color: var(--color-btn);
         border: none;
         color: var(--color-add-product-btn-text);
-        font-size: 1.6rem;
         font-size: 1.5rem;
         border-radius: 0.3rem;
         line-height: 2rem;

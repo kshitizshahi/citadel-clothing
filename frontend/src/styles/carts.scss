@@ -3,7 +3,7 @@
   border-radius: 0.4rem;
   padding: 2rem 4rem;
   font-family: Open Sans;
-  min-height: 50vh;
+  min-height: 55rem;
 
   p {
     color: var(--color-text);
@@ -37,38 +37,50 @@
   .cart-items {
     .items {
       display: flex;
-      // align-items: center;
+      position: relative;
 
-      .product-image {
-        flex: 11%;
-        max-width: 11%;
-        img {
-          height: 8rem;
-          width: 8rem;
-          object-fit: cover;
+      @media screen and (max-width: 600px) {
+        flex-direction: column;
+        gap: 1.5rem;
+        // align-items: center;
+      }
+
+      .link-1 {
+        flex-basis: 12%;
+
+        .product-image {
+          flex-basis: 12%;
+          img {
+            height: 8rem;
+            width: 8rem;
+            object-fit: cover;
+          }
         }
       }
 
-      .product-name {
-        flex: 32%;
-        max-width: 32%;
-        font-size: 1.55rem;
-
-        .name {
-          margin-bottom: 0.5rem;
+      .link-2 {
+        flex-basis: 40%;
+        @media screen and (max-width: 1200px) and (min-width: 601px) {
+          padding-left: 1rem;
         }
 
-        .brand {
-          margin-top: 0.3rem;
-          color: gray;
-          font-size: 1.25rem;
+        .product-name {
+          font-size: 1.55rem;
+
+          .name {
+            margin-bottom: 0.5rem;
+          }
+
+          .brand {
+            margin-top: 0.3rem;
+            color: gray;
+            font-size: 1.25rem;
+          }
         }
       }
 
       .product-price {
-        flex: 20%;
-        max-width: 20%;
-        padding-inline: 2rem;
+        flex-basis: 20%;
         display: flex;
         flex-direction: column;
         gap: 0.5rem;
@@ -76,11 +88,22 @@
         .price {
           font-size: 1.6rem;
           font-weight: 550;
+          @media screen and (max-width: 600px) {
+            position: absolute;
+            right: 0;
+            top: 4rem;
+          }
         }
 
         .discount-container {
           display: flex;
-          gap: 1rem;
+          gap: 0.7rem;
+
+          @media screen and (max-width: 600px) {
+            position: absolute;
+            right: 0;
+            top: 7rem;
+          }
 
           .mark-price {
             text-decoration: line-through;
@@ -94,21 +117,47 @@
       }
 
       .quantity-container {
-        flex: 23%;
-        max-width: 23%;
+        flex-basis: 23%;
+
+        @media screen and (max-width: 600px) {
+          position: absolute;
+          right: 0;
+          bottom: 4rem;
+        }
 
         .quantity {
           input {
-            padding: 0.8rem 0;
+            padding: 0.5rem 0;
+          }
+        }
+
+        @media screen and (max-width: 700px) {
+          flex-basis: 30%;
+          .quantity {
+            input {
+              padding: 0.2rem 0 !important;
+            }
           }
         }
       }
       .remove-cart {
+        flex-grow: 1;
         .remove {
           height: 2.3rem;
           width: 2.3rem;
           color: var(--color-text);
           cursor: pointer;
+
+          @media screen and (max-width: 1000px) {
+            height: 2rem;
+            width: 2rem;
+          }
+
+          @media screen and (max-width: 600px) {
+            position: absolute;
+            right: 0;
+            top: 1rem;
+          }
         }
       }
     }
@@ -165,6 +214,68 @@
       }
 
       //   max-width: 88%;
+    }
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .cart-container {
+    padding-inline: 2rem;
+
+    .heading {
+      p {
+        font-size: 1.6rem;
+      }
+    }
+
+    .cart-items {
+      .items {
+        .link-2 {
+          .product-name {
+            font-size: 1.45rem;
+          }
+        }
+        .product-price {
+          .price {
+            font-size: 1.4rem;
+          }
+          .discount-container {
+            .mark-price {
+              font-size: 1.25rem;
+            }
+            .discount {
+              font-size: 1.1rem;
+            }
+          }
+        }
+        .quantity-container {
+          .quantity {
+            input {
+              padding: 0.4rem 0;
+            }
+          }
+        }
+      }
+      .sub-total {
+        .total-items {
+          font-size: 1.45rem;
+        }
+        .total-price {
+          font-size: 1.45rem;
+        }
+      }
+      .checkout-buttons {
+        display: flex;
+        justify-content: flex-end;
+        gap: 2%;
+
+        .clear-btn,
+        .proceed-btn {
+          padding: 1.2rem 1.5rem;
+          font-size: 1.45rem;
+          line-height: 1.5rem;
+        }
+      }
     }
   }
 }
