@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.0",
     "@hookform/resolvers": "^2.8.8",
     "@iconify/react": "^3.1.0",
     "@mantine/core": "^4.0.0",
@@ -26,8 +27,7 @@
     "sass": "^1.49.7",
     "sweetalert2": "^11.4.4",
     "web-vitals": "^2.1.2",
-    "yup": "^0.32.11",
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.0"
+    "yup": "^0.32.11"
   },
   "scripts": {
     "start": "react-scripts start",
