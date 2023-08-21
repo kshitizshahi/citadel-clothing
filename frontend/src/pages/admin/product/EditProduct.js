@@ -74,7 +74,8 @@ const EditProduct = () => {
   const watchCategory = watch("category", "");
   const watchEditor = watch("textEditor", "");
 
-  const [hideSideBar, setHideSideBar] = useState(false);
+  const [openSideBar, setOpenSideBar] = useState(true);
+  const [openMobileSideBar, setOpenMobileSideBar] = useState(false);
   const editorRef = useRef(null);
 
   let selectCatArray = [];
@@ -198,7 +199,15 @@ const EditProduct = () => {
   }, [getValues("category")]);
 
   const toggleSideBar = (e) => {
-    setHideSideBar(!hideSideBar);
+    setOpenSideBar((current) => {
+      return !current;
+    });
+  };
+
+  const toggleMobileSideBar = (e) => {
+    setOpenMobileSideBar((current) => {
+      return !current;
+    });
   };
 
   const onImagesChange = (dropDownImages) => {
@@ -223,7 +232,7 @@ const EditProduct = () => {
     });
   }
 
-  if (mobileDevice && hideSideBar) {
+  if (mobileDevice && openMobileSideBar) {
     document.body.style.height = "100%";
     document.body.style.overflow = "hidden";
   } else {
@@ -260,21 +269,21 @@ const EditProduct = () => {
         ) : (
           <div className="edit-product-container">
             {!mobileDevice ? (
-              <div className={hideSideBar ? "side-bar hide" : "side-bar"}>
+              <div className={openSideBar ? "side-bar" : "side-bar hide"}>
                 <SideBar select="product" />
               </div>
             ) : (
               <div
                 className={
-                  hideSideBar ? "admin-side-bar" : "admin-side-bar none"
+                  openMobileSideBar ? "admin-side-bar" : "admin-side-bar-none"
                 }
-                style={{ width: hideSideBar ? "26rem" : "0" }}
+                style={{ width: openMobileSideBar ? "26rem" : "0" }}
               >
                 <div className="close">
                   <Icon
                     icon="ci:close-big"
                     className="cancel-btn"
-                    onClick={toggleSideBar}
+                    onClick={toggleMobileSideBar}
                   />
                 </div>
                 <SideBar select="product" />
@@ -284,11 +293,19 @@ const EditProduct = () => {
             <div className="form-container">
               <div className="container">
                 <div className="heading-container">
-                  <Icon
-                    icon="charm:menu-hamburger"
-                    onClick={toggleSideBar}
-                    className="toggle-sidebar"
-                  />
+                  {!mobileDevice ? (
+                    <Icon
+                      icon="charm:menu-hamburger"
+                      onClick={toggleSideBar}
+                      className="toggle-sidebar"
+                    />
+                  ) : (
+                    <Icon
+                      icon="charm:menu-hamburger"
+                      onClick={toggleMobileSideBar}
+                      className="toggle-sidebar"
+                    />
+                  )}
 
                   <p className="heading">Edit Product</p>
                 </div>

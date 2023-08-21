@@ -16,7 +16,8 @@ import { DELETE_CATEGORY, SEARCH_CATEGORY } from "../../../utils/BaseUrl";
 
 const ListCategory = () => {
   const [category, setCategory] = useState([]);
-  const [hideSideBar, setHideSideBar] = useState(false);
+  const [openSideBar, setOpenSideBar] = useState(true);
+  const [openMobileSideBar, setOpenMobileSideBar] = useState(false);
   const [deleteSuccess, setDeleteSuccess] = useState(false);
   const [keywords, setKeywords] = useState("");
 
@@ -63,7 +64,15 @@ const ListCategory = () => {
   };
 
   const toggleSideBar = (e) => {
-    setHideSideBar(!hideSideBar);
+    setOpenSideBar((current) => {
+      return !current;
+    });
+  };
+
+  const toggleMobileSideBar = (e) => {
+    setOpenMobileSideBar((current) => {
+      return !current;
+    });
   };
 
   const editNavigate = (id) => {
@@ -98,7 +107,7 @@ const ListCategory = () => {
     });
   };
 
-  if (mobileDevice && hideSideBar) {
+  if (mobileDevice && openMobileSideBar) {
     document.body.style.height = "100%";
     document.body.style.overflow = "hidden";
   } else {
@@ -113,19 +122,21 @@ const ListCategory = () => {
       ) : (
         <div className="admin-category-container">
           {!mobileDevice ? (
-            <div className={hideSideBar ? "side-bar hide" : "side-bar"}>
+            <div className={openSideBar ? "side-bar" : "side-bar hide"}>
               <SideBar select="category" />
             </div>
           ) : (
             <div
-              className={hideSideBar ? "admin-side-bar" : "admin-side-bar none"}
-              style={{ width: hideSideBar ? "26rem" : "0" }}
+              className={
+                openMobileSideBar ? "admin-side-bar" : "admin-side-bar-none"
+              }
+              style={{ width: openMobileSideBar ? "26rem" : "0" }}
             >
               <div className="close">
                 <Icon
                   icon="ci:close-big"
                   className="cancel-btn"
-                  onClick={toggleSideBar}
+                  onClick={toggleMobileSideBar}
                 />
               </div>
               <SideBar select="category" />
@@ -134,11 +145,19 @@ const ListCategory = () => {
           <div className="table-container">
             <div className="container">
               <div className="heading-container">
-                <Icon
-                  icon="charm:menu-hamburger"
-                  onClick={toggleSideBar}
-                  className="toggle-sidebar"
-                />
+                {!mobileDevice ? (
+                  <Icon
+                    icon="charm:menu-hamburger"
+                    onClick={toggleSideBar}
+                    className="toggle-sidebar"
+                  />
+                ) : (
+                  <Icon
+                    icon="charm:menu-hamburger"
+                    onClick={toggleMobileSideBar}
+                    className="toggle-sidebar"
+                  />
+                )}
 
                 <p className="heading">Category</p>
               </div>

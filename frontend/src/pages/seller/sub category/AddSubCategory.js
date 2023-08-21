@@ -50,7 +50,8 @@ const AddSellerSubCategory = () => {
     resolver: yupResolver(addSubCategorySchema),
   });
 
-  const [hideSideBar, setHideSideBar] = useState(false);
+  const [openSideBar, setOpenSideBar] = useState(true);
+  const [openMobileSideBar, setOpenMobileSideBar] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -108,7 +109,15 @@ const AddSellerSubCategory = () => {
   // }, []);
 
   const toggleSideBar = (e) => {
-    setHideSideBar(!hideSideBar);
+    setOpenSideBar((current) => {
+      return !current;
+    });
+  };
+
+  const toggleMobileSideBar = (e) => {
+    setOpenMobileSideBar((current) => {
+      return !current;
+    });
   };
 
   if (categories && categories.length > 0) {
@@ -126,7 +135,7 @@ const AddSellerSubCategory = () => {
   //   });
   // }
 
-  if (mobileDevice && hideSideBar) {
+  if (mobileDevice && openMobileSideBar) {
     document.body.style.height = "100%";
     document.body.style.overflow = "hidden";
   } else {
@@ -141,19 +150,21 @@ const AddSellerSubCategory = () => {
       ) : (
         <div className="add-subCategory-container">
           {!mobileDevice ? (
-            <div className={hideSideBar ? "side-bar hide" : "side-bar"}>
+            <div className={openSideBar ? "side-bar" : "side-bar hide"}>
               <SideBar select="sub-category" />
             </div>
           ) : (
             <div
-              className={hideSideBar ? "admin-side-bar" : "admin-side-bar none"}
-              style={{ width: hideSideBar ? "26rem" : "0" }}
+              className={
+                openMobileSideBar ? "admin-side-bar" : "admin-side-bar-none"
+              }
+              style={{ width: openMobileSideBar ? "26rem" : "0" }}
             >
               <div className="close">
                 <Icon
                   icon="ci:close-big"
                   className="cancel-btn"
-                  onClick={toggleSideBar}
+                  onClick={toggleMobileSideBar}
                 />
               </div>
               <SideBar select="sub-category" />
@@ -162,11 +173,19 @@ const AddSellerSubCategory = () => {
           <div className="form-container">
             <div className="container">
               <div className="heading-container">
-                <Icon
-                  icon="charm:menu-hamburger"
-                  onClick={toggleSideBar}
-                  className="toggle-sidebar"
-                />
+                {!mobileDevice ? (
+                  <Icon
+                    icon="charm:menu-hamburger"
+                    onClick={toggleSideBar}
+                    className="toggle-sidebar"
+                  />
+                ) : (
+                  <Icon
+                    icon="charm:menu-hamburger"
+                    onClick={toggleMobileSideBar}
+                    className="toggle-sidebar"
+                  />
+                )}
 
                 <p className="heading">Add Sub Category</p>
               </div>

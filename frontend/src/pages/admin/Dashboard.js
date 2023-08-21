@@ -15,7 +15,8 @@ import { DASHBOARD_INFO } from "../../utils/BaseUrl";
 const Dashboard = () => {
   const { loading } = useSelector((state) => state.Product);
   const { mobileDevice } = useSelector((state) => state.Media);
-  const [hideSideBar, setHideSideBar] = useState(false);
+  const [openSideBar, setOpenSideBar] = useState(true);
+  const [openMobileSideBar, setOpenMobileSideBar] = useState(false);
   const [dashboardInfo, setDashboardInfo] = useState(false);
 
   const navigate = useNavigate();
@@ -44,10 +45,18 @@ const Dashboard = () => {
   }, []);
 
   const toggleSideBar = (e) => {
-    setHideSideBar(!hideSideBar);
+    setOpenSideBar((current) => {
+      return !current;
+    });
   };
 
-  if (mobileDevice && hideSideBar) {
+  const toggleMobileSideBar = (e) => {
+    setOpenMobileSideBar((current) => {
+      return !current;
+    });
+  };
+
+  if (mobileDevice && openMobileSideBar) {
     document.body.style.height = "100%";
     document.body.style.overflow = "hidden";
   } else {
@@ -76,19 +85,21 @@ const Dashboard = () => {
       ) : (
         <div className="admin-dashboard-container">
           {!mobileDevice ? (
-            <div className={hideSideBar ? "side-bar hide" : "side-bar"}>
+            <div className={openSideBar ? "side-bar" : "side-bar hide"}>
               <SideBar />
             </div>
           ) : (
             <div
-              className={hideSideBar ? "admin-side-bar" : "admin-side-bar none"}
-              style={{ width: hideSideBar ? "26rem" : "0" }}
+              className={
+                openMobileSideBar ? "admin-side-bar" : "admin-side-bar-none"
+              }
+              style={{ width: openMobileSideBar ? "26rem" : "0" }}
             >
               <div className="close">
                 <Icon
                   icon="ci:close-big"
                   className="cancel-btn"
-                  onClick={toggleSideBar}
+                  onClick={toggleMobileSideBar}
                 />
               </div>
               <SideBar />
@@ -98,11 +109,19 @@ const Dashboard = () => {
           <div className="dashboard-container">
             <div className="container">
               <div className="heading-container">
-                <Icon
-                  icon="charm:menu-hamburger"
-                  onClick={toggleSideBar}
-                  className="toggle-sidebar"
-                />
+                {!mobileDevice ? (
+                  <Icon
+                    icon="charm:menu-hamburger"
+                    onClick={toggleSideBar}
+                    className="toggle-sidebar"
+                  />
+                ) : (
+                  <Icon
+                    icon="charm:menu-hamburger"
+                    onClick={toggleMobileSideBar}
+                    className="toggle-sidebar"
+                  />
+                )}
 
                 <p className="heading">Dashboard</p>
               </div>
