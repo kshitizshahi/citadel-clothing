@@ -41,9 +41,10 @@ app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
 // app.use("/uploads", express.static(path.join(__dirname, "/tmp/uploads"))); //serverless
 
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "./frontend/build")));
+  //To run both backend and frontend when deployed using same site
+  app.use(express.static(path.join(__dirname, "../frontend/build")));
   app.get("*", (req, res) =>
-    res.sendFile(path.resolve(__dirname, "./frontend/build", "index.html"))
+    res.sendFile(path.resolve(__dirname, "../frontend/build", "index.html"))
   );
 } else {
   app.get("/", (req, res) => {

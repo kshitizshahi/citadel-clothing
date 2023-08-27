@@ -75,7 +75,7 @@ const UserProfile = () => {
         .test(
           "length",
           "Postal Code must be 5 digits.",
-          (value) => value.length === 5
+          (value) => value?.length === 5
         ),
     })
     .required();

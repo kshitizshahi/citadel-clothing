@@ -57,22 +57,8 @@ import Seller from "./pages/Seller";
 
 function App() {
   const { loading } = useSelector((state) => state.authUser);
-  const [matches, setMatches] = useState(
-    window.matchMedia("(max-width: 1000px)").matches
-  );
 
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    window.matchMedia("(max-width: 1000px)").addEventListener("change", (e) => {
-      dispatch(setMedia({ mobileDevice: e.matches }));
-    });
-
-    return () => {
-      setMatches({});
-      window.removeEventListener("change", null);
-    };
-  }, []);
 
   useEffect(() => {
     dispatch(validateUser({}));

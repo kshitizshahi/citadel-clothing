@@ -3,7 +3,9 @@ import { createSlice } from "@reduxjs/toolkit";
 const mediaSlice = createSlice({
   name: "mobileDevice",
   initialState: {
-    mobileDevice: false,
+    mobileDevice: window.matchMedia("(max-width: 1000px)").matches
+      ? true
+      : false,
   },
   reducers: {
     setMedia: (state, action) => {

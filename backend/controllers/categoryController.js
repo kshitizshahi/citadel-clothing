@@ -18,7 +18,9 @@ const createCategory = asyncHandler(async (req, res) => {
 });
 
 const getCategory = asyncHandler(async (req, res) => {
-  const category = await Category.find().select("-createdAt -updatedAt");
+  const category = await Category.find()
+    .select("-createdAt -updatedAt")
+    .sort({ createdAt: 1 });
 
   if (category) {
     res.status(200).json({

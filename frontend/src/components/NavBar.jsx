@@ -10,6 +10,7 @@ import "../styles/main.scss";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { setMedia } from "../redux/slice/mediaSlice";
 
 const NavBar = () => {
   const { isLoggedIn, userInfo, isAdmin, isSeller } = useSelector(
@@ -37,9 +38,10 @@ const NavBar = () => {
   };
 
   useEffect(() => {
-    window
-      .matchMedia("(max-width: 1000px)")
-      .addEventListener("change", (e) => setMatches(e.matches));
+    window.matchMedia("(max-width: 1000px)").addEventListener("change", (e) => {
+      dispatch(setMedia({ mobileDevice: e.matches }));
+      setMatches(e.matches);
+    });
 
     return () => {
       setMatches({});
