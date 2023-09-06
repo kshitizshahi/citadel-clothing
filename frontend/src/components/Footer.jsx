@@ -115,7 +115,10 @@ const Footer = () => {
         <div className="copyright-container">
           <div className="copyright">
             <hr className="line" />
-            <p>Copyright &#169; 2023 Citadel Clothing. All rights reserved.</p>
+            <p>
+              Copyright &#169; 2023 Citadel Clothing. Developed by Kshitiz
+              Bikram Shahi.
+            </p>
           </div>
         </div>
       </div>
