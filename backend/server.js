@@ -21,7 +21,7 @@ createUploadFolder();
 
 const app = express();
 
-app.set("trust proxy", 1); //needed for express api rate limiter for configuration of correct ip
+app.set("trust proxy", 2); //needed for express api rate limiter for configuration of correct ip
 app.use(cors({ origin: process.env.ORIGIN, credentials: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
