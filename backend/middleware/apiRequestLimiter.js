@@ -2,7 +2,7 @@ import rateLimit from "express-rate-limit";
 
 export const contactRateLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes in milliseconds
-  max: 3,
+  limit: 3,
   message: {
     message: "Too many contact requests. Please try again after 15 minutes.", // sends message in json format
   },
@@ -12,7 +12,7 @@ export const contactRateLimiter = rateLimit({
 
 export const loginRateLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes in milliseconds
-  max: 5,
+  limit: 5,
   message: {
     message: "Too many login requests. Please try again after 15 minutes.", // sends message in json format
   },
@@ -22,7 +22,7 @@ export const loginRateLimiter = rateLimit({
 
 export const registerRateLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes in milliseconds
-  max: 5,
+  limit: 5,
   message: {
     message: "Too many register requests. Please try again after 15 minutes.", // sends message in json format
   },
@@ -32,7 +32,7 @@ export const registerRateLimiter = rateLimit({
 
 export const forgotPasswordRateLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes in milliseconds
-  max: 5,
+  limit: 5,
   message: {
     message:
       "Too many forgot password requests. Please try again after 15 minutes.", // sends message in json format

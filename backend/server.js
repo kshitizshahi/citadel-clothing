@@ -35,6 +35,7 @@ app.use("/api/orders", orderRoute);
 app.use("/api/reviews", reviewRoute);
 app.use("/api/contact-us", contactRoute);
 app.use("/api/payment", paymentRoute);
+app.use("/ip", (request, response) => response.send(request.ip)); //For express rate limit ip setting.
 
 const __dirname = path.resolve();
 app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
