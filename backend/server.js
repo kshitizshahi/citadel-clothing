@@ -16,7 +16,7 @@ import createUploadFolder from "./configs/upload.js";
 import cookieParser from "cookie-parser";
 
 dotenv.config();
-connectDatabase();
+// connectDatabase();
 createUploadFolder();
 
 const app = express();
@@ -35,7 +35,7 @@ app.use("/api/orders", orderRoute);
 app.use("/api/reviews", reviewRoute);
 app.use("/api/contact-us", contactRoute);
 app.use("/api/payment", paymentRoute);
-// app.use("/ip", (request, response) => response.send(request.ip)); //For express rate limit ip setting.
+app.use("/ip", (request, response) => response.send(request.ip)); //For express rate limit ip setting.
 
 const __dirname = path.resolve();
 app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
@@ -64,7 +64,15 @@ app.use((err, req, res, next) => {
   });
 });
 
-const port = process.env.PORT || 5000;
-app.listen(port, () => {
-  console.log(`Server is running at http://localhost:${port}`);
+// const port = process.env.PORT || 5000;
+// app.listen(port, () => {
+//   console.log(`Server is running at http://localhost:${port}`);
+// });
+
+//For cyclic serverless
+connectDatabase().then(() => {
+  const port = process.env.PORT || 5000;
+  app.listen(port, () => {
+    console.log(`Server is running at http://localhost:${port}`);
+  });
 });
