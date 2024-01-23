@@ -81,9 +81,9 @@ const register = asyncHandler(async (req, res) => {
     const createdUser = await user.save();
 
     sendMail({
-      email: user.email,
+      email: createdUser.email,
       path: req.headers.host,
-      user: user,
+      user: createdUser,
     });
 
     const data = defaultResponse(createdUser);
@@ -454,17 +454,20 @@ const updateUserAdmin = asyncHandler(async (req, res) => {
     user.email = email || user.email;
     user.phoneNumber = phoneNumber || user.phoneNumber;
     user.profileImage = req.file ? req.file.path : user.profileImage;
+
+    if (isAccountVerified === "true" && user.isSeller) {
+      if (user.isAccountVerified === false) {
+        sendEmail({
+          name: `${user.firstName} ${user.lastName}`,
+          email: user.email,
+        });
+      }
+    }
+
     user.isAccountVerified = isAccountVerified;
 
     const updatedProfile = await user.save();
     const data = defaultResponse(updatedProfile);
-
-    if (isAccountVerified && user.isSeller) {
-      sendEmail({
-        name: `${user.firstName} ${user.lastName}`,
-        email: user.email,
-      });
-    }
 
     res.status(200).json({
       data,
