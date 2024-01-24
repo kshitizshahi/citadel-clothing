@@ -14,6 +14,7 @@ import contactRoute from "./routes/contactRoute.js";
 import path from "path";
 import createUploadFolder from "./configs/upload.js";
 import cookieParser from "cookie-parser";
+import cronApiCall from "./utils/apiCronJob.js";
 
 dotenv.config();
 // connectDatabase();
@@ -21,7 +22,7 @@ createUploadFolder();
 
 const app = express();
 
-app.set("trust proxy", 1); //needed for express api rate limiter for configuration of correct ip
+app.set("trust proxy", 3); //needed for express api rate limiter for configuration of correct ip
 app.use(cors({ origin: process.env.ORIGIN, credentials: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -76,3 +77,5 @@ connectDatabase().then(() => {
     console.log(`Server is running at http://localhost:${port}`);
   });
 });
+
+cronApiCall.start(); //Start the cron job
