@@ -116,7 +116,7 @@ const Footer = () => {
           <div className="copyright">
             <hr className="line" />
             <p>
-              Copyright &#169; 2023 Citadel Clothing. Developed by Kshitiz
+              Copyright &#169; 2025 Citadel Clothing. Developed by Kshitiz
               Bikram Shahi.
             </p>
           </div>
